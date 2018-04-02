@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { Card } from 'antd';
 import '../style/Login.css';
-import logo from '../images/logo/small_01.png'
+import logo from '../images/logo/small_01.png';
 const FormItem = Form.Item;
 
-class NormalLoginForm extends React.Component {
+class NormalLoginForm extends Component {
     handleSubmit = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
             }
         });
     }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className='register-container'>
+            <div className='login-container'>
                 <Card style={{ width: 350 }} className="card-container">
                     <div className='card-header'>
                         {/* <h1>Welcome</h1> */}
@@ -50,7 +52,7 @@ class NormalLoginForm extends React.Component {
                             <Button size="large" type="primary" htmlType="submit" className="login-form-button">
                                 Log in
           					</Button>
-                            Or <a href="">register now!</a>
+                            Or <Link to="/">register now!</Link>
                         </FormItem>
                     </Form>
                 </Card>
