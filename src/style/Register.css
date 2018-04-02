@@ -1,0 +1,60 @@
+@import '~antd/dist/antd.css';
+.register-container {
+    background-size: cover;
+    height: 90vh;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.left {
+    width: 65%;
+}
+
+.right {
+    width: 35%;
+    background-color: white;
+}
+
+.ant-carousel .slick-slide {
+    /* text-align: center; */
+    height: 100vh;
+    /* line-height: 160px; */
+    /* background: #364d79; */
+    /* overflow: hidden; */
+}
+
+.ant-carousel .slick-slide h1 {
+    color: black;
+}
+
+.slide1 {
+    background: url('https://source.unsplash.com/kcKiBcDTJt4/1920x1200') center no-repeat;
+    background-size: auto 100%;
+}
+
+.slide2 {
+    background: url('https://source.unsplash.com/nMjej3Q3yac/1920x1200') center no-repeat;
+    background-size: auto 100%;
+}
+
+.slide3 {
+    background: url('https://source.unsplash.com/eVQBXxeCre4/1920x1200') center no-repeat;
+    background-size: auto 100%;
+}
+
+.register-logo-container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Media Queries for tablets */
+
+@media (max-width: 767px) {
+    .left {
+        display: none;
+    }
+
+    .right {
+        width: 100%;
+    }
+}
