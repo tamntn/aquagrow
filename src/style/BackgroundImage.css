@@ -1,0 +1,36 @@
+.left-background-image {
+    position: fixed;
+    background: url('../images/png/plant.png') center no-repeat;
+    background-size: auto 100%;
+    -webkit-transform: rotate(40deg);
+    transform: rotate(40deg);
+    height: 230px;
+    width: 300px;
+    filter: grayscale(50%) sepia(100%) opacity(15%) hue-rotate(90deg);
+    top: 20%;
+    left: -50px;
+}
+
+.right-background-image {
+    position: fixed;
+    background: url('../images/png/fish.png') center no-repeat;
+    background-size: auto 100%;
+    -webkit-transform: rotate(10deg);
+    transform: rotate(10deg);
+    height: 130px;
+    width: 350px;
+    filter: grayscale(100%) sepia(100%) opacity(5%) hue-rotate(-90deg);
+    top: 55%;
+    right: -50px;
+}
+
+/* Media Queries for tablets */
+
+@media (max-width: 767px) {
+    .left-background-image {
+        display: none;
+    }
+    .right-background-image {
+        display: none;
+    }
+}
