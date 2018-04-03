@@ -23,11 +23,12 @@
     font-family: Futura, "Trebuchet MS", Arial, sans-serif
 }
 
-.card-header {
+.login-container .card-header {
     text-align: center;
 }
 
-.card-container {
-    background-color: rgba(255, 255, 255, 0.97);
+.login-container .card-container {
+    width: 350px;
+    background-color: rgba(255, 255, 255, 0.1);
     border: white;
 }
