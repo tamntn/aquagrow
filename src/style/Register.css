@@ -1,18 +1,20 @@
 @import '~antd/dist/antd.css';
 .register-container {
     background-size: cover;
-    height: 90vh;
+    height: 100vh;
     display: flex;
     flex-flow: row nowrap;
 }
 
-.left {
-    width: 65%;
+.register-left {
+    width: 60%;
 }
 
-.right {
-    width: 35%;
+.register-right {
+    width: 40%;
+    height: 100%;
     background-color: white;
+    overflow-y: scroll;
 }
 
 .ant-carousel .slick-slide {
@@ -28,7 +30,7 @@
 }
 
 .slide1 {
-    background: url('https://source.unsplash.com/kcKiBcDTJt4/1920x1200') center no-repeat;
+    background: url('https://source.unsplash.com/qgHGDbbSNm8/1920x1200') center no-repeat;
     background-size: auto 100%;
 }
 
@@ -47,14 +49,31 @@
     margin-top: 15px;
 }
 
+.register-form-container {
+    min-height: calc(100vh - (64px + 15px));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-form-container .card-container {
+    width: 350px;
+    background-color: rgba(255, 255, 255, 0.97);
+    border: white;
+}
+
+.register-form-button {
+    width: 100%;
+}
+
 /* Media Queries for tablets */
 
 @media (max-width: 767px) {
-    .left {
+    .register-left {
         display: none;
     }
-
-    .right {
+    .register-right {
         width: 100%;
     }
 }
