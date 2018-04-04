@@ -23,6 +23,12 @@
     font-family: Futura, "Trebuchet MS", Arial, sans-serif
 }
 
+.login-container .login-alert {
+    text-align: center;
+    position: fixed;
+    top: 10%;
+}
+
 .login-container .card-header {
     text-align: center;
 }
