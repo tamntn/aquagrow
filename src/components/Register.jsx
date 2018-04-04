@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Carousel } from 'antd';
 import '../style/Register.css';
 import logo from '../images/logo/small_01.png';
@@ -7,6 +7,11 @@ import RegisterForm from './RegisterForm.jsx';
 
 class RegisterCarousel extends Component {
     render() {
+        // If user is loged in (JWT stored in localStorage), redirect to homepage
+        if (localStorage.getItem('jwt')) {
+            return <Redirect to='/' />;
+        }
+
         return (
             <div className="register-container">
                 <div className="register-left">
