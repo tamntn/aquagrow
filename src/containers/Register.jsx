@@ -1,26 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { Carousel } from 'antd';
+import { Carousel, Spin } from 'antd';
 import '../style/Register.css';
 import logo from '../images/logo/small_01.png';
 import RegisterForm from './RegisterForm.jsx';
 
 class Register extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { isLoading: true }
+    }
+
+    componentDidMount() {
+        this.setState({ isLoading: false })
+    }
+
     render() {
         // If user is loged in (JWT stored in localStorage), redirect to homepage
         if (localStorage.getItem('jwt')) {
             return <Redirect to='/' />;
         }
 
+        // Show a Spinner before images are loaded
+        const leftColumn = this.state.isLoading ? (
+            <div className="register-spin-container">
+                <Spin size="large" />
+            </div>
+        ) : (
+                <Carousel effect="fade" autoplay>
+                    <div className="slide1"></div>
+                    <div className="slide2"></div>
+                    <div className="slide3"></div>
+                </Carousel>
+            )
+
         return (
             <div className="register-container">
                 <div className="register-left">
-                    <Carousel effect="fade" autoplay>
-                        <div className="slide1"></div>
-                        <div className="slide2"></div>
-                        <div className="slide3"></div>
-                    </Carousel>
+                    {leftColumn}
                 </div>
                 <div className="register-right">
                     <div className="register-logo-container">

@@ -17,6 +17,13 @@
     overflow-y: scroll;
 }
 
+.register-spin-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .ant-carousel .slick-slide {
     /* text-align: center; */
     height: 100vh;
