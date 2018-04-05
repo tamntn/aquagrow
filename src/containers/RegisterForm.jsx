@@ -36,7 +36,7 @@ class RegistrationForm extends Component {
     // Check to see if the entered username already exists
     checkUniqueUsername(rule, value, callback) {
         if (value) {
-            axios.get(`https://aquagrow.life/api/user/${value}`)
+            axios.get(`https://aquagrow.life/api/user/${value.toLowerCase()}`)
                 .then((res) => {
                     if (res.data.error) {
                         callback();
