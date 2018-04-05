@@ -19,10 +19,20 @@ export function fetchUser(username) {
     }
 }
 
-export function authenticate(username, password, callback) {
+export function register(formInput, callback) {
+    const url = `${ROOT_URL}/user`;
+    const request = axios.post(url, formInput)
+        .then(() => callback());
+    return {
+        type: actionType.REGISTER,
+        payload: request
+    }
+}
+
+export function authenticate(username, password) {
     const url = `${ROOT_URL}/signin`;
     const body = {
-        username: username,
+        username: username.toLowerCase(),
         password: password
     };
     // Will return a Promise
@@ -33,7 +43,8 @@ export function authenticate(username, password, callback) {
     }
 }
 
-export function logout() {
+export function logout(callback) {
+    callback();
     return {
         type: actionType.LOGOUT,
         payload: null
