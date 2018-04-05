@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logout, fetchUser } from '../actions/action_user';
-import { Link, Redirect } from 'react-router-dom';
 import { Button, Spin, message } from 'antd';
 
 // Setup Alert Message Configuration
@@ -12,7 +11,7 @@ message.config({
 });
 
 class DashBoard extends Component {
-    componentDidMount() {
+    componentWillMount() {
         const currentUser = localStorage.getItem('username');
         if (currentUser) {
             this.props.fetchUser(currentUser);
@@ -27,14 +26,6 @@ class DashBoard extends Component {
     }
 
     render() {
-        const currentJWT = localStorage.getItem('jwt');
-
-        if (!currentJWT) {
-            message.destroy();
-            message.error('Please log in first to access your AquaGrow account 😇')
-            return <Redirect to='/login' />;
-        }
-
         // Prevent error when user is not loaded yet
         if (this.props.user) {
             return (
