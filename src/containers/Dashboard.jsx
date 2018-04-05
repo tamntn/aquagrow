@@ -3,7 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logout, fetchUser } from '../actions/action_user';
 import { Link, Redirect } from 'react-router-dom';
-import { Button, Spin } from 'antd';
+import { Button, Spin, message } from 'antd';
+
+// Setup Alert Message Configuration
+message.config({
+    top: window.innerHeight * 10 / 100,
+    duration: 3,
+});
 
 class DashBoard extends Component {
     componentDidMount() {
@@ -13,14 +19,19 @@ class DashBoard extends Component {
         }
     }
 
+    // Logout and redirect to /login page
     handleLogout = () => {
-        this.props.logout();
+        this.props.logout(() => {
+            this.props.history.push('/login');
+        });
     }
 
     render() {
         const currentJWT = localStorage.getItem('jwt');
-        console.log(currentJWT);
+
         if (!currentJWT) {
+            message.destroy();
+            message.error('Please log in first to access your AquaGrow account 😇')
             return <Redirect to='/login' />;
         }
 

@@ -5,6 +5,8 @@ import { authenticate, clearError } from '../actions/action_user';
 import { Link, Redirect } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { message, Card, Alert } from 'antd';
+import axios from 'axios';
+import _ from 'lodash';
 import '../style/Login.css';
 import logo from '../images/logo/small_01.png';
 import BackgroundImage from '../components/BackgroundImage.jsx';
@@ -13,7 +15,7 @@ const FormItem = Form.Item;
 // Setup Alert Message Configuration
 message.config({
     top: window.innerHeight * 10 / 100,
-    duration: 5,
+    duration: 3,
 });
 
 class NormalLoginForm extends Component {
@@ -26,9 +28,28 @@ class NormalLoginForm extends Component {
 
     componentDidUpdate() {
         if (this.props.loggedIn.error) {
+            message.destroy();
             message.error(this.props.loggedIn.error);
             this.setState({ error: this.props.loggedIn.error });
             this.props.clearError();
+        }
+    }
+
+    // Check to see if the entered username exists
+    checkExistingUsername = (rule, value, callback) => {
+        if (value) {
+            axios.get(`https://aquagrow.life/api/user/${value}`)
+                .then((res) => {
+                    if (res.data.error) {
+                        message.destroy();
+                        callback(`${value} is not an existing user 😢`);
+                    } else {
+                        message.success(`Hi, ${res.data.data.name}`);
+                        callback();
+                    }
+                })
+        } else {
+            callback();
         }
     }
 
@@ -44,6 +65,10 @@ class NormalLoginForm extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const validateUsername = _.debounce((rule, value, callback) => { this.checkExistingUsername(rule, value, callback) }, 300, {
+            'leading': false,
+            'trailing': true
+        });
         const { error } = this.state;
         const alert = error ? (
             <div className="login-alert">
@@ -72,9 +97,15 @@ class NormalLoginForm extends Component {
                             <br></br><br></br>
                         </div>
                         <Form onSubmit={this.handleSubmit} className="login-form">
-                            <FormItem>
+                            <FormItem
+                                hasFeedback
+                            >
                                 {getFieldDecorator('username', {
-                                    rules: [{ required: true, message: 'Please input your username!' }],
+                                    rules: [{
+                                        required: true, message: 'Please input your username!'
+                                    }, {
+                                        validator: validateUsername
+                                    }],
                                 })(
                                     <Input size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.5)' }} />} placeholder="Username" />
                                 )}
