@@ -38,7 +38,7 @@ class NormalLoginForm extends Component {
     // Check to see if the entered username exists
     checkExistingUsername = (rule, value, callback) => {
         if (value) {
-            axios.get(`https://aquagrow.life/api/user/${value}`)
+            axios.get(`https://aquagrow.life/api/user/${value.toLowerCase()}`)
                 .then((res) => {
                     if (res.data.error) {
                         message.destroy();
@@ -58,7 +58,7 @@ class NormalLoginForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values);
-                this.props.authenticate(values.username, values.password);
+                this.props.authenticate(values);
             }
         });
     }

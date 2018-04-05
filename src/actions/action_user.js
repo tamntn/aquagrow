@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 const ROOT_URL = 'https://aquagrow.life/api'
 
@@ -21,6 +22,7 @@ export function fetchUser(username) {
 
 export function register(formInput, callback) {
     const url = `${ROOT_URL}/user`;
+    formInput.username = formInput.username.toLowerCase();
     const request = axios.post(url, formInput)
         .then(() => callback());
     return {
@@ -29,14 +31,11 @@ export function register(formInput, callback) {
     }
 }
 
-export function authenticate(username, password) {
+export function authenticate(formInput) {
     const url = `${ROOT_URL}/signin`;
-    const body = {
-        username: username.toLowerCase(),
-        password: password
-    };
+    formInput.username = formInput.username.toLowerCase();
     // Will return a Promise
-    const request = axios.post(url, body)
+    const request = axios.post(url, formInput)
     return {
         type: actionType.AUTHENTICATE,
         payload: request
