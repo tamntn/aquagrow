@@ -19,22 +19,6 @@ message.config({
 });
 
 class NormalLoginForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: ''
-        }
-    }
-
-    componentDidUpdate() {
-        if (this.props.loggedIn.error) {
-            message.destroy();
-            message.error(this.props.loggedIn.error);
-            this.setState({ error: this.props.loggedIn.error });
-            this.props.clearError();
-        }
-    }
-
     // Check to see if the entered username exists
     checkExistingUsername = (rule, value, callback) => {
         if (value) {
@@ -58,7 +42,15 @@ class NormalLoginForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values);
-                this.props.authenticate(values);
+                this.props.authenticate(values, (authorized) => {
+                    if (authorized) {
+                        message.destroy();
+                        message.success("Welcome back! 🎉");
+                    } else {
+                        message.destroy();
+                        message.error("Your password is incorrect 😢");
+                    }
+                });
             }
         });
     }
@@ -69,17 +61,6 @@ class NormalLoginForm extends Component {
             'leading': false,
             'trailing': true
         });
-        const { error } = this.state;
-        const alert = error ? (
-            <div className="login-alert">
-                <Alert
-                    message={error}
-                    // description={error}
-                    type="error"
-                    showIcon
-                />
-            </div>
-        ) : null;
 
         // If user is loged in (JWT stored in localStorage), redirect to homepage
         if (localStorage.getItem('jwt')) {
@@ -90,7 +71,6 @@ class NormalLoginForm extends Component {
             <div>
                 <BackgroundImage />
                 <div className='login-container'>
-                    {/* {alert} */}
                     <Card className="card-container">
                         <div className='card-header'>
                             <img src={logo} alt="" height="64" width="64" />

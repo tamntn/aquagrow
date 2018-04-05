@@ -13,7 +13,9 @@ class Register extends Component {
     }
 
     componentDidMount() {
-        this.setState({ isLoading: false })
+        setTimeout(() => {
+            this.setState({ isLoading: false })
+        }, 1000);
     }
 
     render() {

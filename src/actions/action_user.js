@@ -31,14 +31,22 @@ export function register(formInput, callback) {
     }
 }
 
-export function authenticate(formInput) {
+export async function authenticate(formInput, callback) {
     const url = `${ROOT_URL}/signin`;
+    let payload = false;
     formInput.username = formInput.username.toLowerCase();
     // Will return a Promise
-    const request = axios.post(url, formInput)
+    await axios.post(url, formInput)
+        .then((res) => {
+            payload = res;
+            callback(true);
+        })
+        .catch((err) => {
+            callback(false)
+        });
     return {
         type: actionType.AUTHENTICATE,
-        payload: request
+        payload: payload
     }
 }
 

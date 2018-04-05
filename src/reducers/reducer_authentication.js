@@ -4,8 +4,8 @@ export default function (state = false, action) {
     switch (action.type) {
         case actionType.AUTHENTICATE:
             // If authenticate returns with an error
-            if (action.payload.response) {
-                return action.payload.response.data;
+            if (!action.payload) {
+                return action.payload;
             } else {
                 localStorage.setItem('jwt', action.payload.data.token);
                 localStorage.setItem('username', action.payload.data.user.username);

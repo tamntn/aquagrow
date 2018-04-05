@@ -4,8 +4,14 @@ import { bindActionCreators } from 'redux';
 import { authenticate, register } from '../actions/action_user';
 import axios from 'axios';
 import _ from 'lodash';
-import { Card, Form, Input, Tooltip, Icon, Checkbox, Button } from 'antd';
+import { Card, Form, Input, Tooltip, Icon, Checkbox, Button, message } from 'antd';
 const FormItem = Form.Item;
+
+// Setup Alert Message Configuration
+message.config({
+    top: window.innerHeight * 10 / 100,
+    duration: 3,
+});
 
 class RegistrationForm extends Component {
     state = {
@@ -22,7 +28,13 @@ class RegistrationForm extends Component {
             if (!err) {
                 // console.log('Received values of form: ', values);
                 this.props.register(values, () => {
-                    this.props.authenticate(values.username, values.password);
+                    this.props.authenticate(values, (authorized) => {
+                        if (authorized) {
+                            message.success('Registration successful! 👏🏼🎉');
+                        } else {
+                            message.error('Please try to log in again...');
+                        }
+                    });
                 });
             }
         });
