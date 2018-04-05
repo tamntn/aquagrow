@@ -16,7 +16,7 @@ export default function (state = false, action) {
             return false;
         case actionType.CLEAR_ERROR:
             return false;
+        default:
+            return state;
     }
-
-    return state;
 }
