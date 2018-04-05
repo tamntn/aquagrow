@@ -128,12 +128,15 @@ class NormalLoginForm extends Component {
                                 <Button size="large" type="primary" htmlType="submit" className="login-form-button">
                                     Log in
           					    </Button>
-                                Or <Link to="/register">register now!</Link>
                             </FormItem>
                         </Form>
+                        <div style={{ textAlign: 'center' }}>
+                            <br></br>New to AquaGrow?<br></br>
+                            <Link to="/register">Register now!</Link>
+                        </div>
                     </Card>
                 </div>
-            </div>
+            </div >
         );
     }
 }
