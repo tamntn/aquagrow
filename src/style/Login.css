@@ -38,3 +38,11 @@
     background-color: rgba(255, 255, 255, 0.1);
     border: white;
 }
+
+.ant-message-success {
+    color: green !important;
+}
+
+.ant-message-error {
+    color: red !important;
+}

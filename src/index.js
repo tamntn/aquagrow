@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
 
 import './style/index.css';
-import Register from './components/Register.jsx';
+import Register from './containers/Register.jsx';
 import Login from './containers/Login.jsx';
 import Dashboard from './containers/Dashboard.jsx';
 import NotFound from './components/404.jsx';
