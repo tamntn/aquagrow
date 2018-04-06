@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Form, Card, Steps, Button, Icon, Input, message } from 'antd';
+import { Form, Card, Steps, Button, Icon, Input, Upload, message } from 'antd';
 import axios from 'axios';
 import BackgroundImage from '../components/BackgroundImage.jsx';
 import '../style/Welcome.css';
@@ -97,6 +97,24 @@ class Welcome extends Component {
         }
     }
 
+    checkPhoneNumber() {
+        let phone;
+        setTimeout(() => {
+            phone = this.props.form.getFieldValue('phone');
+            if (phone.length === 10) {
+                this.setState({
+                    disabled: false,
+                    phone
+                })
+            } else {
+                this.setState({
+                    disabled: true,
+                    phone: ''
+                })
+            }
+        }, 100);
+    }
+
     next() {
         const current = this.state.current + 1;
         this.setState({
@@ -126,35 +144,49 @@ class Welcome extends Component {
         const steps = [{
             title: 'Welcome',
             content: (
-                <div className="welcome-left-container">
-                    <h1>Welcome to AquaGrow</h1>
-                    <p>We know you're excited and wanting to jump right in using your smart aquaponics system.
-                    But first, we'll need some more information in order to provide you with the best experience and all available features.</p>
+                <div className="steps-content-wrapper">
+                    <div className="welcome-left-container">
+                        <h2>Welcome to AquaGrow</h2>
+                        <div className="welcome-description">
+                            <p>We know you're excited and wanting to jump right in using your smart aquaponics system.
+                            But first, we'll need some more information in order to provide you with the best experience and all available features.</p>
+                        </div>
+                    </div>
+                    <div className="welcome-right-container">
+                        <div className="welcome-picture"></div>
+                    </div>
                 </div>
             ),
             icon: (<div className="welcome-icon-container"><Icon type="message" /></div>)
         }, {
             title: 'Location',
             content: (
-                <div className="welcome-left-container">
-                    <h3>Provide your zipcode</h3>
-                    <FormItem>
-                        {getFieldDecorator('zipCode', {
-                            rules: [{
-                                required: true, message: 'Please input your zip code!'
-                            }, {
-                                validator: this.checkGrowZone
-                            }],
-                            initialValue: this.state.zipCode
-                        })(
-                            <Input size="large" placeholder="Zip Code" />
-                        )}
-                    </FormItem>
-                    <p>We're using your zipcode to determine your grow zone.
-                    Different plants strive in different places,
-                    so we want to let you know which ones will grow best in your area!</p>
-                    <div className="growzone-text">
-                        {growZone}
+                <div className="steps-content-wrapper">
+                    <div className="welcome-left-container">
+                        <h3>Provide your zipcode</h3>
+                        <FormItem>
+                            {getFieldDecorator('zipCode', {
+                                rules: [{
+                                    required: true, message: 'Please input your zip code!'
+                                }, {
+                                    validator: this.checkGrowZone
+                                }],
+                                initialValue: this.state.zipCode
+                            })(
+                                <Input size="large" placeholder="Zip Code" />
+                            )}
+                        </FormItem>
+                        <div className="welcome-description">
+                            <p>We're using your zipcode to determine your grow zone.
+                            Different plants strive in different places,
+                            so we want to let you know which ones will grow best in your area!</p>
+                        </div>
+                        <div className="growzone-text">
+                            {growZone}
+                        </div>
+                    </div>
+                    <div className="welcome-right-container">
+                        <div className="location-picture"></div>
                     </div>
                 </div>
             ),
@@ -162,14 +194,51 @@ class Welcome extends Component {
         }, {
             title: 'Notifications',
             content: (
-                <div className="welcome-left-container">
+                <div className="steps-content-wrapper">
+                    <div className="welcome-left-container">
+                        <h3>Provide your phone number</h3>
+                        <FormItem>
+                            {getFieldDecorator('phone', {
+                                rules: [{
+                                    required: true, message: 'Please input your phone number!'
+                                }, {
+                                    len: 10, message: 'Please provide a 10-digit phone number'
+                                }],
+                                initialValue: this.state.phone
+                            })(
+                                <Input onChange={() => this.checkPhoneNumber()} size="large" placeholder="Cellphone" />
+                            )}
+                        </FormItem>
+                        <div className="welcome-description">
+                            <p>AquaGrow helps you monitor your aquaponics system from
+                            anywhere. By enabling notifications via text messages, we'll
+                            keep you up to date with your system even when you're not
+                            connected to the Internet.</p>
+                        </div>
+                    </div>
+                    <div className="welcome-right-container">
+                        <div className="notifications-picture"></div>
+                    </div>
                 </div>
             ),
             icon: (<div className="welcome-icon-container"><Icon type="notification" /></div>)
         }, {
             title: 'Profile',
             content: (
-                <div className="welcome-left-container">
+                <div className="steps-content-wrapper">
+                    <div className="welcome-left-container">
+                        <h3>Upload your profile picture</h3>
+                        <Upload>
+                            <Button>
+                                <Icon type="upload" /> Click to Upload
+                            </Button>
+                        </Upload>
+                        <div className="welcome-description">
+                            <p>Let's personalize your account and have fun!</p>
+                        </div>
+                    </div>
+                    <div className="welcome-right-container">
+                    </div>
                 </div>
             ),
             icon: (<div className="welcome-icon-container"><Icon type="user" /></div>)
@@ -223,7 +292,7 @@ class Welcome extends Component {
                                     this.state.current === steps.length - 1
                                     &&
                                     <div className="button-next">
-                                        <Button id="submitButton" size="large" type="primary" onClick={() => message.success('Processing complete!')}>Done</Button>
+                                        <Button id="submitButton" size="large" type="primary" onClick={() => message.success('Processing complete!')}>Go To Your AquaGrow!</Button>
                                     </div>
                                 }
                             </div>

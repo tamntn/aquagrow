@@ -16,12 +16,12 @@
     background: url('../images/png/fish.png') center no-repeat;
     background-size: auto 100%;
     -webkit-transform: rotate(10deg);
-    transform: rotate(10deg);
+    transform: rotate(15deg);
     height: 130px;
     width: 350px;
     filter: grayscale(100%) sepia(100%) opacity(5%) hue-rotate(-90deg);
     top: 65%;
-    right: -50px;
+    right: -60px;
 }
 
 /* Media Queries for tablets */

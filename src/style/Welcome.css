@@ -6,17 +6,12 @@
     background-color: #fafafa;
     min-height: 300px;
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
 }
 
-.step-first {
-    width: 500px;
-    min-width: 70%;
-}
-
 .steps-action {
-    margin-top: 24px;
+    padding-top: 24px;
     display: flex;
     flex: auto;
     flex-direction: row;
@@ -45,7 +40,7 @@
 
 .welcome-card {
     width: 700px;
-    min-width: 55%;
+    min-width: 60%;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
 }
@@ -84,6 +79,60 @@
     -webkit-transition: background ease 400ms, color ease 400ms;
     -moz-transition: background ease 400ms, color ease 400ms;
     transition: background ease 400ms, color ease 400ms;
+}
+
+.steps-content-wrapper {
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.welcome-left-container {
+    /* min-width: 350px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    width: 40%;
+}
+
+.welcome-description {
+    font-size: 13px;
+    color: #8c8c8c;
+}
+
+.welcome-right-container {
+    /* width: 60%; */
+    background: url(https://beta.gitbook.com/public/images/e793720801423d21776871e5e7baf99b.png);
+    width: 535px;
+    min-height: 300px;
+    background-size: 1070px;
+    /* -webkit-align-self: flex-end;
+    align-self: flex-end; */
+}
+
+.welcome-picture {
+    background: url('../images/gif/welcome1.gif') no-repeat;
+    background-size: 93% auto;
+    background-position-x: 56px;
+    background-position-y: 106px;
+    height: 100%;
+}
+
+.location-picture {
+    background: url('../images/gif/welcome2.gif') no-repeat;
+    background-size: 100% auto;
+    background-position-x: 56px;
+    background-position-y: 106px;
+    height: 100%;
+}
+
+.notifications-picture {
+    background: url('../images/gif/welcome3.gif') no-repeat;
+    background-size: 100% auto;
+    background-position-x: 56px;
+    background-position-y: 106px;
+    height: 100%;
 }
 
 /* Styling for text in card head and steps' titles */
@@ -161,11 +210,6 @@
     vertical-align: middle;
 }
 
-.welcome-left-container {
-    width: 350px;
-    min-width: 40%;
-}
-
 /* Grow Zone Result Text */
 
 .growzone-text {
@@ -192,5 +236,11 @@
     }
     .welcome-card {
         min-height: 100vh;
+    }
+    .welcome-left-container {
+        width: 100%;
+    }
+    .welcome-right-container {
+        display: none;
     }
 }
