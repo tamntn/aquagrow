@@ -58,7 +58,7 @@
     background: #1890ff;
 }
 
-.ant-card-body {
+.welcome-container .ant-card-body {
     padding: 0px;
 }
 
