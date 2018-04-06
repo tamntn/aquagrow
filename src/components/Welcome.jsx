@@ -86,7 +86,7 @@ class Welcome extends Component {
                 zipCode: '',
                 growZone: ''
             });
-            callback('Please provide a 5-letter zip code!');
+            callback('Please provide a 5-digit zip code!');
         } else {
             this.setState({
                 disabled: true,
