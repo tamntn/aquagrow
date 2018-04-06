@@ -1,13 +1,12 @@
 .steps-content {
-    margin-top: 16px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: 1px dashed #e9e9e9;
-    border-radius: 6px;
+    /* margin-top: 16px; */
+    padding-left: 24px;
+    padding-right: 24px;
+    border-bottom: 1px solid #e9e9e9;
     background-color: #fafafa;
     min-height: 300px;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
 }
 
@@ -18,6 +17,23 @@
 
 .steps-action {
     margin-top: 24px;
+    display: flex;
+    flex: auto;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.button-next {
+    display: block;
+    float: right;
+    padding-right: 24px;
+    padding-bottom: 24px;
+}
+
+.button-previous {
+    display: block;
+    padding-left: 24px;
+    padding-bottom: 24px;
 }
 
 .welcome-container {
@@ -29,9 +45,21 @@
 
 .welcome-card {
     width: 700px;
-    min-width: 65%;
+    min-width: 55%;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
+}
+
+.ant-card-head {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    background: #1890ff;
+}
+
+.ant-card-body {
+    padding: 0px;
 }
 
 .welcome-icon-container {
@@ -58,13 +86,7 @@
     transition: background ease 400ms, color ease 400ms;
 }
 
-.ant-card-head {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-    background: #1890ff;
-}
+/* Styling for text in card head and steps' titles */
 
 .ant-card-head-title h2 {
     color: white;
@@ -82,14 +104,14 @@
     color: white;
 }
 
+/* Styling for Icon & Icon container when steps-item-wait */
+
 .ant-steps-item-wait .welcome-icon-container {
     background: rgba(0, 0, 0, 0.15);
     color: white;
 }
 
-.ant-steps-item-finish .ant-steps-item-title:after {
-    background-color: white !important;
-}
+/* Styling for steps: horizontal line on desktop */
 
 .ant-steps-item-process .ant-steps-item-title:after {
     background-color: rgba(0, 0, 0, 0.15) !important;
@@ -99,6 +121,39 @@
     background-color: rgba(0, 0, 0, 0.15) !important;
 }
 
+.ant-steps-item-finish .ant-steps-item-title:after {
+    background-color: white !important;
+}
+
+.ant-steps-item-title:after {
+    -webkit-transition: background ease 400ms, color ease 400ms;
+    -moz-transition: background ease 400ms, color ease 400ms;
+    transition: background ease 400ms, color ease 400ms;
+}
+
+/* Styling for steps: vertical line on mobile */
+
+.ant-steps-item-wait>.ant-steps-item-tail:after {
+    background-color: rgba(0, 0, 0, 0.15);
+    margin-left: 3px;
+}
+
+.ant-steps-item-process>.ant-steps-item-tail:after {
+    background-color: rgba(0, 0, 0, 0.15);
+    margin-left: 3px;
+}
+
+.ant-steps-item-finish>.ant-steps-item-tail:after {
+    background-color: white;
+    margin-left: 3px;
+}
+
+.ant-steps-item-tail:after {
+    -webkit-transition: background ease 400ms, color ease 400ms;
+    -moz-transition: background ease 400ms, color ease 400ms;
+    transition: background ease 400ms, color ease 400ms;
+}
+
 /* Align the header content of steps */
 
 .ant-steps-item-content {
@@ -106,9 +161,27 @@
     vertical-align: middle;
 }
 
+.welcome-left-container {
+    width: 350px;
+    min-width: 40%;
+}
+
+/* Grow Zone Result Text */
+
+.growzone-text {
+    height: 20px;
+}
+
+.growzone-text h4 {
+    color: #52c41a;
+}
+
 /* Media Queries for tablets */
 
 @media (max-width: 767px) {
+    .steps-content {
+        min-height: 280px;
+    }
     .welcome-card {
         min-height: 80vh;
         border: white;
