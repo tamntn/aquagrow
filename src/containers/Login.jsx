@@ -28,6 +28,7 @@ class NormalLoginForm extends Component {
                         message.destroy();
                         callback(`${value} is not an existing user 😢`);
                     } else {
+                        message.destroy();
                         message.success(`Hi, ${res.data.data.name}`);
                         callback();
                     }

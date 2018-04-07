@@ -8,7 +8,6 @@ import promise from 'redux-promise';
 import './style/index.css';
 import Register from './containers/Register.jsx';
 import Login from './containers/Login.jsx';
-import Welcome from './components/Welcome.jsx';
 import App from './containers/App.jsx';
 import NotFound from './components/404.jsx';
 import registerServiceWorker from './registerServiceWorker';
@@ -23,7 +22,6 @@ ReactDOM.render(
                 <Route exact path="/" component={App} />
                 <Route path="/register" component={Register} />
                 <Route path="/login" component={Login} />
-                <Route path="/welcome" component={Welcome} />
                 <Route component={NotFound} />
             </Switch>
         </BrowserRouter>
