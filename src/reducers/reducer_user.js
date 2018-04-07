@@ -1,4 +1,4 @@
-import { actionType } from '../actions/action_user';
+import { actionType } from '../config';
 
 export default function (state = null, action) {
     switch (action.type) {

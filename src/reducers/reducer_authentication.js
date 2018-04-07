@@ -1,4 +1,4 @@
-import { actionType } from '../actions/action_user';
+import { actionType } from '../config';
 
 export default function (state = false, action) {
     switch (action.type) {
@@ -17,6 +17,7 @@ export default function (state = false, action) {
         case actionType.CLEAR_ERROR:
             return false;
         default:
-            return state;
+            const loggedIn = localStorage.getItem('jwt') ? true : false;
+            return loggedIn;
     }
 }
