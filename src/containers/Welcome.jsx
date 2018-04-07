@@ -6,7 +6,9 @@ import { Form, Card, Steps, Button, Icon, Input, Upload, message } from 'antd';
 import axios from 'axios';
 import BackgroundImage from '../components/BackgroundImage.jsx';
 import { fetchUser } from '../actions/action_user';
+import { apiRoutes } from '../config';
 import '../style/Welcome.css';
+const { rootUrl } = apiRoutes;
 const Step = Steps.Step;
 const FormItem = Form.Item;
 
@@ -20,7 +22,7 @@ class Welcome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: 0,
+            current: 3,
             disabled: true,
             zipCode: '',
             growZone: '',
@@ -46,13 +48,13 @@ class Welcome extends Component {
         let actionButton;
 
         // Get the correct button (Next or Submit)
-        if (current != 3) {
+        if (current !== 3) {
             actionButton = document.querySelector('#nextButton');
         } else {
             actionButton = document.querySelector('#submitButton');
         }
 
-        if (current == 0) {
+        if (current === 0) {
             actionButton.removeAttribute("disabled");
         } else {
             actionButton.setAttribute("disabled", "");
@@ -87,7 +89,7 @@ class Welcome extends Component {
             submitting: true,
         });
 
-        axios.post('http://localhost:8080/api/upload', formData, {
+        axios.post(`${rootUrl}/upload`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -101,11 +103,11 @@ class Welcome extends Component {
                 pictureUrl
             }
 
-            return axios.put(`http://localhost:8080/api/user/${localStorage.getItem('username')}`, updateValues)
+            return axios.put(`${rootUrl}/user/${localStorage.getItem('username')}`, updateValues)
         }).then((res) => {
             // And create a new system and push that system into the user
             message.success('User information has successfully updated 🎉');
-            return axios.post('http://localhost:8080/api/system', {
+            return axios.post(`${rootUrl}/system`, {
                 username: localStorage.getItem('username'),
                 systemName: this.state.systemName
             })
@@ -120,12 +122,13 @@ class Welcome extends Component {
                 submitting: false,
             });
             message.error('Failed to submit form. Please try again 🤭');
+            message.error(err);
         })
     }
 
     checkGrowZone(rule, value, callback) {
-        if (value && value.length == 5) {
-            axios.get(`https://aquagrow.life/api/zone/zip/${value}`)
+        if (value && value.length === 5) {
+            axios.get(`${rootUrl}/zone/zip/${value}`)
                 .then((res) => {
                     if (res.data.error) {
                         this.setState({
@@ -219,7 +222,7 @@ class Welcome extends Component {
             )
 
         const uploadProps = {
-            action: 'http://localhost:8080/api/upload',
+            action: `${rootUrl}/upload`,
             onRemove: (file) => {
                 this.setState(({ fileList }) => {
                     const index = fileList.indexOf(file);
@@ -243,7 +246,6 @@ class Welcome extends Component {
         };
 
         const currentJWT = localStorage.getItem('jwt');
-        let redirectComponent;
 
         const steps = [{
             title: 'Welcome',
@@ -361,10 +363,11 @@ class Welcome extends Component {
                             )}
                         </FormItem>
                         <div className="welcome-description">
-                            <p>Final step to make the system truly yours!</p>
+                            <p>Final step to make the system truly yours. You can always edit the these information later.</p>
                         </div>
                     </div>
                     <div className="welcome-right-container">
+                        <div className="profile-setup-picture"></div>
                     </div>
                 </div>
             ),
@@ -380,17 +383,10 @@ class Welcome extends Component {
             </div>
         )
 
-        // Redirect back to login page if not logged in
         if (!currentJWT) {
             message.destroy();
             message.error('Please log in first to access your AquaGrow account 😇');
-            redirectComponent = (<Redirect to='/login' />)
         }
-        // else if (this.props.user) {
-        //     if (this.props.user.zipCode && this.props.user.phone) {
-        //         redirectComponent = (<Redirect to='/' />)
-        //     }
-        // }
 
         return (
             <div>

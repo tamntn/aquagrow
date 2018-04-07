@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Route, withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
 import { Button, Spin, message } from 'antd';
 
@@ -26,19 +27,18 @@ class DashBoard extends Component {
     }
 
     render() {
-        // Prevent error when user is not loaded yet
-        if (this.props.user) {
-            return (
-                <div>
-                    <h1>Welcome to AquaGrow, {this.props.user.name}</h1>
-                    <Button type="danger" onClick={this.handleLogout}>Log out</Button>
-                </div>
-            )
-        } else {
-            return (
-                <Spin size="large" />
-            )
-        }
+        return (
+            <div>
+                {this.props.user ? (
+                    <div>
+                        <h1>Welcome to AquaGrow, {this.props.user.name}</h1>
+                        <Button type="danger" onClick={this.handleLogout}>Log out</Button>
+                    </div>
+                ) : (
+                        <Spin size="large" />
+                    )}
+            </div>
+        )
     }
 }
 
@@ -53,4 +53,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({ logout, fetchUser }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DashBoard));

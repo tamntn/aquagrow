@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { message } from 'antd';
 import DashBoard from './Dashboard.jsx';
+import Welcome from './Welcome.jsx';
 
 // Setup Alert Message Configuration
 message.config({
@@ -16,14 +17,21 @@ class App extends Component {
         this.state = {
             userInitialSetup: "Unknown"
         }
+        this.setUserInitialSetupToTrue = this.setUserInitialSetupToTrue.bind(this);
     }
 
     componentDidUpdate() {
-        if (this.props.user.zipCode && this.props.user.phone) {
-            this.setState({ userInitialSetup: true })
-        } else {
-            this.setState({ userInitialSetup: false })
+        if (this.state.userInitialSetup === "Unknown") {
+            if (this.props.user.zipCode && this.props.user.phone) {
+                this.setState({ userInitialSetup: true })
+            } else {
+                this.setState({ userInitialSetup: false })
+            }
         }
+    }
+
+    setUserInitialSetupToTrue() {
+        this.setState({ userInitialSetup: true });
     }
 
     render() {
@@ -41,7 +49,7 @@ class App extends Component {
         const componentsToRender = userInitialSetup ? (
             <DashBoard />
         ) : (
-                <Redirect to='/welcome' />
+                <Welcome setUserInitialSetupToTrue={this.setUserInitialSetupToTrue} />
             )
 
         return (
