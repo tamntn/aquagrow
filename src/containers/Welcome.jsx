@@ -22,7 +22,7 @@ class Welcome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: 3,
+            current: 0,
             disabled: true,
             zipCode: '',
             growZone: '',
