@@ -11,13 +11,20 @@
 }
 
 .login-container {
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     /* background: url('https://source.unsplash.com/W1B2LpQOBxA/1440x900') center no-repeat; */
     background-attachment: fixed;
     background-size: cover;
     min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     font-family: Futura, "Trebuchet MS", Arial, sans-serif
 }

@@ -6,7 +6,8 @@
     transform: rotate(40deg);
     height: 230px;
     width: 300px;
-    filter: grayscale(50%) sepia(100%) opacity(15%) hue-rotate(90deg);
+    -webkit-filter: grayscale(50%) sepia(100%) opacity(15%) hue-rotate(90deg);
+            filter: grayscale(50%) sepia(100%) opacity(15%) hue-rotate(90deg);
     top: 20%;
     left: -50px;
 }
@@ -19,7 +20,8 @@
     transform: rotate(15deg);
     height: 130px;
     width: 350px;
-    filter: grayscale(100%) sepia(100%) opacity(5%) hue-rotate(-90deg);
+    -webkit-filter: grayscale(100%) sepia(100%) opacity(5%) hue-rotate(-90deg);
+            filter: grayscale(100%) sepia(100%) opacity(5%) hue-rotate(-90deg);
     top: 65%;
     right: -60px;
 }
