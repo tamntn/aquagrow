@@ -106,6 +106,12 @@ class Welcome extends Component {
 
             return axios.put(`${rootUrl}/user/${localStorage.getItem('username')}`, updateValues)
         }).then((res) => {
+            // Send welcome message to the provided message
+            return axios.post(`${rootUrl}/sms/welcome`, {
+                phone: this.state.phone,
+                name: this.props.user.name
+            })
+        }).then((res) => {
             // And create a new system and push that system into the user
             message.success('User information has successfully updated 🎉');
             return axios.post(`${rootUrl}/system`, {
