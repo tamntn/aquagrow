@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
+import HttpsRedirect from 'react-https-redirect';
 
 import './style/index.css';
 import Register from './containers/Register.jsx';
@@ -17,14 +18,16 @@ const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 ReactDOM.render(
     <Provider store={createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
-        <BrowserRouter>
-            <Switch>
-                <Route exact path="/" component={App} />
-                <Route path="/register" component={Register} />
-                <Route path="/login" component={Login} />
-                <Route component={NotFound} />
-            </Switch>
-        </BrowserRouter>
+        <HttpsRedirect>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/" component={App} />
+                    <Route path="/register" component={Register} />
+                    <Route path="/login" component={Login} />
+                    <Route component={NotFound} />
+                </Switch>
+            </BrowserRouter>
+        </HttpsRedirect>
     </Provider>
     , document.getElementById('root'));
 registerServiceWorker();
