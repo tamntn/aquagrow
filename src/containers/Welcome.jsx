@@ -15,7 +15,7 @@ const FormItem = Form.Item;
 // Setup Alert Message Configuration
 message.config({
     top: window.innerHeight * 10 / 100,
-    duration: 3,
+    duration: 5,
 });
 
 class Welcome extends Component {
@@ -32,8 +32,9 @@ class Welcome extends Component {
             systemName: '',
             submitting: false,
         };
-        this.checkGrowZone = this.checkGrowZone.bind(this);
-        this.checkSystemName = this.checkSystemName.bind(this);
+        this.validateGrowZone = this.validateGrowZone.bind(this);
+        this.validatePhoneNumber = this.validatePhoneNumber.bind(this);
+        this.validateSystemName = this.validateSystemName.bind(this);
     }
 
     componentWillMount() {
@@ -112,11 +113,14 @@ class Welcome extends Component {
                 systemName: this.state.systemName
             })
         }).then((res) => {
-            message.success('New system has been initiated 🐟☘️');
-            this.setState({
-                submitting: false,
-            });
-            this.props.setUserInitialSetupToTrue();
+            // Wait a second for better user experience
+            setTimeout(() => {
+                message.success('New system has been initiated 🐟☘️');
+                this.setState({
+                    submitting: false,
+                });
+                this.props.setUserInitialSetupToTrue();
+            }, 1500)
         }).catch((err) => {
             this.setState({
                 submitting: false,
@@ -126,7 +130,7 @@ class Welcome extends Component {
         })
     }
 
-    checkGrowZone(rule, value, callback) {
+    validateGrowZone(rule, value, callback) {
         if (value && value.length === 5) {
             axios.get(`${rootUrl}/zone/zip/${value}`)
                 .then((res) => {
@@ -159,25 +163,25 @@ class Welcome extends Component {
         }
     }
 
-    checkPhoneNumber() {
-        let phone;
-        setTimeout(() => {
-            phone = this.props.form.getFieldValue('phone');
-            if (phone.length === 10) {
-                this.setState({
-                    disabled: false,
-                    phone
-                })
-            } else {
-                this.setState({
-                    disabled: true,
-                    phone: ''
-                })
-            }
-        }, 100);
+    validatePhoneNumber(rule, value, callback) {
+        if (value.length === 10) {
+            this.setState({
+                disabled: false,
+                phone: value
+            })
+            callback();
+        } else if (value) {
+            this.setState({
+                disabled: true,
+                phone: ''
+            })
+            callback('Please provide a 10-digit phone number');
+        } else {
+            callback();
+        }
     }
 
-    checkSystemName(rule, value, callback) {
+    validateSystemName(rule, value, callback) {
         if (value && value.length > 5) {
             this.setState({
                 disabled: false,
@@ -277,7 +281,7 @@ class Welcome extends Component {
                                 rules: [{
                                     required: true, message: 'Please input your zip code!'
                                 }, {
-                                    validator: this.checkGrowZone
+                                    validator: this.validateGrowZone
                                 }],
                                 initialValue: this.state.zipCode
                             })(
@@ -312,11 +316,11 @@ class Welcome extends Component {
                                 rules: [{
                                     required: true, message: 'Please input your phone number!'
                                 }, {
-                                    len: 10, message: 'Please provide a 10-digit phone number'
+                                    validator: this.validatePhoneNumber
                                 }],
                                 initialValue: this.state.phone
                             })(
-                                <Input onChange={() => this.checkPhoneNumber()} size="large" placeholder="Cellphone" />
+                                <Input size="large" placeholder="Cellphone" />
                             )}
                         </FormItem>
                         <div className="welcome-description">
@@ -355,7 +359,7 @@ class Welcome extends Component {
                                 rules: [{
                                     required: true, message: 'Please name your aquaponics system!'
                                 }, {
-                                    validator: this.checkSystemName
+                                    validator: this.validateSystemName
                                 }],
                                 initialValue: this.state.systemName
                             })(
