@@ -328,7 +328,7 @@ class Welcome extends Component {
                                 }],
                                 initialValue: this.state.phone
                             })(
-                                <Input size="large" placeholder="Cellphone" />
+                                <Input addonBefore="+1" size="large" placeholder="Cellphone" />
                             )}
                         </FormItem>
                         <div className="welcome-description">
