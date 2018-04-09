@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { authenticate, register } from '../actions/action_user';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import _ from 'lodash';
-import { Card, Form, Input, Tooltip, Icon, Checkbox, Button, message } from 'antd';
+import { Card, Form, Input, Icon, Checkbox, Button, message } from 'antd';
 const FormItem = Form.Item;
 
 // Setup Alert Message Configuration
@@ -174,17 +175,19 @@ class RegistrationForm extends Component {
                             <Input size="large" addonBefore="+1" prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.5)' }} />} placeholder="Phone" />
                         )}
                     </FormItem> */}
-                    {/* <FormItem>
+                    <FormItem>
                         {getFieldDecorator('agreement', {
                             valuePropName: 'checked',
                         })(
                             <Checkbox>I have read the <a href="">agreement</a></Checkbox>
                         )}
-                    </FormItem> */}
-                    <FormItem>
                         <Button size="large" type="primary" htmlType="submit" className="register-form-button">Register</Button>
                     </FormItem>
                 </Form>
+                <div style={{ textAlign: 'center' }}>
+                    <br></br>Already have an account?<br></br>
+                    <Link to="/login">Log in</Link>
+                </div>
             </Card>
         );
     }

@@ -75,6 +75,8 @@ class Welcome extends Component {
                         actionButton.removeAttribute("disabled");
                     }
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -226,9 +228,9 @@ class Welcome extends Component {
         const { submitting } = this.state;
         const { getFieldDecorator } = this.props.form;
         const growZone = this.state.growZone ? (
-            <h4>✅ Your grow zone is: {this.state.growZone}</h4>
+            <h4><span role="img">✅</span> Your grow zone is: {this.state.growZone}</h4>
         ) : (
-                <h4></h4>
+                <h4>&nbsp;</h4>
             )
 
         const uploadProps = {

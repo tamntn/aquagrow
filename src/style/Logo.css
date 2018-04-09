@@ -1,0 +1,16 @@
+.top-middle-logo-container {
+    text-align: center;
+    padding-top: 15px;
+    position: relative;
+    width: inherit;
+}
+
+.logo-text {
+    font-size: 30px;
+    color: rgba(0, 0, 0, .85);
+    /* font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica, sans-serif; */
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;  
+    font-weight: 300;
+    position: relative;
+    top: 7px;
+}

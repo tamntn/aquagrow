@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
 import { Button, Spin, message } from 'antd';
 

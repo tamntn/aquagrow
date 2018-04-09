@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Carousel, Spin } from 'antd';
 import '../style/Register.css';
-import logo from '../images/logo/small_01.png';
 import RegisterForm from './RegisterForm.jsx';
+import TopMiddleLogo from '../components/logo/TopMiddle.jsx';
 
 class Register extends Component {
     constructor(props) {
@@ -43,18 +43,10 @@ class Register extends Component {
                     {leftColumn}
                 </div>
                 <div className="register-right">
-                    <div className="register-logo-container">
-                        <Link to="/">
-                            <img src={logo} alt="" height="64" width="64" />
-                        </Link>
-                    </div>
+                    <TopMiddleLogo />
                     <div className="register-form-container">
-                        <h1>Welcome to AquaGrow</h1>
-                        <br></br>
+                        <h1>Create your account</h1>
                         <RegisterForm />
-                        Already have an account? <Link to="/login">Log in</Link>
-                        <br></br>
-                        <br></br>
                     </div>
                 </div>
             </div>
@@ -64,8 +56,7 @@ class Register extends Component {
 
 function mapStateToProps(state) {
     return {
-        loggedIn: state.loggedIn,
-        user: state.user
+        loggedIn: state.loggedIn
     };
 }
 
