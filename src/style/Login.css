@@ -1,3 +1,7 @@
+.login-container {
+    width: 100vw;
+}
+
 .login-form {
     max-width: 300px;
 }
@@ -10,16 +14,20 @@
     width: 100%;
 }
 
-.login-container {
+.login-form-container {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     /* background: url('https://source.unsplash.com/W1B2LpQOBxA/1440x900') center no-repeat; */
     background-attachment: fixed;
     background-size: cover;
-    min-height: 100vh;
+    min-height: calc(100vh - 72px);
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
@@ -29,17 +37,13 @@
     font-family: Futura, "Trebuchet MS", Arial, sans-serif
 }
 
-.login-container .login-alert {
+.login-form-container .login-alert {
     text-align: center;
     position: fixed;
     top: 10%;
 }
 
-.login-container .card-header {
-    text-align: center;
-}
-
-.login-container .card-container {
+.login-form-container .card-container {
     width: 350px;
     background-color: rgba(255, 255, 255, 0.1);
     border: white;
