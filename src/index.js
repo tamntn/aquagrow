@@ -11,6 +11,7 @@ import Register from './containers/Register.jsx';
 import Login from './containers/Login.jsx';
 import App from './containers/App.jsx';
 import NotFound from './components/404.jsx';
+import FontAwesomeTest from './components/FontAwesomeTest.jsx';
 import registerServiceWorker from './registerServiceWorker';
 import reducers from './reducers';
 
@@ -24,6 +25,7 @@ ReactDOM.render(
                     <Route exact path="/" component={App} />
                     <Route path="/register" component={Register} />
                     <Route path="/login" component={Login} />
+                    <Route path="/fa" component={FontAwesomeTest} />
                     <Route component={NotFound} />
                 </Switch>
             </BrowserRouter>
