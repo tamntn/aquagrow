@@ -1,0 +1,32 @@
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color .3s;
+}
+
+.trigger:hover {
+    color: #1890ff;
+}
+
+.logo {
+    height: 54px;
+    background: rgba(255, 255, 255, .2);
+    margin: 16px;
+    text-align: center
+}
+
+.layout-container {
+    min-height: 100vh;
+}
+
+.sider-container {
+    background: #fff;
+    height: 100vh;
+    overflow: 'auto';
+    position: 'fixed';
+    left: 0;
+    border-width: 5px;
+    box-shadow: 1px 0 3px rgba(0, 21, 41, 0.35);
+}
