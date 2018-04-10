@@ -5,7 +5,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { Form, Card, Steps, Button, Icon, Input, Upload, message } from 'antd';
 import axios from 'axios';
 import BackgroundImage from '../components/BackgroundImage.jsx';
-import { fetchUser } from '../actions/action_user';
+import { logout, fetchUser } from '../actions/action_user';
 import { apiRoutes } from '../config';
 import '../style/Welcome.css';
 const { rootUrl } = apiRoutes;
@@ -136,6 +136,13 @@ class Welcome extends Component {
             message.error('Failed to submit form. Please try again 🤭');
             message.error(err);
         })
+    }
+
+    // Logout and redirect to /login page
+    handleLogout() {
+        this.props.logout(() => {
+            this.props.history.push('/login');
+        });
     }
 
     validateGrowZone(rule, value, callback) {
@@ -414,15 +421,18 @@ class Welcome extends Component {
                                             this.state.current === 0
                                             &&
                                             <div className="button-previous">
+                                                <Button size="large" type="danger" onClick={() => this.handleLogout()}>
+                                                    <Icon type="logout" />Log out
+                                                </Button>
                                             </div>
                                         }
                                         {
                                             this.state.current > 0
                                             &&
                                             <div className="button-previous">
-                                                <Button size="large" onClick={() => this.prev()}><Icon type="left" />
-                                                    Go back
-                                            </Button>
+                                                <Button size="large" onClick={() => this.prev()}>
+                                                    <Icon type="left" />Go back
+                                                </Button>
                                             </div>
                                         }
                                         {
@@ -464,7 +474,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchUser }, dispatch);
+    return bindActionCreators({ logout, fetchUser }, dispatch);
 }
 
 const WrappedWelcomeForm = Form.create()(Welcome);
