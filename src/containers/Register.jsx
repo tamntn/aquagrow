@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Carousel, Spin } from 'antd';
 import '../style/Register.css';
+import BackgroundImage from '../components/BackgroundImage.jsx';
 import RegisterForm from './RegisterForm.jsx';
 import TopMiddleLogo from '../components/logo/TopMiddle.jsx';
 
@@ -39,6 +40,7 @@ class Register extends Component {
 
         return (
             <div className="register-container">
+                <BackgroundImage />
                 <div className="register-left">
                     {leftColumn}
                 </div>
