@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchUser } from '../actions/action_user';
 import { Redirect } from 'react-router-dom';
-import { message } from 'antd';
+import { Spin, message } from 'antd';
 import DashBoard from './Dashboard.jsx';
 import Welcome from './Welcome.jsx';
+import '../style/App.css';
 
 // Setup Alert Message Configuration
 message.config({
@@ -18,6 +21,13 @@ class App extends Component {
             userInitialSetup: "Unknown"
         }
         this.setUserInitialSetupToTrue = this.setUserInitialSetupToTrue.bind(this);
+    }
+
+    componentWillMount() {
+        const currentUser = localStorage.getItem('username');
+        if (currentUser) {
+            this.props.fetchUser(currentUser);
+        }
     }
 
     componentDidUpdate() {
@@ -45,16 +55,25 @@ class App extends Component {
             return <Redirect to='/login' />;
         }
 
-        // render Redirect to /welcome page if user initial setup is not done
-        const componentsToRender = userInitialSetup ? (
-            <DashBoard />
-        ) : (
-                <Welcome setUserInitialSetupToTrue={this.setUserInitialSetupToTrue} />
-            )
-
         return (
             <div>
-                {componentsToRender}
+                {
+                    userInitialSetup === "Unknown"
+                    &&
+                    <div className="spinner-center">
+                        <Spin size="large" />
+                    </div>
+                }
+                {
+                    userInitialSetup === false
+                    &&
+                    <Welcome setUserInitialSetupToTrue={this.setUserInitialSetupToTrue} />
+                }
+                {
+                    userInitialSetup === true
+                    &&
+                    <DashBoard />
+                }
             </div>
         )
     }
@@ -67,4 +86,8 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fetchUser }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
