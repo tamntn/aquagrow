@@ -1,9 +1,10 @@
 .trigger {
-    font-size: 18px;
+    font-size: 22px;
     line-height: 64px;
     padding: 0 24px;
     cursor: pointer;
     transition: color .3s;
+    vertical-align: middle;
 }
 
 .trigger:hover {
@@ -11,8 +12,6 @@
 }
 
 .logo {
-    height: 54px;
-    background: rgba(255, 255, 255, .2);
     margin: 16px;
     text-align: center
 }
@@ -22,11 +21,48 @@
 }
 
 .sider-container {
+    z-index: 10;
     background: #fff;
     height: 100vh;
-    overflow: 'auto';
-    position: 'fixed';
+    overflow: auto;
     left: 0;
-    border-width: 5px;
     box-shadow: 1px 0 3px rgba(0, 21, 41, 0.35);
+}
+
+.sider-container .ant-menu-inline .ant-menu-item {
+    font-size: 18px;
+}
+
+.sider-container .ant-menu-inline-collapsed>.ant-menu-item .anticon {
+    font-size: 18px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 0;
+}
+
+.header-right {
+    padding-right: 24px;
+}
+
+.content-container {}
+
+.avatar-menu {
+    margin-top: 10px;
+}
+
+.avatar-menu .anticon {
+    margin-right: 8px;
+}
+
+/* Media Queries for tablets */
+
+@media (max-width: 576px) {
+    .ant-layout-sider {
+        position: fixed;
+    }
 }
