@@ -13,7 +13,8 @@
 
 .logo {
     margin: 16px;
-    text-align: center
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 .layout-container {
@@ -30,11 +31,11 @@
 }
 
 .sider-container .ant-menu-inline .ant-menu-item {
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .sider-container .ant-menu-inline-collapsed>.ant-menu-item .anticon {
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .header-container {
@@ -43,9 +44,16 @@
     align-items: center;
     background: #fff;
     padding: 0;
+    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 }
 
 .header-right {
+    padding-right: 24px;
+    display: flex;
+    flex-direction: row;
+}
+
+.header-notification {
     padding-right: 24px;
 }
 
@@ -64,5 +72,11 @@
 @media (max-width: 576px) {
     .ant-layout-sider {
         position: fixed;
+    }
+    .sider-container .ant-menu-inline .ant-menu-item {
+        font-size: 24px;
+    }
+    .sider-container .ant-menu-inline-collapsed>.ant-menu-item .anticon {
+        font-size: 24px;
     }
 }

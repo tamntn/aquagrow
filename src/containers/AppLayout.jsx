@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
-import { Spin, Layout, Menu, Icon, Avatar, Dropdown, message } from 'antd';
+import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, message } from 'antd';
 import logo from '../images/logo/small_01.png'
 import AppContent from './AppContent.jsx';
 import '../style/AppLayout.css';
@@ -25,11 +25,10 @@ class AppLayou extends Component {
         }
 
         this.isMobile = this.isMobile.bind(this);
-        this.onSelectSidebarMenuItem = this.onSelectSidebarMenuItem.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
-        this.handleMainContentClick = this.handleMainContentClick.bind(this);
-        this.handleMainContentClick = this.handleMainContentClick.bind(this);
+        this.onSelectSidebarMenuItem = this.onSelectSidebarMenuItem.bind(this);
         this.onSelectAvatarMenuItem = this.onSelectAvatarMenuItem.bind(this);
+        this.handleMainContentClick = this.handleMainContentClick.bind(this);
     }
 
     componentWillMount() {
@@ -202,13 +201,13 @@ class AppLayou extends Component {
                         <Menu.Item key="2">
                             <Link to="/portfolio">
                                 <Icon type="profile" />
-                                <span>Portfolio</span>
+                                <span>Your Portfolio</span>
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="3">
                             <Link to="/user">
                                 <Icon type="user" />
-                                <span>Account</span>
+                                <span>Your Profile</span>
                             </Link>
                         </Menu.Item>
                     </Menu>
@@ -232,15 +231,26 @@ class AppLayou extends Component {
                             />
                         </div>
                         <div className="header-right">
-                            <Dropdown overlay={avatarMenu}>
-                                <Avatar
-                                    src={this.props.user ? this.props.user.pictureUrl : null}
-                                    style={{ backgroundColor: '#fff' }}
-                                    size="large"
-                                >
-                                    <Spin size="small" />
-                                </Avatar>
-                            </Dropdown>
+                            <div className="header-notification">
+                                {/* TODO: Implement notifications popover content */}
+                                <Popover placement="bottomRight" content="Notifications Content" trigger="click">
+                                    <Badge count={0} showZero>
+                                        <Icon type="bell" style={{ fontSize: "24px" }} />
+                                        <a href="#" className="head-example" />
+                                    </Badge>
+                                </Popover>
+                            </div>
+                            <div>
+                                <Dropdown overlay={avatarMenu}>
+                                    <Avatar
+                                        src={this.props.user ? this.props.user.pictureUrl : null}
+                                        style={{ backgroundColor: '#fff' }}
+                                        size="large"
+                                    >
+                                        <Spin size="small" />
+                                    </Avatar>
+                                </Dropdown>
+                            </div>
                         </div>
                     </Header>
                     <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
