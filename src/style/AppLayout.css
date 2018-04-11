@@ -48,20 +48,27 @@
 }
 
 .header-right {
-    padding-right: 24px;
+    padding-right: 16px;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
-.header-notification {
-    padding-right: 24px;
+.header-item {
+    padding-left: 12px;
+    padding-right: 12px;
+    cursor: pointer;
+}
+
+.header-item:hover {
+    background-color: #e6f7ff;
+}
+
+.header-notification-popover .ant-popover-inner-content {
+    padding: 0;
 }
 
 .content-container {}
-
-.avatar-menu {
-    margin-top: 10px;
-}
 
 .avatar-menu .anticon {
     margin-right: 8px;

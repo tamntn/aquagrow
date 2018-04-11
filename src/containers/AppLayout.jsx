@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
 import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, message } from 'antd';
-import logo from '../images/logo/small_01.png'
+import logo from '../images/logo/small_01.png';
+import HeaderNotifications from './Notification/HeaderNotifications.jsx';
 import AppContent from './AppContent.jsx';
 import '../style/AppLayout.css';
 const { Header, Sider, Content } = Layout;
@@ -155,7 +156,7 @@ class AppLayou extends Component {
 
     render() {
         const avatarMenu = (
-            <Menu className="avatar-menu" onClick={this.onSelectAvatarMenuItem}>
+            <Menu onClick={this.onSelectAvatarMenuItem}>
                 <Menu.Item disabled>
                     <Icon type="user" />Account Information
                 </Menu.Item>
@@ -231,24 +232,33 @@ class AppLayou extends Component {
                             />
                         </div>
                         <div className="header-right">
-                            <div className="header-notification">
-                                {/* TODO: Implement notifications popover content */}
-                                <Popover placement="bottomRight" content="Notifications Content" trigger="click">
+                            <div className="header-item">
+                                <Popover
+                                    popupClassName="header-notification-popover"
+                                    placement="bottomRight"
+                                    content={<HeaderNotifications />}
+                                    trigger="click"
+                                    arrowPointAtCenter
+                                >
                                     <Badge count={0} showZero>
                                         <Icon type="bell" style={{ fontSize: "24px" }} />
-                                        <a href="#" className="head-example" />
                                     </Badge>
                                 </Popover>
                             </div>
-                            <div>
+                            <div className="header-item">
                                 <Dropdown overlay={avatarMenu}>
-                                    <Avatar
-                                        src={this.props.user ? this.props.user.pictureUrl : null}
-                                        style={{ backgroundColor: '#fff' }}
-                                        size="large"
-                                    >
-                                        <Spin size="small" />
-                                    </Avatar>
+                                    <div>
+                                        <Avatar
+                                            src={this.props.user ? this.props.user.pictureUrl : null}
+                                            style={{ backgroundColor: '#fff' }}
+                                            size="large"
+                                        >
+                                            <Spin size="small" />
+                                        </Avatar>
+                                        {/* <span style={{ paddingLeft: "5px", color: "#595959", fontSize:"15px", fontWeight:"500" }}>
+                                            {this.props.user.name}
+                                        </span> */}
+                                    </div>
                                 </Dropdown>
                             </div>
                         </div>
@@ -257,7 +267,7 @@ class AppLayou extends Component {
                         <AppContent location={this.props.history.location.pathname} />
                     </Content>
                 </Layout>
-            </Layout>
+            </Layout >
         );
     }
 }
