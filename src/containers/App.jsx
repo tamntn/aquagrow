@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { fetchUser } from '../actions/action_user';
 import { Redirect } from 'react-router-dom';
 import { Spin, message } from 'antd';
-import DashBoard from './Dashboard.jsx';
+import AppLayout from './AppLayout.jsx';
 import Welcome from './Welcome.jsx';
 import '../style/App.css';
 
@@ -72,7 +72,7 @@ class App extends Component {
                 {
                     userInitialSetup === true
                     &&
-                    <DashBoard />
+                    <AppLayout />
                 }
             </div>
         )

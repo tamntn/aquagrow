@@ -3,13 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
-import { Button, Spin, Layout, Menu, Icon, Avatar, Dropdown, message } from 'antd';
+import { Spin, Layout, Menu, Icon, Avatar, Dropdown, message } from 'antd';
 import logo from '../images/logo/small_01.png'
-import '../style/Dashboard.css';
-// Test
-import { BrowserRouter, Router, Route, Switch } from 'react-router-dom';
-import FontAwesomeTest from '../components/FontAwesomeTest.jsx';
-import NotFound from '../components/404.jsx';
+import AppContent from './AppContent.jsx';
+import '../style/AppLayout.css';
 const { Header, Sider, Content } = Layout;
 
 // Setup Alert Message Configuration
@@ -18,26 +15,25 @@ message.config({
     duration: 3,
 });
 
-class SiderDemo extends Component {
+class AppLayou extends Component {
     constructor(props) {
         super(props);
         this.state = {
             collapsed: true,
             isMobile: true,
-            selectedKeys: ["1"]
+            selectedKeys: this.setInitialSelectedKeys()
         }
 
-        this.updateCollapsedWidth = this.updateCollapsedWidth.bind(this);
-        this.selectMenuItem = this.selectMenuItem.bind(this);
+        this.isMobile = this.isMobile.bind(this);
+        this.onSelectSidebarMenuItem = this.onSelectSidebarMenuItem.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleMainContentClick = this.handleMainContentClick.bind(this);
         this.handleMainContentClick = this.handleMainContentClick.bind(this);
-        this.handleAvatarMenuClick = this.handleAvatarMenuClick.bind(this);
+        this.onSelectAvatarMenuItem = this.onSelectAvatarMenuItem.bind(this);
     }
 
     componentWillMount() {
-        this.updateCollapsedWidth();
-
+        this.isMobile();
         const currentUser = localStorage.getItem('username');
         if (currentUser) {
             this.props.fetchUser(currentUser);
@@ -45,18 +41,15 @@ class SiderDemo extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.updateCollapsedWidth);
+        window.addEventListener('resize', this.isMobile);
     }
 
-    // Logout and redirect to /login page
-    handleLogout() {
-        this.props.logout(() => {
-            this.props.history.push('/login');
-        });
+    componentWillUpdate() {
+        this.setSelectedKeysFromHistoryLocation();
     }
 
     // If device is mobile, update collapsed width to 0
-    updateCollapsedWidth() {
+    isMobile() {
         const deviceWidth = window.innerWidth;
         if (deviceWidth <= 576) {
             this.setState({
@@ -70,7 +63,57 @@ class SiderDemo extends Component {
         }
     }
 
-    selectMenuItem(values) {
+    // Set selected keys when page first loads 
+    setInitialSelectedKeys() {
+        switch (this.props.history.location.pathname) {
+            case '/':
+                return ["1"]
+            case '/portfolio':
+                return ["2"]
+            case '/user':
+                return ["3"]
+            default:
+                return ["1"]
+        }
+    }
+
+    // Update selected keys when URL changes
+    setSelectedKeysFromHistoryLocation() {
+        switch (this.props.history.location.pathname) {
+            case '/':
+                if (this.state.selectedKeys[0] !== "1") {
+                    this.setState({
+                        selectedKeys: ["1"]
+                    })
+                }
+                break;
+            case '/portfolio':
+                if (this.state.selectedKeys[0] !== "2") {
+                    this.setState({
+                        selectedKeys: ["2"]
+                    })
+                }
+                break;
+            case '/user':
+                if (this.state.selectedKeys[0] !== "3") {
+                    this.setState({
+                        selectedKeys: ["3"]
+                    })
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Logout and redirect to /login page
+    handleLogout() {
+        this.props.logout(() => {
+            this.props.history.push('/login');
+        });
+    }
+
+    onSelectSidebarMenuItem(values) {
         if (this.state.isMobile) {
             this.setState({
                 collapsed: this.state.isMobile,
@@ -83,6 +126,12 @@ class SiderDemo extends Component {
         }
     }
 
+    onSelectAvatarMenuItem(values) {
+        if (values.key === "logout") {
+            this.handleLogout();
+        }
+    }
+
     handleMainContentClick() {
         if (this.state.isMobile && !this.state.collapsed) {
             this.setState({
@@ -91,19 +140,13 @@ class SiderDemo extends Component {
         }
     }
 
-    handleAvatarMenuClick(values) {
-        if (values.key === "logout") {
-            this.handleLogout();
-        }
-    }
-
-    getMainContentStyle() {
-        if (this.state.isMobile && !this.state.collapsed) {
-            return { filter: "brightness(70%)" }
-        } else {
-            return { filter: "brightness(100%)" }
-        }
-    }
+    // getMainContentStyle() {
+    //     if (this.state.isMobile && !this.state.collapsed) {
+    //         return { filter: "brightness(70%)" }
+    //     } else {
+    //         return { filter: "brightness(100%)" }
+    //     }
+    // }
 
     toggle = () => {
         this.setState({
@@ -113,7 +156,7 @@ class SiderDemo extends Component {
 
     render() {
         const avatarMenu = (
-            <Menu className="avatar-menu" onClick={this.handleAvatarMenuClick}>
+            <Menu className="avatar-menu" onClick={this.onSelectAvatarMenuItem}>
                 <Menu.Item disabled>
                     <Icon type="user" />Account Information
                 </Menu.Item>
@@ -130,6 +173,7 @@ class SiderDemo extends Component {
         return (
             <Layout className="layout-container">
                 <Sider
+                    width={250}
                     className="sider-container"
                     trigger={null}
                     collapsible
@@ -139,13 +183,14 @@ class SiderDemo extends Component {
                     <div className="logo" >
                         <Link to="/">
                             <img src={logo} alt="" width="54" height="54" />
+                            {/* {this.state.collapsed ? null : <span className="logo-text">&nbsp;AquaGrow</span>} */}
                         </Link>
                     </div>
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={this.state.selectedKeys}
                         selectedKeys={this.state.selectedKeys}
-                        onClick={this.selectMenuItem}
+                        onClick={this.onSelectSidebarMenuItem}
                     // style={{ fontSize: "30px" }}
                     >
                         <Menu.Item key="1">
@@ -155,15 +200,15 @@ class SiderDemo extends Component {
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="2">
-                            <Link to="/">
-                                <Icon type="video-camera" />
+                            <Link to="/portfolio">
+                                <Icon type="profile" />
                                 <span>Portfolio</span>
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="3">
-                            <Link to="/">
-                                <Icon type="upload" />
-                                <span>Notifications</span>
+                            <Link to="/user">
+                                <Icon type="user" />
+                                <span>Account</span>
                             </Link>
                         </Menu.Item>
                     </Menu>
@@ -199,25 +244,16 @@ class SiderDemo extends Component {
                         </div>
                     </Header>
                     <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
-                        <div>
-                            {this.props.user ? (
-                                <div>
-                                    <h1>Welcome, {this.props.user.name}</h1>
-                                </div>
-                            ) : (
-                                    <Spin size="large" />
-                                )}
-                        </div>
+                        <AppContent location={this.props.history.location.pathname} />
                     </Content>
                 </Layout>
-            </Layout >
+            </Layout>
         );
     }
 }
 
 function mapStateToProps(state) {
     return {
-        loggedIn: state.loggedIn,
         user: state.user
     };
 }
@@ -226,4 +262,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({ logout, fetchUser }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SiderDemo));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppLayou));

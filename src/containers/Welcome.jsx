@@ -479,4 +479,4 @@ function mapDispatchToProps(dispatch) {
 
 const WrappedWelcomeForm = Form.create()(Welcome);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WrappedWelcomeForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedWelcomeForm));
