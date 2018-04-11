@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Spin } from 'antd';
 import Dashboard from './Dashboard';
 import Portfolio from './Portfolio';
 import Account from './Account';
