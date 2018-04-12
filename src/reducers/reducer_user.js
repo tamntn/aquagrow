@@ -1,13 +1,13 @@
-import { actionType } from '../config';
+import { actionTypes } from '../config';
 
 export default function (state = null, action) {
     switch (action.type) {
-        // case actionType.REGISTER:
+        // case actionTypes.REGISTER:
         //     console.log(action.payload);
         //     return action.payload.data.data;
-        case actionType.FETCH_USER:
+        case actionTypes.FETCH_USER:
             return action.payload.data.data;
-        case actionType.LOGOUT:
+        case actionTypes.LOGOUT:
             localStorage.clear();
             return null;
         default:

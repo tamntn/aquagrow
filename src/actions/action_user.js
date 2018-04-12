@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { apiRoutes, actionType } from '../config';
+import { apiRoutes, actionTypes } from '../config';
 const { rootUrl } = apiRoutes;
 
 export function fetchUser(username) {
     const url = `${rootUrl}/user/${username}`;
     const request = axios.get(url);
     return {
-        type: actionType.FETCH_USER,
+        type: actionTypes.FETCH_USER,
         payload: request
     }
 }
@@ -17,7 +17,7 @@ export function register(formInput, callback) {
     const request = axios.post(url, formInput)
         .then(() => callback());
     return {
-        type: actionType.REGISTER,
+        type: actionTypes.REGISTER,
         payload: request
     }
 }
@@ -36,7 +36,7 @@ export async function authenticate(formInput, callback) {
             callback(false)
         });
     return {
-        type: actionType.AUTHENTICATE,
+        type: actionTypes.AUTHENTICATE,
         payload: payload
     }
 }
@@ -44,14 +44,7 @@ export async function authenticate(formInput, callback) {
 export function logout(callback) {
     callback();
     return {
-        type: actionType.LOGOUT,
-        payload: null
-    }
-}
-
-export function clearError() {
-    return {
-        type: actionType.CLEAR_ERROR,
+        type: actionTypes.LOGOUT,
         payload: null
     }
 }

@@ -1,8 +1,8 @@
-import { actionType } from '../config';
+import { actionTypes } from '../config';
 
 export default function (state = false, action) {
     switch (action.type) {
-        case actionType.AUTHENTICATE:
+        case actionTypes.AUTHENTICATE:
             // If authenticate returns with an error
             if (!action.payload) {
                 return action.payload;
@@ -11,10 +11,8 @@ export default function (state = false, action) {
                 localStorage.setItem('username', action.payload.data.user.username);
                 return true;
             }
-        case actionType.LOGOUT:
+        case actionTypes.LOGOUT:
             localStorage.clear();
-            return false;
-        case actionType.CLEAR_ERROR:
             return false;
         default:
             const loggedIn = localStorage.getItem('jwt') ? true : false;
