@@ -16,7 +16,7 @@ message.config({
     duration: 3,
 });
 
-class AppLayou extends Component {
+class AppLayout extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -170,6 +170,13 @@ class AppLayou extends Component {
             </Menu>
         );
 
+
+        const notificationsCount = this.props.user ? (
+            this.props.user.notifications.length
+            // + this.props.user.reminders.length
+            + this.props.user.messages.length
+        ) : 0
+
         return (
             <Layout className="layout-container">
                 <Sider
@@ -240,7 +247,7 @@ class AppLayou extends Component {
                                     trigger="click"
                                     arrowPointAtCenter
                                 >
-                                    <Badge count={0} showZero>
+                                    <Badge count={notificationsCount} showZero>
                                         <Icon type="bell" style={{ fontSize: "24px" }} />
                                     </Badge>
                                 </Popover>
@@ -263,7 +270,7 @@ class AppLayou extends Component {
                             </div>
                         </div>
                     </Header>
-                    <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+                    <Content style={{ margin: '24px 24px', padding: 0, background: 'rgb(0,0,0,0.0)', minHeight: 280 }}>
                         <AppContent location={this.props.history.location.pathname} />
                     </Content>
                 </Layout>
@@ -282,4 +289,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({ logout, fetchUser }, dispatch);
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppLayou));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppLayout));

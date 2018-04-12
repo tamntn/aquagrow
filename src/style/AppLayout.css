@@ -64,6 +64,10 @@
     background-color: #e6f7ff;
 }
 
+.ant-dropdown-menu-item .anticon {
+    margin-right: 5px;
+}
+
 .header-notification-popover .ant-popover-inner-content {
     padding: 0;
 }
