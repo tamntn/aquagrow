@@ -1,32 +1,41 @@
 import React, { Component } from 'react';
-import { Tabs } from 'antd';
+import { connect } from 'react-redux';
+import { Tabs, Icon } from 'antd';
+import NotificationList from './NotificationList.jsx';
+import ReminderList from './ReminderList.jsx';
+import MessageList from './MessageList.jsx';
 import './HeaderNotifications.css';
 const TabPane = Tabs.TabPane;
 
 class HeaderNotifications extends Component {
     render() {
+        const tabs = {
+            notifications: `Notifications (${this.props.notifications.length})`,
+            reminders: `Reminders (${this.props.reminders.length})`,
+            messages: `Messages (${this.props.messages.length})`,
+        }
         return (
             <Tabs defaultActiveKey="1" className="notification-tab">
-                <TabPane tab="System Notice" key="1">
-                    <div className="notification-list-container">
-                        <h1>You have reviewed all notifications</h1>
-                        <h1>You have reviewed all notifications</h1>
-                        <h1>You have reviewed all notifications</h1>
-                        <h1>You have reviewed all notifications</h1>
-                    </div>
-                    <div className="clear-notification">
-                        Clear everything
-                    </div>
+                <TabPane tab={tabs.notifications} key="1">
+                    <NotificationList />
                 </TabPane>
-                <TabPane tab="Reminders" key="2">
-                    <h1>You have no reminders</h1>
+                <TabPane tab={tabs.reminders} key="2">
+                    <ReminderList />
                 </TabPane>
-                <TabPane tab="Messages" key="3">
-                    <h1>You have no messages</h1>
+                <TabPane tab={tabs.messages} key="3">
+                    <MessageList />
                 </TabPane>
             </Tabs>
         )
     }
 }
 
-export default HeaderNotifications;
+function mapStateToProps(state) {
+    return {
+        notifications: state.notifications,
+        reminders: state.reminders,
+        messages: state.messages
+    };
+}
+
+export default connect(mapStateToProps)(HeaderNotifications);
