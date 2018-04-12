@@ -9,10 +9,22 @@ export const mainRoutes = {
     appHomepage: 'https://app.aquagrow.life/'
 }
 
-export const actionType = {
+export const actionTypes = {
+    // User Action
     FETCH_USER: 'fetch_user',
     REGISTER: 'register',
     AUTHENTICATE: 'authenticate',
     LOGOUT: 'logout',
-    CLEAR_ERROR: 'clear_error'
+    // Notification Action
+    FETCH_NOTIFICATIONS: 'fetch_notifications',
+    DELETE_NOTIFICATION: 'delete_notification',
+    CLEAR_NOTIFICATIONS: 'clear_notifiations',
+    // Reminder Action
+    FETCH_REMINDERS: 'fetch_reminders',
+    DELETE_REMINDER: 'delete_reminder',
+    CLEAR_REMINDERS: 'clear_reminders',
+    // Message Action
+    FETCH_MESSAGES: 'fetch_messages',
+    DELETE_MESSAGES: 'delete_message',
+    CLEAR_MESSAGES: 'clear_messages',
 }
