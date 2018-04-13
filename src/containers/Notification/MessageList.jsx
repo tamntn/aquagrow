@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { List, Icon, Avatar } from 'antd';
+import { List, Icon, Avatar, Tooltip } from 'antd';
 import moment from 'moment';
 import { fetchMessages, deleteMessage, clearMessages } from '../../actions/action_message';
 import { fetchUser } from '../../actions/action_user';
@@ -65,14 +65,30 @@ class MessageList extends Component {
                                         itemLayout="horizontal"
                                         dataSource={this.props.messages}
                                         renderItem={item => (
-                                            <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
-                                                <List.Item.Meta
-                                                    avatar={<Avatar src={messageLogo} />}
-                                                    title={item.sender}
-                                                    description={item.message}
-                                                />
-                                                <div>{moment(item.createdAt).format("MM/DD HH:mm")}</div>
-                                            </List.Item>
+                                            item.message.length > 70 ?
+                                                (
+                                                    <Tooltip placement="bottom" title={item.message} arrowPointAtCenter>
+                                                        <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
+                                                            <List.Item.Meta
+                                                                avatar={<Avatar size="small" src={messageLogo} />}
+                                                                title={item.sender}
+                                                                description={`${item.message.slice(0, 70)} .....`}
+                                                            />
+                                                            <div>{moment(item.createdAt).format("MM/DD HH:mm")}</div>
+                                                        </List.Item>
+                                                    </Tooltip>
+                                                )
+                                                :
+                                                (
+                                                    <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
+                                                        <List.Item.Meta
+                                                            avatar={<Avatar size="small" src={messageLogo} />}
+                                                            title={item.sender}
+                                                            description={item.message}
+                                                        />
+                                                        <div>{moment(item.createdAt).format("MM/DD HH:mm")}</div>
+                                                    </List.Item>
+                                                )
                                         )}
                                     />
                                 </div>

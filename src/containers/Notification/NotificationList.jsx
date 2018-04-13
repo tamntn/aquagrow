@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { List, Icon, Avatar } from 'antd';
+import { List, Icon, Avatar, Tooltip } from 'antd';
 import moment from 'moment';
 import { fetchNotifications, deleteNotification, clearNotifications } from '../../actions/action_notification';
 import { fetchUser } from '../../actions/action_user';
-import notificationLogo from '../../images/png/notification.png';
+import errorLogo from '../../images/png/error.png';
+import warningLogo from '../../images/png/warning.png';
+import successLogo from '../../images/png/success.png';
+
+const logos = {
+    error: errorLogo,
+    warning: warningLogo,
+    success: successLogo
+}
 
 class NotificationList extends Component {
     constructor(props) {
@@ -76,14 +84,29 @@ class NotificationList extends Component {
                                         itemLayout="horizontal"
                                         dataSource={this.props.notifications}
                                         renderItem={item => (
-                                            <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
-                                                <List.Item.Meta
-                                                    avatar={<Avatar src={notificationLogo} />}
-                                                    title={item.message}
-                                                    description={moment(item.createdAt).format("HH:mm:ss (ddd, MMM DD)")}
-                                                />
-                                                {/* <div>content</div> */}
-                                            </List.Item>
+                                            item.message.length > 75 ?
+                                                (
+                                                    <Tooltip placement="bottom" title={item.message} arrowPointAtCenter>
+                                                        <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
+                                                            <List.Item.Meta
+                                                                avatar={<Avatar size="small" src={logos[item.type]} />}
+                                                                title={`[${item.aspect.toUpperCase()}] ${item.message.slice(0, 70)} .....`}
+                                                                description={moment(item.createdAt).format("HH:mm:ss (ddd, MMM DD)")}
+                                                            />
+                                                        </List.Item>
+                                                    </Tooltip>
+                                                )
+                                                :
+                                                (
+                                                    <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
+                                                        <List.Item.Meta
+                                                            avatar={<Avatar size="small" src={logos[item.type]} />}
+                                                            title={`[${item.aspect.toUpperCase()}] ${item.message}`}
+                                                            description={moment(item.createdAt).format("HH:mm:ss (ddd, MMM DD)")}
+                                                        />
+                                                    </List.Item>
+                                                )
+
                                         )}
                                     />
                                 </div>

@@ -16,6 +16,7 @@
 .notification-tab .ant-list-item-content {
     flex: 0;
     font-size: 13px;
+    padding-left: 10px;
 }
 
 .notification-tab .ant-list-item:hover {
