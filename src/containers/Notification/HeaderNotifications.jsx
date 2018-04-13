@@ -9,10 +9,11 @@ const TabPane = Tabs.TabPane;
 
 class HeaderNotifications extends Component {
     render() {
+        console.log(this.props.user);
         const tabs = {
-            notifications: `Notifications (${this.props.notifications.length})`,
-            reminders: `Reminders (${this.props.reminders.length})`,
-            messages: `Messages (${this.props.messages.length})`,
+            notifications: `Notifications (${this.props.user.notifications.length})`,
+            reminders: `Reminders (0)`,
+            messages: `Messages (${this.props.user.messages.length})`,
         }
         return (
             <Tabs defaultActiveKey="1" className="notification-tab">
@@ -32,9 +33,7 @@ class HeaderNotifications extends Component {
 
 function mapStateToProps(state) {
     return {
-        notifications: state.notifications,
-        reminders: state.reminders,
-        messages: state.messages
+        user: state.user
     };
 }
 

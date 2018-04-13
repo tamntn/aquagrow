@@ -25,6 +25,6 @@ export const actionTypes = {
     CLEAR_REMINDERS: 'clear_reminders',
     // Message Action
     FETCH_MESSAGES: 'fetch_messages',
-    DELETE_MESSAGES: 'delete_message',
+    DELETE_MESSAGE: 'delete_message',
     CLEAR_MESSAGES: 'clear_messages',
 }

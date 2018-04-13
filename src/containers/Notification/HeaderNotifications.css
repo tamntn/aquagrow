@@ -1,6 +1,6 @@
 .notification-tab {
     max-width: calc(100vw * 0.9);
-    width: 350px;
+    width: 447px;
 }
 
 .notification-tab .ant-tabs-bar {
@@ -13,8 +13,22 @@
     padding-right: 12px;
 }
 
+.notification-tab .ant-list-item-content {
+    flex: 0;
+}
+
 .notification-tab .ant-list-item:hover {
     background-color: #e6f7ff;
+}
+
+.empty-list-container {
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 30px;
+    color: grey;
 }
 
 .notification-list-container {
