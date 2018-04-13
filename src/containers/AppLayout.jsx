@@ -225,7 +225,7 @@ class AppLayout extends Component {
                     onClick={this.handleMainContentClick}
                     //TODO: update layout color based on state
                     style={this.state.isMobile && !this.state.collapsed ? {
-                        filter: "brightness(70%)"
+                        filter: "brightness(50%)"
                     } : {
                             filter: "brightness(100%)"
                         }}
