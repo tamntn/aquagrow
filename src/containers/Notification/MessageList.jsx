@@ -70,7 +70,7 @@ class MessageList extends Component {
                                                     <Tooltip placement="bottom" title={item.message} arrowPointAtCenter>
                                                         <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
                                                             <List.Item.Meta
-                                                                avatar={<Avatar size="small" src={messageLogo} />}
+                                                                avatar={<Avatar size="small" style={{ backgroundColor: '#52c41a' }}>{item.sender[0]}</Avatar>}
                                                                 title={item.sender}
                                                                 description={`${item.message.slice(0, 70)} .....`}
                                                             />
@@ -82,7 +82,7 @@ class MessageList extends Component {
                                                 (
                                                     <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
                                                         <List.Item.Meta
-                                                            avatar={<Avatar size="small" src={messageLogo} />}
+                                                            avatar={<Avatar size="small" style={{ backgroundColor: '#52c41a' }}>{item.sender[0]}</Avatar>}
                                                             title={item.sender}
                                                             description={item.message}
                                                         />
