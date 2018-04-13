@@ -5,6 +5,7 @@ import { List, Icon, Avatar } from 'antd';
 import moment from 'moment';
 import { fetchMessages, deleteMessage, clearMessages } from '../../actions/action_message';
 import { fetchUser } from '../../actions/action_user';
+import messageLogo from '../../images/png/message.png';
 
 class MessageList extends Component {
     constructor(props) {
@@ -66,7 +67,7 @@ class MessageList extends Component {
                                         renderItem={item => (
                                             <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
                                                 <List.Item.Meta
-                                                    avatar={<Avatar src="http://icons.iconarchive.com/icons/martz90/circle/512/messages-icon.png" />}
+                                                    avatar={<Avatar src={messageLogo} />}
                                                     title={item.sender}
                                                     description={item.message}
                                                 />

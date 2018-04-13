@@ -5,6 +5,7 @@ import { List, Icon, Avatar } from 'antd';
 import moment from 'moment';
 import { fetchNotifications, deleteNotification, clearNotifications } from '../../actions/action_notification';
 import { fetchUser } from '../../actions/action_user';
+import notificationLogo from '../../images/png/notification.png';
 
 class NotificationList extends Component {
     constructor(props) {
@@ -77,7 +78,7 @@ class NotificationList extends Component {
                                         renderItem={item => (
                                             <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
                                                 <List.Item.Meta
-                                                    avatar={<Avatar src="https://cdn0.iconfinder.com/data/icons/basic-ui-elements-colored/700/09_bell-3-512.png" />}
+                                                    avatar={<Avatar src={notificationLogo} />}
                                                     title={item.message}
                                                     description={moment(item.createdAt).format("HH:mm:ss (ddd, MMM DD)")}
                                                 />
