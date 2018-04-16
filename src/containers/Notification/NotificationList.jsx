@@ -5,14 +5,26 @@ import { List, Icon, Avatar, Tooltip } from 'antd';
 import moment from 'moment';
 import { fetchNotifications, deleteNotification, clearNotifications } from '../../actions/action_notification';
 import { fetchUser } from '../../actions/action_user';
-import errorLogo from '../../images/png/error.png';
-import warningLogo from '../../images/png/warning.png';
-import successLogo from '../../images/png/success.png';
+// import errorLogo from '../../images/png/error.png';
+// import warningLogo from '../../images/png/warning.png';
+// import successLogo from '../../images/png/success.png';
 
-const logos = {
-    error: errorLogo,
-    warning: warningLogo,
-    success: successLogo
+// const logos = {
+//     error: errorLogo,
+//     warning: warningLogo,
+//     success: successLogo
+// }
+
+const icons = {
+    error: "close",
+    warning: "exclamation",
+    success: "check"
+}
+
+const iconBackground = {
+    error: "#f5222d",
+    warning: "#faad14",
+    success: "#52c41a",
 }
 
 class NotificationList extends Component {
@@ -89,7 +101,12 @@ class NotificationList extends Component {
                                                     <Tooltip placement="bottom" title={item.message} arrowPointAtCenter>
                                                         <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
                                                             <List.Item.Meta
-                                                                avatar={<Avatar size="small" src={logos[item.type]} />}
+                                                                avatar={<Avatar
+                                                                    size="small"
+                                                                    // src={logos[item.type]}
+                                                                    style={{ backgroundColor: iconBackground[item.type], fontWeight: "900" }}
+                                                                    icon={icons[item.type]}
+                                                                />}
                                                                 title={`[${item.aspect.toUpperCase()}] ${item.message.slice(0, 70)} .....`}
                                                                 description={moment(item.createdAt).format("HH:mm:ss (ddd, MMM DD)")}
                                                             />
@@ -100,7 +117,12 @@ class NotificationList extends Component {
                                                 (
                                                     <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
                                                         <List.Item.Meta
-                                                            avatar={<Avatar size="small" src={logos[item.type]} />}
+                                                            avatar={<Avatar
+                                                                size="small"
+                                                                // src={logos[item.type]}
+                                                                style={{ backgroundColor: iconBackground[item.type], fontWeight: "900" }}
+                                                                icon={icons[item.type]}
+                                                            />}
                                                             title={`[${item.aspect.toUpperCase()}] ${item.message}`}
                                                             description={moment(item.createdAt).format("HH:mm:ss (ddd, MMM DD)")}
                                                         />
