@@ -5,7 +5,7 @@ import { authenticate, register } from '../../actions/action_user';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import _ from 'lodash';
-import { Card, Form, Input, Icon, Checkbox, Button, message } from 'antd';
+import { Card, Form, Input, Icon, Checkbox, Button, Divider, message } from 'antd';
 const FormItem = Form.Item;
 
 // Setup Alert Message Configuration
@@ -185,7 +185,7 @@ class RegistrationForm extends Component {
                     </FormItem>
                 </Form>
                 <div style={{ textAlign: 'center' }}>
-                    <br></br>Already have an account?<br></br>
+                    <Divider />Already have an account?<br></br>
                     <Link to="/login">Log in</Link>
                 </div>
             </Card>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { authenticate } from '../../actions/action_user';
-import { Card, Form, Icon, Input, Button, Checkbox, message } from 'antd';
+import { Card, Form, Icon, Input, Button, Checkbox, Divider, message } from 'antd';
 import axios from 'axios';
 import _ from 'lodash';
 import '../../style/Login.css';
@@ -97,7 +97,7 @@ class LoginForm extends Component {
                     </FormItem>
                 </Form>
                 <div style={{ textAlign: 'center' }}>
-                    <br></br>New to AquaGrow?<br></br>
+                    <Divider />New to AquaGrow?<br></br>
                     <Link to="/register">Register now!</Link>
                 </div>
             </Card>
