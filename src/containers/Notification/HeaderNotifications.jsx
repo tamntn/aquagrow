@@ -12,7 +12,7 @@ class HeaderNotifications extends Component {
         console.log(this.props.user);
         const tabs = {
             notifications: `Notifications (${this.props.user.notifications.length})`,
-            reminders: `Reminders (0)`,
+            reminders: `Reminders (${this.props.user.reminders.length})`,
             messages: `Messages (${this.props.user.messages.length})`,
         }
         return (

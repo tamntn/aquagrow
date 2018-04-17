@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, Icon, Avatar } from 'antd';
+import moment from 'moment';
 import { fetchReminders, deleteReminder, clearReminders } from '../../actions/action_reminder';
 import { fetchUser } from '../../actions/action_user';
 
@@ -9,8 +10,7 @@ class ReminderList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // loading: true
-            loading: false
+            loading: true
         }
         this.onClearAllClick = this.onClearAllClick.bind(this);
         this.onDeleteItemClick = this.onDeleteItemClick.bind(this);
@@ -66,9 +66,13 @@ class ReminderList extends Component {
                                         renderItem={item => (
                                             <List.Item actions={[<div onClick={() => this.onDeleteItemClick(item._id)}><Icon type="close-circle-o" /></div>]}>
                                                 <List.Item.Meta
-                                                    avatar={<Avatar src="http://icons.iconarchive.com/icons/martz90/circle/512/messages-icon.png" />}
-                                                    title={item.sender}
-                                                    description={item.message}
+                                                    avatar={<Avatar
+                                                        size="small"
+                                                        style={{ backgroundColor: "#096dd9" }}
+                                                        icon="bell"
+                                                    />}
+                                                    title={item.message}
+                                                    description={moment(item.createdAt).format("HH:mm (ddd, MMM DD)")}
                                                 />
                                             </List.Item>
                                         )}

@@ -170,10 +170,9 @@ class AppLayout extends Component {
             </Menu>
         );
 
-
         const notificationsCount = this.props.user ? (
             this.props.user.notifications.length
-            // + this.props.user.reminders.length
+            + this.props.user.reminders.length
             + this.props.user.messages.length
         ) : 0
 
