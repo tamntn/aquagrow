@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Spin } from 'antd';
+import { Spin, Divider } from 'antd';
 
 class Portfolio extends Component {
     render() {
         return (
             <div>
-                <h1>Portfolio</h1>
+                <Divider>Portfolio</Divider>
             </div>
         )
     }

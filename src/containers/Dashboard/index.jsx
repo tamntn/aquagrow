@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Spin } from 'antd';
+import { Spin, Divider } from 'antd';
 
 class Dashboard extends Component {
     render() {
@@ -8,7 +8,7 @@ class Dashboard extends Component {
             <div>
                 {this.props.user ? (
                     <div>
-                        <h1>Welcome, {this.props.user.name}</h1>
+                        <Divider>Welcome, {this.props.user.name}</Divider>
                     </div>
                 ) : (
                         <Spin size="large" />
