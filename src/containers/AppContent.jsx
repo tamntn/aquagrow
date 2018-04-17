@@ -16,7 +16,8 @@ class AppContent extends Component {
                     this.props.location === "/portfolio"
                     &&
                     <Portfolio />
-                }{
+                }
+                {
                     this.props.location === "/user"
                     &&
                     <Account />
