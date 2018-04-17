@@ -30,6 +30,7 @@ class AppLayout extends Component {
         this.onSelectSidebarMenuItem = this.onSelectSidebarMenuItem.bind(this);
         this.onSelectAvatarMenuItem = this.onSelectAvatarMenuItem.bind(this);
         this.handleMainContentClick = this.handleMainContentClick.bind(this);
+        this.getMainContentStyle = this.getMainContentStyle.bind(this);
     }
 
     componentWillMount() {
@@ -140,13 +141,27 @@ class AppLayout extends Component {
         }
     }
 
-    // getMainContentStyle() {
-    //     if (this.state.isMobile && !this.state.collapsed) {
-    //         return { filter: "brightness(70%)" }
-    //     } else {
-    //         return { filter: "brightness(100%)" }
-    //     }
-    // }
+    getMainContentStyle() {
+        if (this.state.isMobile && !this.state.collapsed) {
+            return {
+                filter: "brightness(35%)",
+                marginLeft: "0"
+            }
+        } else if (this.state.isMobile && this.state.collapsed) {
+            return {
+                filter: "brightness(100%)",
+                marginLeft: "0"
+            }
+        } else if (!this.state.isMobile && this.state.collapsed) {
+            return {
+                marginLeft: "80px"
+            }
+        } else {
+            return {
+                marginLeft: "250px"
+            }
+        }
+    }
 
     toggle = () => {
         this.setState({
@@ -189,7 +204,6 @@ class AppLayout extends Component {
                     <div className="logo" >
                         <Link to="/">
                             <img src={logo} alt="" width="54" height="54" />
-                            {/* {this.state.collapsed ? null : <span className="logo-text">&nbsp;AquaGrow</span>} */}
                         </Link>
                     </div>
                     <Menu
@@ -222,12 +236,7 @@ class AppLayout extends Component {
                 <Layout
                     className="content-container"
                     onClick={this.handleMainContentClick}
-                    //TODO: update layout color based on state
-                    style={this.state.isMobile && !this.state.collapsed ? {
-                        filter: "brightness(50%)"
-                    } : {
-                            filter: "brightness(100%)"
-                        }}
+                    style={this.getMainContentStyle()}
                 >
                     <Header className="header-container">
                         <div className="header-left">
@@ -269,7 +278,7 @@ class AppLayout extends Component {
                             </div>
                         </div>
                     </Header>
-                    <Content style={{ margin: '24px 24px', padding: 0, background: 'rgb(0,0,0,0.0)', minHeight: 280 }}>
+                    <Content style={{ margin: '24px 24px', padding: 0, background: 'rgb(0,0,0,0.0)', minHeight: 280, overflow: 'initial' }}>
                         <AppContent location={this.props.history.location.pathname} />
                     </Content>
                 </Layout>

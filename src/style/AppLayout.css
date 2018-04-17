@@ -26,6 +26,7 @@
     background: #fff;
     height: 100vh;
     overflow: auto;
+    position: fixed;
     left: 0;
     box-shadow: 1px 0 3px rgba(0, 21, 41, 0.35);
 }
@@ -72,7 +73,9 @@
     padding: 0;
 }
 
-.content-container {}
+.content-container {
+    transition: all 0.2s;
+}
 
 .avatar-menu .anticon {
     margin-right: 8px;
