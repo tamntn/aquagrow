@@ -9,7 +9,6 @@ const TabPane = Tabs.TabPane;
 
 class HeaderNotifications extends Component {
     render() {
-        console.log(this.props.user);
         const tabs = {
             notifications: `Notifications (${this.props.user.notifications.length})`,
             reminders: `Reminders (${this.props.user.reminders.length})`,
