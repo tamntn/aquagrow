@@ -35,6 +35,7 @@ class Welcome extends Component {
         this.validateGrowZone = this.validateGrowZone.bind(this);
         this.validatePhoneNumber = this.validatePhoneNumber.bind(this);
         this.validateSystemName = this.validateSystemName.bind(this);
+        this.onInputPressEnter = this.onInputPressEnter.bind(this);
     }
 
     componentWillMount() {
@@ -136,6 +137,10 @@ class Welcome extends Component {
             message.error('Failed to submit form. Please try again 🤭');
             message.error(err);
         })
+    }
+
+    onInputPressEnter(e) {
+        e.preventDefault();
     }
 
     // Logout and redirect to /login page
@@ -300,7 +305,7 @@ class Welcome extends Component {
                                 }],
                                 initialValue: this.state.zipCode
                             })(
-                                <Input size="large" placeholder="Zip Code" />
+                                <Input size="large" placeholder="Zip Code" onPressEnter={this.onInputPressEnter} />
                             )}
                         </FormItem>
                         <div className="welcome-description">
@@ -335,7 +340,7 @@ class Welcome extends Component {
                                 }],
                                 initialValue: this.state.phone
                             })(
-                                <Input addonBefore="+1" size="large" placeholder="Cellphone" />
+                                <Input addonBefore="+1" size="large" placeholder="Cellphone" onPressEnter={this.onInputPressEnter} />
                             )}
                         </FormItem>
                         <div className="welcome-description">
@@ -378,7 +383,7 @@ class Welcome extends Component {
                                 }],
                                 initialValue: this.state.systemName
                             })(
-                                <Input size="large" placeholder="System Name" />
+                                <Input size="large" placeholder="System Name" onPressEnter={this.onInputPressEnter} />
                             )}
                         </FormItem>
                         <div className="welcome-description">
