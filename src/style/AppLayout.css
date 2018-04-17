@@ -45,7 +45,11 @@
     align-items: center;
     background: #fff;
     padding: 0;
-    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+    box-shadow: 0 1px 5px rgba(0, 21, 41, 0.35);
+    /* border-bottom-style: solid;
+    border-bottom-color: #1890ff;
+    border-bottom-width: 3px; */
+    z-index: 1;
 }
 
 .header-right {
@@ -75,6 +79,12 @@
 
 .content-container {
     transition: all 0.2s;
+}
+
+.content-container .ant-divider-horizontal.ant-divider-with-text {
+    font-size: 28px;
+    color: #262626;
+    margin-bottom: 24px;
 }
 
 .avatar-menu .anticon {
