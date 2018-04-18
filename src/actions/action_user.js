@@ -21,6 +21,17 @@ export async function updateUser(username, updateValues, callback) {
     }
 }
 
+export async function deleteUser(userId, callback) {
+    console.log(userId);
+    const url = `${rootUrl}/user/${userId}`;
+    await axios.delete(url);
+    callback();
+    return {
+        type: actionTypes.DELETE_USER,
+        payload: null
+    }
+}
+
 export function register(formInput, callback) {
     const url = `${rootUrl}/user`;
     formInput.username = formInput.username.toLowerCase();

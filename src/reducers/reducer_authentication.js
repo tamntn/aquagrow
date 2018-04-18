@@ -4,6 +4,7 @@ export default function (state = false, action) {
     switch (action.type) {
         case actionTypes.AUTHENTICATE:
             // If authenticate returns with an error
+            console.log(action.payload);
             if (!action.payload) {
                 return action.payload;
             } else {
@@ -13,6 +14,8 @@ export default function (state = false, action) {
             }
         case actionTypes.LOGOUT:
             localStorage.clear();
+            return false;
+        case actionTypes.DELETE_USER:
             return false;
         default:
             const loggedIn = localStorage.getItem('jwt') ? true : false;

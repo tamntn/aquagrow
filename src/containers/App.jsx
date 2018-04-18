@@ -50,8 +50,8 @@ class App extends Component {
 
         // Redirect back to login page if not logged in
         if (!currentJWT) {
-            message.destroy();
-            message.error('Please log in first to access your AquaGrow account 😇');
+            // message.destroy();
+            // message.error('Please log in first to access your AquaGrow account 😇');
             return <Redirect to='/login' />;
         }
 

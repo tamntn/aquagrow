@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Row, Col, Spin, Card, Divider, Form, Input, Upload, Button, notification, Icon } from 'antd';
+import { Row, Col, Spin, Card, Divider, Form, Input, Upload, Button, notification, Icon, Modal } from 'antd';
 import axios from 'axios';
 import _ from 'lodash';
-import { fetchUser, updateUser } from '../../actions/action_user';
+import { fetchUser, updateUser, deleteUser } from '../../actions/action_user';
 import { apiRoutes } from '../../config';
 import './Account.css';
 const { rootUrl } = apiRoutes;
@@ -16,8 +16,8 @@ const googleMapsClient = require('@google/maps').createClient({
 });
 
 notification.config({
-    placement: 'topRight',
-    top: 72,
+    placement: 'bottomRight',
+    bottom: 24,
     duration: 5,
 });
 
@@ -29,11 +29,17 @@ class Account extends Component {
             currentGrowZone: null,
             newGrowZone: null,
             isUpdatingProfile: false,
-            location: null
+            location: null,
+            modalVisible: false,
+            modalConfirmLoading: false,
+            deleteValidationStatus: null
         }
         this.validateGrowZone = this.validateGrowZone.bind(this);
         this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.handleModalCancel = this.handleModalCancel.bind(this);
+        this.handleUserDelete = this.handleUserDelete.bind(this);
     }
 
     componentWillMount() {
@@ -195,6 +201,36 @@ class Account extends Component {
         callback();
     }
 
+    showModal() {
+        console.log("Show modal");
+        this.setState({
+            modalVisible: true
+        })
+    }
+
+    handleModalCancel() {
+        console.log("Can modal");
+        this.setState({
+            modalVisible: false
+        })
+    }
+
+    handleUserDelete() {
+        const form = this.props.form;
+        if (form.getFieldValue('delete') === this.props.user.username) {
+            this.props.deleteUser(this.props.user._id, function () {
+                notification.success({
+                    message: "Successful 👋🏻",
+                    description: "Your account has been deleted 💔"
+                })
+            })
+        } else {
+            this.setState({
+                deleteValidationStatus: "error"
+            })
+        }
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const validateUsername = _.debounce((rule, value, callback) => { this.checkUniqueUsername(rule, value, callback) }, 500, {
@@ -313,6 +349,7 @@ class Account extends Component {
                             </FormItem>
                             <br></br>
                             <h2>Change password</h2>
+                            {/* TODO: Implement Update Password Feature */}
                             <Divider />
                             <FormItem
                                 label="Old password"
@@ -367,11 +404,39 @@ class Account extends Component {
                             </FormItem>
                             <br></br>
                             <h2 style={{ color: "red" }}>Delete account</h2>
+                            {/* TODO: Implement Delete Account Feature */}
                             <Divider />
                             <p>Once you delete your account, all information will be deleted and there's no going back. Please be certain!</p>
                             <FormItem>
-                                <Button size="large" type="danger">Delete your account</Button>
+                                <Button
+                                    size="large"
+                                    type="danger"
+                                    onClick={this.showModal}
+                                >Delete your account</Button>
                             </FormItem>
+                            <Modal
+                                title="Delete your account"
+                                okText="Delete"
+                                okType="danger"
+                                visible={this.state.modalVisible}
+                                onOk={this.handleUserDelete}
+                                confirmLoading={this.state.modalConfirmLoading}
+                                onCancel={this.handleModalCancel}
+                            >
+                                <p>Please type your username and press <strong>Delete</strong> to proceed. We're sad to see you go ☹️</p>
+                                <FormItem
+                                    hasFeedback
+                                    validateStatus={this.state.deleteValidationStatus}
+                                >
+                                    {getFieldDecorator('delete', {
+                                        rules: [{
+                                            required: true, message: 'Please enter your username!',
+                                        }]
+                                    })(
+                                        <Input size="large" placeholder={this.props.user.username} />
+                                    )}
+                                </FormItem>
+                            </Modal>
                         </Form>
                     </Col>
                 </Row>
@@ -387,7 +452,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchUser, updateUser }, dispatch);
+    return bindActionCreators({ fetchUser, updateUser, deleteUser }, dispatch);
 }
 
 const WrappedAccountForm = Form.create()(Account)

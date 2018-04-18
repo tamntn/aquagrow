@@ -10,6 +10,9 @@ export default function (state = null, action) {
         case actionTypes.LOGOUT:
             localStorage.clear();
             return null;
+        case actionTypes.DELETE_USER:
+            localStorage.clear();
+            return action.payload;
         default:
             return state;
     }
