@@ -41,10 +41,6 @@ class Account extends Component {
         this.getLocationFromZipcode(this.props.user.zipCode);
     }
 
-    componentDidUpdate() {
-        this.getLocationFromZipcode(this.props.user.zipCode);
-    }
-
     handleUpdateProfile = (e) => {
         e.preventDefault();
         this.props.form.validateFields(['username', 'name', 'phone', 'zipCode'], (err, values) => {
@@ -65,6 +61,7 @@ class Account extends Component {
 
                 this.props.updateUser(localStorage.getItem('username'), updateValues, () => {
                     this.props.fetchUser(localStorage.getItem('username'));
+                    this.getLocationFromZipcode(values.zipCode);
                     this.setState({
                         isUpdatingProfile: false
                     })
@@ -140,7 +137,6 @@ class Account extends Component {
         googleMapsClient.geocode({ address: zipCode })
             .asPromise()
             .then((response) => {
-                console.log(response.json.results[0].formatted_address)
                 this.setState({
                     location: response.json.results[0].formatted_address
                 })
@@ -210,7 +206,7 @@ class Account extends Component {
             <div>
                 <Divider>Account Information</Divider>
                 <Row gutter={{ xs: 0, sm: 16, md: 24, lg: 48 }}>
-                    <Col xs={24} sm={24} md={10} lg={10} xl={10} span={10} className="account-left-column">
+                    <Col xs={24} sm={24} md={24} lg={10} xl={10} span={10} className="account-left-column">
                         <Card
                             // loading={this.state.loading}
                             // hoverable
@@ -235,7 +231,7 @@ class Account extends Component {
                             />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={14} lg={14} xl={14} span={14} className="account-right-column">
+                    <Col xs={24} sm={24} md={24} lg={14} xl={14} span={14} className="account-right-column">
                         <Form
                             layout="vertical"
                             style={{ maxWidth: "425px", minWidth: "300px" }}

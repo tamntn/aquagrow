@@ -263,7 +263,7 @@ class AppLayout extends Component {
                         </Menu.Item>
                         <Menu.Item key="4">
                             <Link to="/notifications">
-                                <Icon type="bell" />
+                                <Icon type="shake" />
                                 <span>Notifications</span>
                             </Link>
                         </Menu.Item>
