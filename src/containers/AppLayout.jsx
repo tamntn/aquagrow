@@ -69,10 +69,16 @@ class AppLayout extends Component {
         switch (this.props.history.location.pathname) {
             case '/':
                 return ["1"]
+            case '/system':
+                return ["2"]
             case '/portfolio':
                 return ["3"]
-            case '/user':
+            case '/notifications':
                 return ["4"]
+            case '/reminders':
+                return ["5"]
+            case '/user':
+                return ["6"]
             default:
                 return ["1"]
         }
@@ -88,7 +94,7 @@ class AppLayout extends Component {
                     })
                 }
                 break;
-            case '/reminders':
+            case '/system':
                 if (this.state.selectedKeys[0] !== "2") {
                     this.setState({
                         selectedKeys: ["2"]
@@ -102,10 +108,24 @@ class AppLayout extends Component {
                     })
                 }
                 break;
-            case '/user':
+            case '/notifications':
                 if (this.state.selectedKeys[0] !== "4") {
                     this.setState({
                         selectedKeys: ["4"]
+                    })
+                }
+                break;
+            case '/reminders':
+                if (this.state.selectedKeys[0] !== "5") {
+                    this.setState({
+                        selectedKeys: ["5"]
+                    })
+                }
+                break;
+            case '/user':
+                if (this.state.selectedKeys[0] !== "6") {
+                    this.setState({
+                        selectedKeys: ["6"]
                     })
                 }
                 break;
@@ -230,18 +250,30 @@ class AppLayout extends Component {
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="2">
-                            <Link to="/reminders">
-                                <Icon type="notification" />
-                                <span>Reminders</span>
+                            <Link to="/system">
+                                <Icon type="poweroff" />
+                                <span>System Control</span>
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="3">
                             <Link to="/portfolio">
                                 <Icon type="profile" />
-                                <span>Your Portfolio</span>
+                                <span>Garden Portfolio</span>
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="4">
+                            <Link to="/notifications">
+                                <Icon type="bell" />
+                                <span>Notifications</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="5">
+                            <Link to="/reminders">
+                                <Icon type="notification" />
+                                <span>Reminders</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="6">
                             <Link to="/user">
                                 <Icon type="user" />
                                 <span>Your Profile</span>

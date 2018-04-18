@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Dashboard from './Dashboard';
-import Reminders from './Reminders';
+import System from './System';
 import Portfolio from './Portfolio';
+import Notifications from './Notification';
+import Reminders from './Reminders';
 import Account from './Account';
 
 class AppContent extends Component {
@@ -14,14 +16,24 @@ class AppContent extends Component {
                     <Dashboard />
                 }
                 {
-                    this.props.location === "/reminders"
+                    this.props.location === "/system"
                     &&
-                    <Reminders />
+                    <System />
                 }
                 {
                     this.props.location === "/portfolio"
                     &&
                     <Portfolio />
+                }
+                {
+                    this.props.location === "/notifications"
+                    &&
+                    <Notifications />
+                }
+                {
+                    this.props.location === "/reminders"
+                    &&
+                    <Reminders />
                 }
                 {
                     this.props.location === "/user"
