@@ -6,6 +6,7 @@
     "@fortawesome/fontawesome": "^1.1.5",
     "@fortawesome/fontawesome-free-solid": "^5.0.9",
     "@fortawesome/react-fontawesome": "0.0.18",
+    "@google/maps": "^0.4.6",
     "antd": "^3.4.0",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.7.0",
