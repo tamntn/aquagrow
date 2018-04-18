@@ -26,6 +26,7 @@ ReactDOM.render(
                     <Route path="/register" component={Register} />
                     <Route path="/login" component={Login} />
                     <Route path="/dashboard" component={App} />
+                    <Route path="/reminders" component={App} />
                     <Route path="/portfolio" component={App} />
                     <Route path="/user" component={App} />
                     <Route path="/fa" component={FontAwesomeTest} />

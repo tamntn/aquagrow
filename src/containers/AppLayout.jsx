@@ -70,9 +70,9 @@ class AppLayout extends Component {
             case '/':
                 return ["1"]
             case '/portfolio':
-                return ["2"]
-            case '/user':
                 return ["3"]
+            case '/user':
+                return ["4"]
             default:
                 return ["1"]
         }
@@ -88,17 +88,24 @@ class AppLayout extends Component {
                     })
                 }
                 break;
-            case '/portfolio':
+            case '/reminders':
                 if (this.state.selectedKeys[0] !== "2") {
                     this.setState({
                         selectedKeys: ["2"]
                     })
                 }
                 break;
-            case '/user':
+            case '/portfolio':
                 if (this.state.selectedKeys[0] !== "3") {
                     this.setState({
                         selectedKeys: ["3"]
+                    })
+                }
+                break;
+            case '/user':
+                if (this.state.selectedKeys[0] !== "4") {
+                    this.setState({
+                        selectedKeys: ["4"]
                     })
                 }
                 break;
@@ -172,8 +179,11 @@ class AppLayout extends Component {
     render() {
         const avatarMenu = (
             <Menu onClick={this.onSelectAvatarMenuItem}>
-                <Menu.Item disabled>
-                    <Icon type="user" />Account Information
+                <Menu.Item>
+                    <Link to="/user">
+                        <Icon type="user" />
+                        <span>Account Information</span>
+                    </Link>
                 </Menu.Item>
                 <Menu.Item disabled>
                     <Icon type="setting" />Account Settings
@@ -220,12 +230,18 @@ class AppLayout extends Component {
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="2">
+                            <Link to="/reminders">
+                                <Icon type="notification" />
+                                <span>Reminders</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="3">
                             <Link to="/portfolio">
                                 <Icon type="profile" />
                                 <span>Your Portfolio</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="3">
+                        <Menu.Item key="4">
                             <Link to="/user">
                                 <Icon type="user" />
                                 <span>Your Profile</span>
