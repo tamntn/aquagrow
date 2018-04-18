@@ -245,7 +245,7 @@ class AppLayout extends Component {
                     >
                         <Menu.Item key="1">
                             <Link to="/">
-                                <Icon type="area-chart" />
+                                <Icon type="line-chart" />
                                 <span>Dashboard</span>
                             </Link>
                         </Menu.Item>
