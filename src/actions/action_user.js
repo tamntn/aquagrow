@@ -11,6 +11,16 @@ export function fetchUser(username) {
     }
 }
 
+export async function updateUser(username, updateValues, callback) {
+    const url = `${rootUrl}/user/${username}`;
+    const request = await axios.put(url, updateValues);
+    callback();
+    return {
+        type: actionTypes.UPDATE_USER,
+        payload: request
+    }
+}
+
 export function register(formInput, callback) {
     const url = `${rootUrl}/user`;
     formInput.username = formInput.username.toLowerCase();

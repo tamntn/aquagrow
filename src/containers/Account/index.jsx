@@ -1,36 +1,94 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Spin, Card, Divider, Form, Input, Button, message, Icon } from 'antd';
+import { bindActionCreators } from 'redux';
+import { Row, Col, Spin, Card, Divider, Form, Input, Upload, Button, notification, Icon } from 'antd';
 import axios from 'axios';
 import _ from 'lodash';
+import { fetchUser, updateUser } from '../../actions/action_user';
 import { apiRoutes } from '../../config';
 import './Account.css';
 const { rootUrl } = apiRoutes;
 const FormItem = Form.Item;
 const { Meta } = Card;
+const googleMapsClient = require('@google/maps').createClient({
+    key: 'AIzaSyBK7k74kf-aG3TQhvXxckv2YAbVIoVhpbY',
+    Promise: Promise
+});
 
-// Setup Alert Message Configuration
-message.config({
-    top: window.innerHeight * 10 / 100,
-    duration: 3,
+notification.config({
+    placement: 'topRight',
+    top: 72,
+    duration: 5,
 });
 
 class Account extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            confirmDirty: false,
             currentGrowZone: null,
-            newGrowZone: null
+            newGrowZone: null,
+            isUpdatingProfile: false,
+            location: null
         }
         this.validateGrowZone = this.validateGrowZone.bind(this);
+        this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
     }
 
     componentWillMount() {
         this.getCurrentGrowZone();
+        this.getLocationFromZipcode(this.props.user.zipCode);
     }
 
-    handleSubmit = (e) => {
+    componentDidUpdate() {
+        this.getLocationFromZipcode(this.props.user.zipCode);
+    }
+
+    handleUpdateProfile = (e) => {
         e.preventDefault();
+        this.props.form.validateFields(['username', 'name', 'phone', 'zipCode'], (err, values) => {
+            if (!err) {
+                this.setState({
+                    isUpdatingProfile: true,
+                    location: null
+                })
+
+                const updateValues = {
+                    username: values.username,
+                    name: values.name,
+                    phone: values.phone,
+                    zipCode: values.zipCode,
+                    zone: this.state.newGrowZone ? this.state.newGrowZone : this.state.currentGrowZone,
+                    pictureUrl: this.props.user.pictureUrl
+                }
+
+                this.props.updateUser(localStorage.getItem('username'), updateValues, () => {
+                    this.props.fetchUser(localStorage.getItem('username'));
+                    this.setState({
+                        isUpdatingProfile: false
+                    })
+                    notification.success({
+                        message: "Successful 👏🏼",
+                        description: "User profile has been updated 👨🏻‍💻"
+                    });
+                });
+            }
+        })
+    }
+
+    handleChangePassword = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields(['old', 'new', 'confirm'], (err, values) => {
+            if (!err) {
+
+            }
+        })
+    }
+
+    handleConfirmBlur = (e) => {
+        const value = e.target.value;
+        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
     // Check to see if the entered username already exists
@@ -70,6 +128,30 @@ class Account extends Component {
             })
     }
 
+    getZipcodeExtra() {
+        if (this.state.newGrowZone) {
+            return `Your new grow zone will be: ${this.state.newGrowZone}`;
+        } else {
+            return `Your current grow zone is: ${this.state.currentGrowZone ? this.state.currentGrowZone : '...loading'}`
+        }
+    }
+
+    getLocationFromZipcode(zipCode) {
+        googleMapsClient.geocode({ address: zipCode })
+            .asPromise()
+            .then((response) => {
+                console.log(response.json.results[0].formatted_address)
+                this.setState({
+                    location: response.json.results[0].formatted_address
+                })
+            })
+            .catch((err) => {
+                this.setState({
+                    location: null
+                })
+            });
+    }
+
     validateGrowZone(rule, value, callback) {
         if (value && value.length === 5) {
             axios.get(`${rootUrl}/zone/zip/${value}`)
@@ -100,6 +182,23 @@ class Account extends Component {
         }
     }
 
+    compareToFirstPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('new')) {
+            callback('Two passwords that you enter are inconsistent!');
+        } else {
+            callback();
+        }
+    }
+
+    validateToNextPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && this.state.confirmDirty) {
+            form.validateFields(['confirm'], { force: true });
+        }
+        callback();
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const validateUsername = _.debounce((rule, value, callback) => { this.checkUniqueUsername(rule, value, callback) }, 500, {
@@ -111,27 +210,42 @@ class Account extends Component {
             <div>
                 <Divider>Account Information</Divider>
                 <Row gutter={{ xs: 0, sm: 16, md: 24, lg: 48 }}>
-                    <Col xs={24} sm={24} md={9} lg={9} xl={9} span={9} className="account-left-column">
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10} span={10} className="account-left-column">
                         <Card
                             // loading={this.state.loading}
-                            hoverable
-                            style={{ maxWidth: 250 }}
+                            // hoverable
+                            style={{ maxWidth: 280 }}
                             cover={<img alt="example" src={this.props.user.pictureUrl} />}
+                            actions={[
+                                <Upload
+                                    type="file"
+                                    accept="image/*"
+                                    multiple={false}
+                                >
+                                    {/* <Button size="large" style={{ maxWidth: 280 }}> */}
+                                    <Icon type="upload" /> Change profile picture
+                                    {/* </Button> */}
+                                </Upload>
+                            ]}
                         >
                             <Meta
                                 title={this.props.user.name}
-                                description={this.props.user.username}
+                                description={this.state.location ? this.state.location : <Spin size="small"></Spin>}
+                                style={{ textAlign: "center" }}
                             />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={15} lg={15} xl={15} span={15} className="account-right-column">
+                    <Col xs={24} sm={24} md={14} lg={14} xl={14} span={14} className="account-right-column">
                         <Form
                             layout="vertical"
                             style={{ maxWidth: "425px", minWidth: "300px" }}
-                            onSubmit={this.handleSubmit}
+                            hideRequiredMark
                         >
+                            <h2>User profile</h2>
+                            <Divider />
                             <FormItem
                                 label="Username"
+                                extra="You can't change your username at this moment."
                             >
                                 {getFieldDecorator('username', {
                                     initialValue: this.props.user.username,
@@ -164,6 +278,7 @@ class Account extends Component {
                             </FormItem>
                             <FormItem
                                 label="Phone Number"
+                                extra="You can't change your phone number at this moment."
                             >
                                 {getFieldDecorator('phone', {
                                     initialValue: this.props.user.phone,
@@ -173,12 +288,13 @@ class Account extends Component {
                                         validator: this.validatePhoneNumber
                                     }],
                                 })(
-                                    <Input addonBefore="+1" size="large" disabled/>
+                                    <Input addonBefore="+1" size="large" disabled />
                                 )}
                             </FormItem>
                             <FormItem
                                 label="Zip Code"
                                 hasFeedback
+                                extra={this.getZipcodeExtra()}
                             >
                                 {getFieldDecorator('zipCode', {
                                     initialValue: this.props.user.zipCode,
@@ -191,23 +307,75 @@ class Account extends Component {
                                     <Input size="large" />
                                 )}
                             </FormItem>
-                            <div className="growzone-text">
-                                {
-                                    this.state.newGrowZone
-                                    &&
-                                    <h4>Your New Grow Zone Will Be: {this.state.newGrowZone}</h4>
-                                }
-                                {
-                                    !this.state.newGrowZone
-                                    &&
-                                    <h4>Your Current Grow Zone Is: {this.state.currentGrowZone ? this.state.currentGrowZone : <Spin size="small" />}</h4>
-                                }
-                            </div>
-                            <br></br>
                             <FormItem>
-                                <Button size="large" type="primary">Update</Button>
+                                <Button
+                                    size="large"
+                                    type="primary"
+                                    onClick={this.handleUpdateProfile}
+                                    loading={this.state.isUpdatingProfile}
+                                >Update profile</Button>
                             </FormItem>
+                            <br></br>
+                            <h2>Change password</h2>
                             <Divider />
+                            <FormItem
+                                label="Old password"
+                            >
+                                {getFieldDecorator('old', {
+                                    rules: [{
+                                        required: true, message: 'Please input your old password!',
+                                    }, {
+                                        whitespace: true, message: 'Please don\'t include whitespaces!'
+                                    }],
+                                })(
+                                    <Input size="large" type="password" placeholder="Old password" />
+                                )}
+                            </FormItem>
+                            <FormItem
+                                label="New password"
+                            >
+                                {getFieldDecorator('new', {
+                                    rules: [{
+                                        required: true, message: 'Please input your new password!',
+                                    }, {
+                                        validator: this.validateToNextPassword,
+                                    }, {
+                                        whitespace: true, message: 'Please don\'t include whitespaces!'
+                                    }],
+                                })(
+                                    <Input size="large" type="password" placeholder="New password" />
+                                )}
+                            </FormItem>
+                            <FormItem
+                                label="Confirm new password"
+                                hasFeedback
+                            >
+                                {getFieldDecorator('confirm', {
+                                    rules: [{
+                                        required: true, message: 'Please confirm your password!',
+                                    }, {
+                                        validator: this.compareToFirstPassword,
+                                    }, {
+                                        whitespace: true, message: 'Please don\'t include whitespaces!'
+                                    }],
+                                })(
+                                    <Input size="large" onBlur={this.handleConfirmBlur} type="password" placeholder="Confirm new password" />
+                                )}
+                            </FormItem>
+                            <FormItem>
+                                <Button
+                                    size="large"
+                                    type="primary"
+                                    onClick={this.handleChangePassword}
+                                >Update password</Button>
+                            </FormItem>
+                            <br></br>
+                            <h2 style={{ color: "red" }}>Delete account</h2>
+                            <Divider />
+                            <p>Once you delete your account, all information will be deleted and there's no going back. Please be certain!</p>
+                            <FormItem>
+                                <Button size="large" type="danger">Delete your account</Button>
+                            </FormItem>
                         </Form>
                     </Col>
                 </Row>
@@ -222,6 +390,10 @@ function mapStateToProps(state) {
     };
 }
 
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fetchUser, updateUser }, dispatch);
+}
+
 const WrappedAccountForm = Form.create()(Account)
 
-export default connect(mapStateToProps)(WrappedAccountForm);
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedAccountForm);

@@ -12,6 +12,8 @@ export const mainRoutes = {
 export const actionTypes = {
     // User Action
     FETCH_USER: 'fetch_user',
+    UPDATE_USER: 'update_user',
+    DELETE_USER: 'delete_user',
     REGISTER: 'register',
     AUTHENTICATE: 'authenticate',
     LOGOUT: 'logout',

@@ -4,12 +4,26 @@
     align-items: flex-end;
 }
 
+.account-left-column .ant-upload {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.account-left-column .ant-upload:hover {
+    color: #1890ff;
+}
+
 .account-right-column .ant-form-item-label {
-    font-weight: 600 !important;
+    font-weight: 500 !important;
 }
 
 .account-right-column .ant-form-item {
     margin-bottom: 8px;
+}
+
+.account-right-column .ant-divider-horizontal {
+    margin-top: 0px;
+    margin-bottom: 12px;
 }
 
 @media (max-width: 767px) {
