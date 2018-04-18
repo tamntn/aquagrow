@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect, withRouter } from 'react-router-dom';
-import { Form, Card, Steps, Button, Icon, Input, Upload, message } from 'antd';
+import { Form, Card, Steps, Button, Icon, Input, Upload, message, notification } from 'antd';
 import axios from 'axios';
 import BackgroundImage from '../components/BackgroundImage.jsx';
 import { logout, fetchUser } from '../actions/action_user';
@@ -12,10 +12,15 @@ const { rootUrl } = apiRoutes;
 const Step = Steps.Step;
 const FormItem = Form.Item;
 
-// Setup Alert Message Configuration
 message.config({
     top: window.innerHeight * 10 / 100,
     duration: 5,
+});
+
+notification.config({
+    placement: 'bottomRight',
+    bottom: 24,
+    duration: 20,
 });
 
 class Welcome extends Component {
@@ -116,7 +121,10 @@ class Welcome extends Component {
             })
         }).then((res) => {
             // And create a new system and push that system into the user
-            message.success('User information has successfully updated 🎉');
+            notification.success({
+                message: 'User info successfully updated 🎉',
+                description: 'You can view and edit your profile in Account Information section'
+            });
             return axios.post(`${rootUrl}/system`, {
                 username: localStorage.getItem('username'),
                 systemName: this.state.systemName
@@ -124,7 +132,10 @@ class Welcome extends Component {
         }).then((res) => {
             // Wait a second for better user experience
             setTimeout(() => {
-                message.success('New system has been initiated 🐟☘️');
+                notification.success({
+                    message: 'System has been initiated 🐟☘️',
+                    description: "With AquaGrow, you can monitor and control your aquaponics system from anywhere!"
+                });
                 this.setState({
                     submitting: false,
                 });
