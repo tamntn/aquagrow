@@ -278,7 +278,7 @@ class AppLayout extends Component {
                             </div>
                         </div>
                     </Header>
-                    <Content style={{ margin: '24px 24px', padding: '24px 24px', background: 'rgb(255,255,255,0.9)', minHeight: 280, overflow: 'initial' }}>
+                    <Content className="inner-content-container">
                         <AppContent location={this.props.history.location.pathname} />
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
