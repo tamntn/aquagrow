@@ -1,3 +1,9 @@
+/*
+** TODO:
+** - Edit Reminder Setting
+** - Sort/Filter Table Column
+*/
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -19,7 +25,8 @@ import {
     Input,
     DatePicker,
     TimePicker,
-    Select
+    Select,
+    notification
 } from 'antd';
 import { fetchReminders, deleteReminder, clearReminders } from '../../actions/action_reminder.js';
 import { fetchReminderSetting, createReminderSetting, deleteReminderSetting } from '../../actions/action_reminderSetting.js';
@@ -29,6 +36,12 @@ const { Column, ColumnGroup } = Table;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
+
+notification.config({
+    placement: 'topRight',
+    top: 72,
+    duration: 7,
+});
 
 class Reminders extends Component {
     constructor(props) {
@@ -126,8 +139,13 @@ class Reminders extends Component {
                 this.setState({
                     modalVisible: false
                 })
+                notification.success({
+                    message: "Successful 👏🏼",
+                    description: `Your reminder for ${moment(values.time).format("hh:mm a")} will be sent ${values.repeat.toLowerCase()}, starting on ${moment(values.date).format("MMM Do")} ⏰`
+                })
             }
         })
+        this.props.form.resetFields();
     }
 
     render() {
@@ -263,7 +281,7 @@ class Reminders extends Component {
                                                 <TimePicker
                                                     style={{ width: "100%" }}
                                                     placeholder="Select time"
-                                                    minuteStep={5}
+                                                    defaultOpenValue={moment("00:00 am", "hh:mm a")}
                                                     format="hh:mm a"
                                                     size="large"
                                                 />
