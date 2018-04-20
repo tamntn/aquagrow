@@ -25,6 +25,11 @@ export const actionTypes = {
     FETCH_REMINDERS: 'fetch_reminders',
     DELETE_REMINDER: 'delete_reminder',
     CLEAR_REMINDERS: 'clear_reminders',
+    // Reminder Setting Action
+    FETCH_REMINDER_SETTING: 'fetch_reminderSetting',
+    CREATE_REMINDER_SETTING: 'create_reminderSetting',
+    DELETE_REMINDER_SETTING: 'delete_reminderSetting',
+    CLEAR_REMINDER_SETTING: 'clear_reminderSetting',
     // Message Action
     FETCH_MESSAGES: 'fetch_messages',
     DELETE_MESSAGE: 'delete_message',

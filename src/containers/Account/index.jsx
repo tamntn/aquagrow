@@ -10,14 +10,15 @@ import './Account.css';
 const { rootUrl } = apiRoutes;
 const FormItem = Form.Item;
 const { Meta } = Card;
+
 const googleMapsClient = require('@google/maps').createClient({
     key: 'AIzaSyBK7k74kf-aG3TQhvXxckv2YAbVIoVhpbY',
     Promise: Promise
 });
 
 notification.config({
-    placement: 'bottomRight',
-    bottom: 24,
+    placement: 'topRight',
+    top: 72,
     duration: 5,
 });
 
@@ -202,14 +203,12 @@ class Account extends Component {
     }
 
     showModal() {
-        console.log("Show modal");
         this.setState({
             modalVisible: true
         })
     }
 
     handleModalCancel() {
-        console.log("Can modal");
         this.setState({
             modalVisible: false
         })
@@ -404,7 +403,6 @@ class Account extends Component {
                             </FormItem>
                             <br></br>
                             <h2 style={{ color: "red" }}>Delete account</h2>
-                            {/* TODO: Implement Delete Account Feature */}
                             <Divider />
                             <p>Once you delete your account, all information will be deleted and there's no going back. Please be certain!</p>
                             <FormItem>
@@ -440,7 +438,7 @@ class Account extends Component {
                         </Form>
                     </Col>
                 </Row>
-            </div >
+            </div>
         )
     }
 }
