@@ -20,7 +20,7 @@ message.config({
 notification.config({
     placement: 'topRight',
     top: 72,
-    duration: 20,
+    duration: 7,
 });
 
 class Welcome extends Component {
