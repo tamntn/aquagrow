@@ -41,6 +41,13 @@
     height: 16px;
     line-height: 1;
     font-size: 22px;
+    color: #1890ff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.slider-wrapper .anticon:hover {
+    color: #40a9ff;
 }
 
 .slider-wrapper .anticon:first-child {

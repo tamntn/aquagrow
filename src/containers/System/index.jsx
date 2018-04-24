@@ -13,13 +13,20 @@ import {
     Slider,
     Button,
     Icon,
-    InputNumber
+    InputNumber,
+    notification
 } from 'antd';
 import { fetchSystemStatus, updateSystemStatus } from '../../actions/action_system.js';
 import growLightLogo from '../../images/png/growLight.png';
 import waterPumpLogo from '../../images/png/waterPump.png';
 import heatingMatLogo from '../../images/png/heatingMat.png';
 import './System.css';
+
+notification.config({
+    placement: 'topRight',
+    top: 72,
+    duration: 7,
+});
 
 class System extends Component {
     constructor(props) {
@@ -69,6 +76,7 @@ class System extends Component {
 
         const currentUser = localStorage.getItem('username');
         const growLight = !this.props.system.growLight;
+        const notificationMessage = growLight ? 'Your grow light has been turned on! 💡' : 'Your grow light has been turned off!'
         const updateValues = {
             growLight
         }
@@ -77,6 +85,10 @@ class System extends Component {
             this.props.fetchSystemStatus(currentUser);
             this.setState({
                 loadingLightSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: notificationMessage
             })
         })
     }
@@ -88,6 +100,7 @@ class System extends Component {
 
         const currentUser = localStorage.getItem('username');
         const waterPump = this.props.system.waterPump === 255 ? this.convertPercentToIntensityValue(this.state.pumpIntensityPercent) : 255;
+        const notificationMessage = waterPump === 255 ? `Your water pump has been turned off!` : 'Your water pump has been turned on! 💧'
         const updateValues = {
             waterPump
         }
@@ -96,6 +109,10 @@ class System extends Component {
             this.props.fetchSystemStatus(currentUser);
             this.setState({
                 loadingPumpSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: notificationMessage
             })
         })
     }
@@ -107,6 +124,7 @@ class System extends Component {
 
         const currentUser = localStorage.getItem('username');
         const phPumpLow = !this.props.system.phPumpLow;
+        const notificationMessage = phPumpLow ? `Your acidic pH pump has been turned on! 🔻` : 'Your acidic pH pump has been turned off!'
         const updateValues = {
             phPumpLow
         }
@@ -115,6 +133,10 @@ class System extends Component {
             this.props.fetchSystemStatus(currentUser);
             this.setState({
                 loadingAcidSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: notificationMessage
             })
         })
     }
@@ -126,6 +148,7 @@ class System extends Component {
 
         const currentUser = localStorage.getItem('username');
         const phPumpHigh = !this.props.system.phPumpHigh;
+        const notificationMessage = phPumpHigh ? `Your alkaline pH pump has been turned on! 🔺` : 'Your alkaline pH pump has been turned off!'
         const updateValues = {
             phPumpHigh
         }
@@ -134,6 +157,10 @@ class System extends Component {
             this.props.fetchSystemStatus(currentUser);
             this.setState({
                 loadingBaseSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: notificationMessage
             })
         })
     }
@@ -145,6 +172,7 @@ class System extends Component {
 
         const currentUser = localStorage.getItem('username');
         const heatingMat = !this.props.system.heatingMat;
+        const notificationMessage = heatingMat ? `Your heating mat has been turned on! 🔥` : 'Your heating mat has been turned off!'
         const updateValues = {
             heatingMat
         }
@@ -154,10 +182,19 @@ class System extends Component {
             this.setState({
                 loadingMatSwitch: false
             })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: notificationMessage
+            })
         })
     }
 
     handlePumpPercentageChange = (pumpIntensityPercent) => {
+        this.setState({ pumpIntensityPercent });
+    }
+
+    handlePumpPercentageIncrement = (incrementValue) => {
+        const pumpIntensityPercent = this.state.pumpIntensityPercent + incrementValue;
         this.setState({ pumpIntensityPercent });
     }
 
@@ -169,6 +206,7 @@ class System extends Component {
         const currentUser = localStorage.getItem('username');
         const waterPumpSetIntensity = this.convertPercentToIntensityValue(this.state.pumpIntensityPercent);
         const waterPump = this.props.system.waterPump === 255 ? 255 : waterPumpSetIntensity;
+        const notificationMessage = `Your water pump will now run at ${this.state.pumpIntensityPercent}%!`
         const updateValues = {
             waterPump,
             waterPumpSetIntensity
@@ -178,6 +216,10 @@ class System extends Component {
             this.props.fetchSystemStatus(currentUser);
             this.setState({
                 updatingIntensityButton: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: notificationMessage
             })
         })
     }
@@ -234,7 +276,7 @@ class System extends Component {
                                         <div className="pump-intensity-container">
                                             <p>Adjust water pump intensity</p>
                                             <div className="slider-wrapper">
-                                                <Icon type="down-circle" />
+                                                <Icon onClick={() => this.handlePumpPercentageIncrement(-2)} type="down-circle" />
                                                 <Slider
                                                     min={0}
                                                     max={100}
@@ -242,7 +284,7 @@ class System extends Component {
                                                     onChange={this.handlePumpPercentageChange}
                                                     value={pumpIntensityPercent}
                                                     tipFormatter={null} />
-                                                <Icon type="up-circle" />
+                                                <Icon onClick={() => this.handlePumpPercentageIncrement(2)} type="up-circle" />
                                             </div>
                                             <InputNumber
                                                 min={0}
@@ -270,7 +312,7 @@ class System extends Component {
                             </List.Item>
                             {/* PH PUMP - ACID */}
                             <List.Item actions={[<Switch
-                                disabled
+                                // disabled
                                 loading={this.props.system ? this.state.loadingAcidSwitch : true}
                                 checked={this.props.system ? this.props.system.phPumpLow : false}
                                 onChange={this.handleAcidPumpSwitch} />
@@ -280,12 +322,12 @@ class System extends Component {
                                         size="large"
                                         style={{ fontWeight: "900", color: "#fa8c16", backgroundColor: "#fff" }}
                                     >H+</Avatar>}
-                                    title={"pH Pump [Acid - Lower]"}
+                                    title={"pH Pump [Acidic - Lower]"}
                                 />
                             </List.Item>
                             {/* PH PUMP - BASE */}
                             <List.Item actions={[<Switch
-                                disabled
+                                // disabled
                                 loading={this.props.system ? this.state.loadingBaseSwitch : true}
                                 checked={this.props.system ? this.props.system.phPumpHigh : false}
                                 onChange={this.handleBasePumpSwitch} />
@@ -295,7 +337,7 @@ class System extends Component {
                                         size="large"
                                         style={{ fontWeight: "900", color: "#722ed1", backgroundColor: "#fff" }}
                                     >OH-</Avatar>}
-                                    title={"pH Pump [Base - Higher]"}
+                                    title={"pH Pump [Alkaline - Higher]"}
                                 />
                             </List.Item>
                             {/* HEATING MAT */}
