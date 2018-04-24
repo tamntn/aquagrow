@@ -27,18 +27,36 @@ class System extends Component {
             loadingAcidSwitch: false,
             loadingBaseSwitch: false,
             loadingMatSwitch: false,
-            pumpIntensityValue: 1
+            pumpIntensityPercent: null,
+            updatingIntensityButton: false,
         }
         this.handleLightSwitch = this.handleLightSwitch.bind(this);
         this.handleWaterPumpSwitch = this.handleWaterPumpSwitch.bind(this);
         this.handleAcidPumpSwitch = this.handleAcidPumpSwitch.bind(this);
         this.handleBasePumpSwitch = this.handleBasePumpSwitch.bind(this);
         this.handleHeatingMatSwitch = this.handleHeatingMatSwitch.bind(this);
+        this.handleUpdatePumpIntensity = this.handleUpdatePumpIntensity.bind(this);
     }
 
     componentWillMount() {
         const currentUser = localStorage.getItem('username');
         this.props.fetchSystemStatus(currentUser);
+    }
+
+    componentDidUpdate() {
+        if (this.props.system && !this.state.pumpIntensityPercent) {
+            this.setState({
+                pumpIntensityPercent: this.convertIntensityValueToPercent(this.props.system.waterPumpSetIntensity)
+            })
+        }
+    }
+
+    convertPercentToIntensityValue(percent) {
+        return (125 - percent / 2);
+    }
+
+    convertIntensityValueToPercent(value) {
+        return (125 - value) * 2;
     }
 
     handleLightSwitch() {
@@ -66,7 +84,7 @@ class System extends Component {
         })
 
         const currentUser = localStorage.getItem('username');
-        const waterPump = this.props.system.waterPump === 255 ? 125 : 255;
+        const waterPump = this.props.system.waterPump === 255 ? this.convertPercentToIntensityValue(this.state.pumpIntensityPercent) : 255;
         const updateValues = {
             waterPump
         }
@@ -136,12 +154,33 @@ class System extends Component {
         })
     }
 
-    handleChange = (pumpIntensityValue) => {
-        this.setState({ pumpIntensityValue });
+    handlePumpPercentageChange = (pumpIntensityPercent) => {
+        this.setState({ pumpIntensityPercent });
+    }
+
+    handleUpdatePumpIntensity() {
+        this.setState({
+            updatingIntensityButton: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const waterPumpSetIntensity = this.convertPercentToIntensityValue(this.state.pumpIntensityPercent);
+        const waterPump = this.props.system.waterPump === 255 ? 255 : waterPumpSetIntensity;
+        const updateValues = {
+            waterPump,
+            waterPumpSetIntensity
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                updatingIntensityButton: false
+            })
+        })
     }
 
     render() {
-        const { pumpIntensityValue } = this.state;
+        const { pumpIntensityPercent } = this.state;
         return (
             <div>
                 <Divider>System Control</Divider>
@@ -179,57 +218,51 @@ class System extends Component {
                                         icon="close"
                                     />}
                                     title={"Water Pump"}
-                                // description={
-                                //     <div>
-                                //         <br></br>
-                                //         <p>Adjust pump's intensity:</p>
-                                //         <div className="slider-wrapper">
-                                //             <Icon type="down-circle" style={{ fontSize: "22px" }} />
-                                //             <Slider min={1} max={20} onChange={this.handleChange} value={pumpIntensityValue} />
-                                //             <Icon type="up-circle" style={{ fontSize: "22px" }} />
-                                //         </div>
-                                //         <InputNumber
-                                //             min={1}
-                                //             max={20}
-                                //             style={{ marginRight: "12px" }}
-                                //             value={pumpIntensityValue}
-                                //             onChange={this.handleChange}
-                                //         />
-                                //         <Button type="primary">Update pump's intensity</Button>
-                                //     </div>
-                                // }
                                 />
                             </List.Item>
                             {/* WATER PUMP INTENSITY */}
                             <List.Item>
                                 <List.Item.Meta
-                                    // avatar={<Avatar
-                                    //     style={{ fontWeight: "900" }}
-                                    //     icon="close"
-                                    // />}
-                                    // title={"Water Pump Intensity"}
                                     description={
                                         <div className="pump-intensity-container">
-                                            <p>Adjust pump's intensity:</p>
+                                            <p>Adjust water pump intensity</p>
                                             <div className="slider-wrapper">
                                                 <Icon type="down-circle" />
-                                                <Slider min={1} max={20} onChange={this.handleChange} value={pumpIntensityValue} />
+                                                <Slider
+                                                    min={0}
+                                                    max={100}
+                                                    step={2}
+                                                    onChange={this.handlePumpPercentageChange}
+                                                    value={pumpIntensityPercent}
+                                                    tipFormatter={null} />
                                                 <Icon type="up-circle" />
                                             </div>
                                             <InputNumber
-                                                min={1}
-                                                max={20}
+                                                min={0}
+                                                max={100}
                                                 style={{ marginRight: "12px" }}
-                                                value={pumpIntensityValue}
-                                                onChange={this.handleChange}
+                                                formatter={value => {
+                                                    if (value) {
+                                                        return `${value} %`;
+                                                    } else {
+                                                        return "Loading..."
+                                                    }
+                                                }}
+                                                value={pumpIntensityPercent}
+                                                onChange={this.handlePumpPercentageChange}
                                             />
-                                            <Button type="primary">Update</Button>
+                                            <Button
+                                                loading={this.state.updatingIntensityButton}
+                                                onClick={this.handleUpdatePumpIntensity}
+                                                type="primary"
+                                            >Update</Button>
                                         </div>
                                     }
                                 />
                             </List.Item>
                             {/* PH PUMP - ACID */}
                             <List.Item actions={[<Switch
+                                disabled
                                 loading={this.props.system ? this.state.loadingAcidSwitch : true}
                                 checked={this.props.system ? this.props.system.phPumpLow : false}
                                 onChange={this.handleAcidPumpSwitch} />
@@ -244,6 +277,7 @@ class System extends Component {
                             </List.Item>
                             {/* PH PUMP - BASE */}
                             <List.Item actions={[<Switch
+                                disabled
                                 loading={this.props.system ? this.state.loadingBaseSwitch : true}
                                 checked={this.props.system ? this.props.system.phPumpHigh : false}
                                 onChange={this.handleBasePumpSwitch} />
