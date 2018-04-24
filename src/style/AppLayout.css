@@ -99,6 +99,15 @@
     margin-right: 8px;
 }
 
+.footer-avatar-wrapper .ant-avatar {
+    margin-right: 6px;
+    margin-left: 6px;
+}
+
+.footer-avatar-popover .ant-popover-inner-content {
+    padding: 0;
+}
+
 /* Media Queries for tablets */
 
 @media (max-width: 576px) {
