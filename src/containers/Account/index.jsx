@@ -30,6 +30,7 @@ class Account extends Component {
             currentGrowZone: null,
             newGrowZone: null,
             isUpdatingProfile: false,
+            isChangingPassword: false,
             location: null,
             modalVisible: false,
             modalConfirmLoading: false,
@@ -85,7 +86,46 @@ class Account extends Component {
         e.preventDefault();
         this.props.form.validateFields(['old', 'new', 'confirm'], (err, values) => {
             if (!err) {
-
+                this.setState({
+                    isChangingPassword: true
+                })
+                const updateValues = {
+                    username: this.props.user.username,
+                    oldPassword: values.old,
+                    newPassword: values.new
+                }
+                axios.post(`${rootUrl}/password/update`, updateValues)
+                    .then((response) => {
+                        if (response.data.error) {
+                            notification.error({
+                                message: "Cannot change your wassword ☠️",
+                                description: "Your provided old password is not correct!"
+                            })
+                            this.setState({
+                                isChangingPassword: false
+                            })
+                            this.props.form.resetFields(['old', 'new', 'confirm']);
+                        } else {
+                            notification.success({
+                                message: "Successful 👏🏼",
+                                description: "Your password has been changed! 🔐"
+                            })
+                            this.setState({
+                                isChangingPassword: false
+                            })
+                            this.props.form.resetFields(['old', 'new', 'confirm']);
+                        }
+                    })
+                    .catch((err) => {
+                        notification.error({
+                            message: "Cannot change your wassword ☠️",
+                            description: "There's a problem with the server, please try again..."
+                        })
+                        this.setState({
+                            isChangingPassword: false
+                        })
+                        this.props.form.resetFields(['old', 'new', 'confirm']);
+                    })
             }
         })
     }
@@ -399,6 +439,7 @@ class Account extends Component {
                                     size="large"
                                     type="primary"
                                     onClick={this.handleChangePassword}
+                                    loading={this.state.isChangingPassword}
                                 >Update password</Button>
                             </FormItem>
                             <br></br>
