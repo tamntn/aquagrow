@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
-import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, message } from 'antd';
+import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, Card, message } from 'antd';
 import logo from '../images/logo/small_01.png';
 import HeaderNotifications from './Notification/HeaderNotifications.jsx';
 import AppContent from './AppContent.jsx';
 import '../style/AppLayout.css';
+import tamAvatar from '../images/about/tam.jpg';
+import sandipAvatar from '../images/about/sandip.jpg';
+import erikAvatar from '../images/about/erik.jpg';
 const { Header, Footer, Sider, Content } = Layout;
+const { Meta } = Card;
 
 // Setup Alert Message Configuration
 message.config({
@@ -330,10 +334,75 @@ class AppLayout extends Component {
                         <AppContent location={this.props.history.location.pathname} />
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
-                        AquaGrow ©2018
+                        <h4>AquaGrow ©2018</h4>
+                        <div className="footer-avatar-wrapper" >
+                            {/* Tam Nguyen */}
+                            <Popover
+                                popupClassName="footer-avatar-popover"
+                                placement="top"
+                                arrowPointAtCenter
+                                content={
+                                    <Card
+                                        style={{ maxWidth: 200 }}
+                                        cover={<img alt="example" src={tamAvatar} />}
+                                    >
+                                        <Meta
+                                            title="Tam Nguyen"
+                                            description="Software Developer"
+                                            style={{ textAlign: "center" }}
+                                        />
+                                    </Card>
+                                }>
+                                <Avatar
+                                    src={tamAvatar}
+                                ></Avatar>
+                            </Popover>
+                            {/* Erik Hodges */}
+                            <Popover
+                                popupClassName="footer-avatar-popover"
+                                placement="top"
+                                arrowPointAtCenter
+                                content={
+                                    <Card
+                                        style={{ maxWidth: 200 }}
+                                        cover={<img alt="example" src={erikAvatar} />}
+                                    >
+                                        <Meta
+                                            title="Erik Hodges"
+                                            description="Project Sponsor"
+                                            style={{ textAlign: "center" }}
+                                        />
+                                    </Card>
+                                }>
+                                <Avatar
+                                    src={erikAvatar}
+                                ></Avatar>
+                            </Popover>
+                            {/* Sandip Gautam */}
+                            <Popover
+                                popupClassName="footer-avatar-popover"
+                                placement="top"
+                                arrowPointAtCenter
+                                content={
+                                    <Card
+                                        style={{ maxWidth: 200 }}
+                                        cover={<img alt="example" src={sandipAvatar} />}
+                                    >
+                                        <Meta
+                                            title="Sandip Gautam"
+                                            description="Hardware Developer"
+                                            style={{ textAlign: "center" }}
+                                        />
+                                    </Card>
+                                }>
+                                <Avatar
+                                    src={sandipAvatar}
+                                ></Avatar>
+                            </Popover>
+                        </div>
                     </Footer>
                 </Layout>
-            </Layout >
+            </Layout>
         );
     }
 }
