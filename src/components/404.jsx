@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import '../style/404.css';
 
 const NotFound = () => (
-    <div class="dusk">
+    <div className="dusk">
         <Helmet>
             {/* <title>Page Not Found</title> */}
             {/* Latest compiled and Bootstrap minified CSS */}
@@ -14,55 +14,55 @@ const NotFound = () => (
             <link href='http://fonts.googleapis.com/css?family=Ultra' rel='stylesheet' type='text/css' />
             <link href='http://fonts.googleapis.com/css?family=Rochester' rel='stylesheet' type='text/css' />
         </Helmet>
-        <div class="col-md-12">
-            <div class="owl-background">
-                <div class="moon">
-                    <div class="left-number">4</div>
-                    <div class="right-number">4</div>
+        <div className="col-md-12">
+            <div className="owl-background">
+                <div className="moon">
+                    <div className="left-number">4</div>
+                    <div className="right-number">4</div>
                 </div>
-                <div class="owl">
-                    <div class="wing1"></div>
-                    <div class="wing2"></div>
-                    <div class="wing3"></div>
-                    <div class="wing4"></div>
-                    <div class="wing5"></div>
-                    <div class="wing6"></div>
-                    <div class="wing7"></div>
-                    <div class="wing8"></div>
-                    <div class="wing9"></div>
-                    <div class="wing10"></div>
-                    <div class="wing11"></div>
-                    <div class="wing12"></div>
-                    <div class="owl-head">
-                        <div class="ears"></div>
+                <div className="owl">
+                    <div className="wing1"></div>
+                    <div className="wing2"></div>
+                    <div className="wing3"></div>
+                    <div className="wing4"></div>
+                    <div className="wing5"></div>
+                    <div className="wing6"></div>
+                    <div className="wing7"></div>
+                    <div className="wing8"></div>
+                    <div className="wing9"></div>
+                    <div className="wing10"></div>
+                    <div className="wing11"></div>
+                    <div className="wing12"></div>
+                    <div className="owl-head">
+                        <div className="ears"></div>
                     </div>
-                    <div class="owl-body">
-                        <div class="owl-eyes">
-                            <div class="owleye">
-                                <div class="owleye inner"></div>
-                                <div class="owleye inner inner-2"></div>
-                                <div class="eyelid top"></div>
-                                <div class="eyelid bottom"></div>
+                    <div className="owl-body">
+                        <div className="owl-eyes">
+                            <div className="owleye">
+                                <div className="owleye inner"></div>
+                                <div className="owleye inner inner-2"></div>
+                                <div className="eyelid top"></div>
+                                <div className="eyelid bottom"></div>
                             </div>
-                            <div class="owleye">
-                                <div class="owleye inner"></div>
-                                <div class="owleye inner inner-2"></div>
-                                <div class="eyelid top"></div>
-                                <div class="eyelid bottom"></div>
+                            <div className="owleye">
+                                <div className="owleye inner"></div>
+                                <div className="owleye inner inner-2"></div>
+                                <div className="eyelid top"></div>
+                                <div className="eyelid bottom"></div>
                             </div>
-                            <div class="nose"></div>
+                            <div className="nose"></div>
                         </div>
-                        <div class="feet">
-                            <div class="foot1"></div>
-                            <div class="foot2"></div>
+                        <div className="feet">
+                            <div className="foot1"></div>
+                            <div className="foot2"></div>
                         </div>
                     </div>
-                    <div class="branch"></div>
+                    <div className="branch"></div>
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="message">
+        <div className="col-md-12">
+            <div className="message">
                 <h2>You're lost in the dark!</h2>
                 <p>The page you're looking for does not exist</p>
                 <p>Back to <Link to="/">Homepage</Link></p>
