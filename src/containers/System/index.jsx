@@ -76,7 +76,7 @@ class System extends Component {
 
         const currentUser = localStorage.getItem('username');
         const growLight = !this.props.system.growLight;
-        const notificationMessage = growLight ? 'Your grow light has been turned on! 💡' : 'Your grow light has been turned off!'
+        const notificationMessage = growLight ? 'Your grow light has been turned on! 🌞' : 'Your grow light has been turned off!'
         const updateValues = {
             growLight
         }
@@ -274,7 +274,7 @@ class System extends Component {
                                 <List.Item.Meta
                                     description={
                                         <div className="pump-intensity-container">
-                                            <p>Adjust water pump intensity</p>
+                                            <p>Adjust water pump intensity (20 - 50% recommended)</p>
                                             <div className="slider-wrapper">
                                                 <Icon onClick={() => this.handlePumpPercentageIncrement(-2)} type="down-circle" />
                                                 <Slider
