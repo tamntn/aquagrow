@@ -16,6 +16,9 @@ import {
     InputNumber
 } from 'antd';
 import { fetchSystemStatus, updateSystemStatus } from '../../actions/action_system.js';
+import growLightLogo from '../../images/png/growLight.png';
+import waterPumpLogo from '../../images/png/waterPump.png';
+import heatingMatLogo from '../../images/png/heatingMat.png';
 import './System.css';
 
 class System extends Component {
@@ -200,6 +203,8 @@ class System extends Component {
                             ]}>
                                 <List.Item.Meta
                                     avatar={<Avatar
+                                        size="large"
+                                        src={growLightLogo}
                                         style={{ fontWeight: "900" }}
                                         icon="close"
                                     />}
@@ -214,6 +219,8 @@ class System extends Component {
                             ]}>
                                 <List.Item.Meta
                                     avatar={<Avatar
+                                        size="large"
+                                        src={waterPumpLogo}
                                         style={{ fontWeight: "900" }}
                                         icon="close"
                                     />}
@@ -240,6 +247,7 @@ class System extends Component {
                                             <InputNumber
                                                 min={0}
                                                 max={100}
+                                                step={2}
                                                 style={{ marginRight: "12px" }}
                                                 formatter={value => {
                                                     if (value) {
@@ -269,9 +277,9 @@ class System extends Component {
                             ]}>
                                 <List.Item.Meta
                                     avatar={<Avatar
-                                        style={{ fontWeight: "900" }}
-                                        icon="close"
-                                    />}
+                                        size="large"
+                                        style={{ fontWeight: "900", color: "#fa8c16", backgroundColor: "#fff" }}
+                                    >H+</Avatar>}
                                     title={"pH Pump [Acid - Lower]"}
                                 />
                             </List.Item>
@@ -284,9 +292,9 @@ class System extends Component {
                             ]}>
                                 <List.Item.Meta
                                     avatar={<Avatar
-                                        style={{ fontWeight: "900" }}
-                                        icon="close"
-                                    />}
+                                        size="large"
+                                        style={{ fontWeight: "900", color: "#722ed1", backgroundColor: "#fff" }}
+                                    >OH-</Avatar>}
                                     title={"pH Pump [Base - Higher]"}
                                 />
                             </List.Item>
@@ -298,8 +306,9 @@ class System extends Component {
                             ]}>
                                 <List.Item.Meta
                                     avatar={<Avatar
+                                        size="large"
+                                        src={heatingMatLogo}
                                         style={{ fontWeight: "900" }}
-                                        icon="close"
                                     />}
                                     title={"Heating Mat"}
                                 />
