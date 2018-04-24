@@ -17,6 +17,9 @@ export const actionTypes = {
     REGISTER: 'register',
     AUTHENTICATE: 'authenticate',
     LOGOUT: 'logout',
+    // System Status Action
+    FETCH_SYSTEM_STATUS: 'fetch_system_status',
+    UPDATE_SYSTEM_STATUS: 'update_system_status',
     // Notification Action
     FETCH_NOTIFICATIONS: 'fetch_notifications',
     DELETE_NOTIFICATION: 'delete_notification',
