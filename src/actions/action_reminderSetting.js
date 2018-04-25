@@ -28,9 +28,28 @@ export async function createReminderSetting(username, newReminderSetting) {
     }
 }
 
+// UPDATE A REMINDER SETTING
+export async function updateReminderSetting(username, reminderSettingId, updateValues) {
+    const updateUrl = `${rootUrl}/reminderSetting/${reminderSettingId}`;
+    const getUrl = `${rootUrl}/reminderSetting/${username}`;
+    let payload = [];
+
+    await axios.put(updateUrl, updateValues)
+        .then(() => {
+            payload = axios.get(getUrl)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+    return {
+        type: actionTypes.UPDATE_REMINDER_SETTING,
+        payload: payload
+    }
+}
+
 // DELETE A REMINDER SETTING
 export async function deleteReminderSetting(username, reminderSettingId) {
-    console.log(username, reminderSettingId);
     const deleteUrl = `${rootUrl}/reminderSetting/${reminderSettingId}`;
     const getUrl = `${rootUrl}/reminderSetting/${username}`;
     let payload = [];

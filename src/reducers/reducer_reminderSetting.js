@@ -6,6 +6,8 @@ export default function (reminderSetting = [], action) {
             return action.payload.data.data;
         case actionTypes.CREATE_REMINDER_SETTING:
             return action.payload.data.data;
+        case actionTypes.UPDATE_REMINDER_SETTING:
+            return action.payload.data.data;
         case actionTypes.DELETE_REMINDER_SETTING:
             return action.payload.data.data;
         default:

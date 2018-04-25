@@ -29,7 +29,7 @@ import {
     notification
 } from 'antd';
 import { fetchReminders, deleteReminder, clearReminders } from '../../actions/action_reminder.js';
-import { fetchReminderSetting, createReminderSetting, deleteReminderSetting } from '../../actions/action_reminderSetting.js';
+import { fetchReminderSetting, createReminderSetting, updateReminderSetting, deleteReminderSetting } from '../../actions/action_reminderSetting.js';
 import { fetchUser } from '../../actions/action_user';
 import './Reminder.css';
 const { Column, ColumnGroup } = Table;
@@ -49,14 +49,18 @@ class Reminders extends Component {
         this.state = {
             loadingReminders: true,
             loadingReminderSettings: true,
-            modalVisible: false
+            addModalVisible: false,
+            editModalVisible: false,
+            reminderSettingToBeEdited: null
         }
         this.onClearAllRemindersClick = this.onClearAllRemindersClick.bind(this);
         this.onDeleteReminderClick = this.onDeleteReminderClick.bind(this);
-        this.onDeleteReminderSettingClick = this.onDeleteReminderSettingClick.bind(this);
-        this.showModal = this.showModal.bind(this);
+        this.onDeleteReminderSetting = this.onDeleteReminderSetting.bind(this);
+        this.showAddModal = this.showAddModal.bind(this);
+        this.showEditModal = this.showEditModal.bind(this);
         this.cancelModal = this.cancelModal.bind(this);
         this.handleAddNewReminder = this.handleAddNewReminder.bind(this);
+        this.handleUpdateReminderSetting = this.handleUpdateReminderSetting.bind(this);
     }
 
     componentWillMount() {
@@ -93,22 +97,31 @@ class Reminders extends Component {
         });
     }
 
-    onDeleteReminderSettingClick(key) {
+    onDeleteReminderSetting(key) {
         this.setState({
             loadingReminderSettings: true
         })
         this.props.deleteReminderSetting(localStorage.getItem('username'), key);
     }
 
-    showModal() {
+    showEditModal(record) {
         this.setState({
-            modalVisible: true
+            editModalVisible: true,
+            reminderSettingToBeEdited: record
+        })
+    }
+
+    showAddModal() {
+        this.setState({
+            addModalVisible: true
         })
     }
 
     cancelModal() {
         this.setState({
-            modalVisible: false
+            addModalVisible: false,
+            editModalVisible: false,
+            reminderSettingToBeEdited: null
         })
     }
 
@@ -137,13 +150,39 @@ class Reminders extends Component {
 
                 this.props.createReminderSetting(localStorage.getItem('username'), newReminder);
                 this.setState({
-                    modalVisible: false
+                    addModalVisible: false
                 })
                 notification.success({
                     message: "Successful 👏🏼",
                     description: `Your reminder for ${moment(values.time).format("hh:mm a")} will be sent ${values.repeat.toLowerCase()}, starting on ${moment(values.date).format("MMM Do")} ⏰`
                 })
             }
+        })
+        this.props.form.resetFields();
+    }
+
+    handleUpdateReminderSetting() {
+        this.props.form.validateFields(['editTime', 'editDate', 'editTimezone', 'editRepeat', 'editMessage'], (err, values) => {
+            this.setState({
+                loadingReminderSettings: true
+            })
+            const time = `${moment(values.editDate).format("MM-DD-YYYY")} ${moment(values.editTime).format("hh:mm a")}`;
+            const updateValues = {
+                message: values.editMessage,
+                timeZone: values.editTimezone,
+                time: time,
+                repeat: values.editRepeat === "No" ? false : true,
+                repeatDuration: values.editRepeat === "No" ? null : values.editRepeat
+            }
+
+            this.props.updateReminderSetting(localStorage.getItem('username'), this.state.reminderSettingToBeEdited._id, updateValues);
+            this.setState({
+                editModalVisible: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: "Your reminder setting has been updated! ⏰"
+            })
         })
         this.props.form.resetFields();
     }
@@ -238,9 +277,9 @@ class Reminders extends Component {
                                 key="action"
                                 render={(text, record) => (
                                     <span>
-                                        <a><Icon type="edit" /></a>
+                                        <a onClick={() => this.showEditModal(record)} ><Icon type="edit" /></a>
                                         <Divider type="vertical" />
-                                        <a onClick={() => this.onDeleteReminderSettingClick(record._id)}><Icon type="close-circle-o" /></a>
+                                        <a onClick={() => this.onDeleteReminderSetting(record._id)}><Icon type="close-circle-o" /></a>
                                     </span>
                                 )}
                             />
@@ -249,7 +288,8 @@ class Reminders extends Component {
                             <Button
                                 size="large"
                                 type="primary"
-                                onClick={this.showModal}
+                                onClick={this.showAddModal
+                                }
                             >
                                 Add a new reminder
                             </Button>
@@ -258,7 +298,7 @@ class Reminders extends Component {
                             title="Add a new reminder"
                             okText="Add new reminder"
                             okType="primary"
-                            visible={this.state.modalVisible}
+                            visible={this.state.addModalVisible}
                             onOk={this.handleAddNewReminder}
                             confirmLoading={this.state.modalConfirmLoading}
                             onCancel={this.cancelModal}
@@ -358,6 +398,114 @@ class Reminders extends Component {
                                 </FormItem>
                             </Form>
                         </Modal>
+                        <Modal
+                            title="Edit your reminder"
+                            okText="Save"
+                            okType="primary"
+                            visible={this.state.editModalVisible}
+                            onOk={this.handleUpdateReminderSetting}
+                            onCancel={this.cancelModal}
+                        >
+                            <Form
+                                layout="vertical"
+                                hideRequiredMark
+                            >
+                                <Row gutter={24}>
+                                    <Col xs={24} sm={12} md={12} lg={12} xl={12} span={12}>
+                                        <FormItem
+                                            hasFeedback
+                                            label="Reminder time"
+                                        >
+                                            {getFieldDecorator('editTime', {
+                                                initialValue: this.state.reminderSettingToBeEdited ? moment(this.state.reminderSettingToBeEdited.time) : null,
+                                                rules: [{
+                                                    required: true, message: 'Please select reminder time!',
+                                                }]
+                                            })(
+                                                <TimePicker
+                                                    style={{ width: "100%" }}
+                                                    placeholder="Select time"
+                                                    defaultOpenValue={moment("00:00 am", "hh:mm a")}
+                                                    format="hh:mm a"
+                                                    size="large"
+                                                />
+                                            )}
+                                        </FormItem>
+                                    </Col>
+                                    <Col xs={24} sm={12} md={12} lg={12} xl={12} span={12}>
+                                        <FormItem
+                                            hasFeedback
+                                            label="Reminder date"
+                                        >
+                                            {getFieldDecorator('editDate', {
+                                                initialValue: this.state.reminderSettingToBeEdited ? moment(this.state.reminderSettingToBeEdited.time) : null,
+                                                rules: [{
+                                                    required: true, message: 'Please select reminder date!',
+                                                }]
+                                            })(
+                                                <DatePicker
+                                                    style={{ width: "100%" }}
+                                                    disabledDate={this.disabledDate}
+                                                    allowClear
+                                                    placeholder="Select date"
+                                                    format="MM-DD-YYYY"
+                                                    size="large"
+                                                />
+                                            )}
+                                        </FormItem>
+                                    </Col>
+                                </Row>
+                                <FormItem
+                                    hasFeedback
+                                    label="Timezone"
+                                >
+                                    {getFieldDecorator('editTimezone', {
+                                        initialValue: this.state.reminderSettingToBeEdited ? this.state.reminderSettingToBeEdited.timeZone : "Loading",
+                                        rules: [{
+                                            required: true, message: 'Please pick your timezone!',
+                                        }]
+                                    })(
+                                        <Select size="large" placeholder="Select your timezone">
+                                            <Option value="America/New_York" disabled>America/New York</Option>
+                                            <Option value="America/Chicago">America/Chicago</Option>
+                                            <Option value="America/Los_Angeles" disabled>America/Los Angeles</Option>
+                                        </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem
+                                    hasFeedback
+                                    label="Repeat"
+                                >
+                                    {getFieldDecorator('editRepeat', {
+                                        initialValue: this.state.reminderSettingToBeEdited && this.state.reminderSettingToBeEdited.repeatDuration ? this.state.reminderSettingToBeEdited.repeatDuration : "No",
+                                        rules: [{
+                                            required: true, message: 'Please pick your repeat duration!',
+                                        }]
+                                    })(
+                                        <Select size="large" placeholder="How often?">
+                                            <Option value="No">No Repeat</Option>
+                                            <Option value="Hourly">Hourly</Option>
+                                            <Option value="Daily">Daily</Option>
+                                            <Option value="Weekly">Weekly</Option>
+                                            <Option value="Biweekly">Biweekly</Option>
+                                        </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem
+                                    hasFeedback
+                                    label="Reminder message"
+                                >
+                                    {getFieldDecorator('editMessage', {
+                                        initialValue: this.state.reminderSettingToBeEdited ? this.state.reminderSettingToBeEdited.message : "Loading",
+                                        rules: [{
+                                            required: true, message: 'Please provide your reminder message!',
+                                        }]
+                                    })(
+                                        <TextArea size="large" rows={3} />
+                                    )}
+                                </FormItem>
+                            </Form>
+                        </Modal>
                     </Col>
                     <Col xs={0} sm={0} md={0} lg={0} xl={3} span={3} ></Col>
                 </Row>
@@ -381,6 +529,7 @@ function mapDispatchToProps(dispatch) {
         clearReminders,
         fetchReminderSetting,
         createReminderSetting,
+        updateReminderSetting,
         deleteReminderSetting,
         fetchUser
     }, dispatch);
