@@ -39,14 +39,14 @@
 }
 
 .notification-list-container .ant-list-item-action .anticon {
-    color: red;
+    color: #f5222d;
 }
 
 .clear-notification {
     height: 46px;
     line-height: 46px;
     text-align: center;
-    color: rgba(0, 0, 0, .65);
+    color: #f5222d;
     border-radius: 0 0 4px 4px;
     border-top: 1px solid #e8e8e8;
     box-shadow: 0 -2px 4px rgba(0, 21, 41, .08);
@@ -56,5 +56,5 @@
 }
 
 .clear-notification:hover {
-    color: red;
+    color: #ff7875;
 }
