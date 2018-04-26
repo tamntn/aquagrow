@@ -154,7 +154,7 @@ class Reminders extends Component {
                 })
                 notification.success({
                     message: "Successful 👏🏼",
-                    description: `Your reminder for ${moment(values.time).format("hh:mm a")} will be sent ${values.repeat.toLowerCase()}, starting on ${moment(values.date).format("MMM Do")} ⏰`
+                    description: `Your reminder for ${moment(values.time).format("hh:mm a")} will be sent ${values.repeat.toLowerCase() === "no" ? "on" : values.repeat.toLowerCase() + ",starting on "} ${moment(values.date).format("MMM Do")} ⏰`
                 })
             }
         })
