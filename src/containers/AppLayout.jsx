@@ -307,7 +307,7 @@ class AppLayout extends Component {
                                     trigger="click"
                                     arrowPointAtCenter
                                 >
-                                    <Badge count={notificationsCount} showZero>
+                                    <Badge count={notificationsCount}>
                                         <Icon type="bell" style={{ fontSize: "24px" }} />
                                     </Badge>
                                 </Popover>
