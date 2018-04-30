@@ -40,6 +40,7 @@
 .notification-setting-container .ant-btn-lg {
     margin-left: 12px;
     margin-right: 12px;
+    margin-bottom: 12px;
 }
 
 .notification-control-container .ant-divider-horizontal {
@@ -60,5 +61,9 @@
     .notification-control-container .ant-list-item-meta-title {
         font-size: 16px;
         padding-top: 8px;
+    }
+    .notification-setting-container .ant-btn-lg {
+        margin-left: 6px;
+        margin-right: 6px;
     }
 }

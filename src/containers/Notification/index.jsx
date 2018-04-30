@@ -216,16 +216,30 @@ class Notifications extends Component {
             airHumidityRange: [0, 0],
             lightIntensityRange: [0, 0],
             waterTempRange: [0, 0],
-            phLevelRange: [0, 0]
+            phLevelRange: [0, 0],
+            loadingAirTempSwitch: false,
+            loadingAirHumiditySwitch: false,
+            loadingLightIntensitySwitch: false,
+            loadingWaterTempSwitch: false,
+            loadingPhSwitch: false,
+            loadingUpperLevelSwitch: false,
+            loadingLowerLevelSwitch: false
         }
         this.onDeleteItemClick = this.onDeleteItemClick.bind(this);
-        this.handleAirTempRangeChange = this.handleAirTempRangeChange.bind(this);
-        this.handleAirHumidityChange = this.handleAirHumidityChange.bind(this);
-        this.handleLightIntensityChange = this.handleLightIntensityChange.bind(this);
-        this.handleWaterTempChange = this.handleWaterTempChange.bind(this);
-        this.handlePhLevelChange = this.handlePhLevelChange.bind(this);
+        this.handleAirTempSlider = this.handleAirTempSlider.bind(this);
+        this.handleAirHumiditySlider = this.handleAirHumiditySlider.bind(this);
+        this.handleLightIntensitySlider = this.handleLightIntensitySlider.bind(this);
+        this.handleWaterTempSlider = this.handleWaterTempSlider.bind(this);
+        this.handlePhLevelSlider = this.handlePhLevelSlider.bind(this);
         this.handleClearButton = this.handleClearButton.bind(this);
         this.handleSaveButton = this.handleSaveButton.bind(this);
+        this.handleAirTempSwitch = this.handleAirTempSwitch.bind(this);
+        this.handleAirHumiditySwitch = this.handleAirHumiditySwitch.bind(this);
+        this.handleLightIntensitySwitch = this.handleLightIntensitySwitch.bind(this);
+        this.handleWaterTempSwitch = this.handleWaterTempSwitch.bind(this);
+        this.handlePhLevelSwitch = this.handlePhLevelSwitch.bind(this);
+        this.handleUpperWaterLevelSwitch = this.handleUpperWaterLevelSwitch.bind(this);
+        this.handleLowerWaterLevelSwitch = this.handleLowerWaterLevelSwitch.bind(this);
     }
 
     componentWillMount() {
@@ -261,31 +275,31 @@ class Notifications extends Component {
         })
     }
 
-    handleAirTempRangeChange(value) {
+    handleAirTempSlider(value) {
         this.setState({
             airTempRange: value
         })
     }
 
-    handleAirHumidityChange(value) {
+    handleAirHumiditySlider(value) {
         this.setState({
             airHumidityRange: value
         })
     }
 
-    handleLightIntensityChange(value) {
+    handleLightIntensitySlider(value) {
         this.setState({
             lightIntensityRange: value
         })
     }
 
-    handleWaterTempChange(value) {
+    handleWaterTempSlider(value) {
         this.setState({
             waterTempRange: value
         })
     }
 
-    handlePhLevelChange(value) {
+    handlePhLevelSlider(value) {
         this.setState({
             phLevelRange: value
         })
@@ -323,6 +337,160 @@ class Notifications extends Component {
             notification.success({
                 message: "Successful 👏🏼",
                 description: "Your notification settings have been updated 👨🏻‍💻"
+            })
+        })
+    }
+
+    handleAirTempSwitch(value) {
+        this.setState({
+            loadingAirTempSwitch: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const updateValues = {
+            airTempNotification: value
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                loadingAirTempSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: `${value ? "You will now receive notifications regarding the air temperature!" : "You will no longer receive notifications regarding the air temperature!"}`
+            })
+        })
+    }
+
+    handleAirHumiditySwitch(value) {
+        this.setState({
+            loadingAirHumiditySwitch: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const updateValues = {
+            airHumidityNotification: value
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                loadingAirHumiditySwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: `${value ? "You will now receive notifications regarding the air humidity!" : "You will no longer receive notifications regarding the air humidity!"}`
+            })
+        })
+    }
+
+    handleLightIntensitySwitch(value) {
+        this.setState({
+            loadingLightIntensitySwitch: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const updateValues = {
+            lightIntensityNotification: value
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                loadingLightIntensitySwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: `${value ? "You will now receive notifications regarding the light intensity!" : "You will no longer receive notifications regarding the light intensity!"}`
+            })
+        })
+    }
+
+    handleWaterTempSwitch(value) {
+        this.setState({
+            loadingWaterTempSwitch: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const updateValues = {
+            waterTempNotification: value
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                loadingWaterTempSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: `${value ? "You will now receive notifications regarding the water temperature!" : "You will no longer receive notifications regarding the water temperature!"}`
+            })
+        })
+    }
+
+    handlePhLevelSwitch(value) {
+        this.setState({
+            loadingPhSwitch: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const updateValues = {
+            phLevelNotification: value
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                loadingPhSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: `${value ? "You will now receive notifications regarding the pH level!" : "You will no longer receive notifications regarding the pH level!"}`
+            })
+        })
+    }
+
+    handleUpperWaterLevelSwitch(value) {
+        this.setState({
+            loadingUpperLevelSwitch: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const updateValues = {
+            upperWaterLevelNotification: value
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                loadingUpperLevelSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: `${value ? "You will now receive notifications regarding the grow bed water level!" : "You will no longer receive notifications regarding the grow bed water level!"}`
+            })
+        })
+    }
+
+    handleLowerWaterLevelSwitch(value) {
+        this.setState({
+            loadingLowerLevelSwitch: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const updateValues = {
+            lowerWaterLevelNotification: value
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                loadingLowerLevelSwitch: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: `${value ? "You will now receive notifications regarding the fish tank water level!" : "You will no longer receive notifications regarding the fish tank water level!"}`
             })
         })
     }
@@ -384,7 +552,7 @@ class Notifications extends Component {
                                                     step={0.1}
                                                     marks={airTempMarks}
                                                     value={this.state.airTempRange}
-                                                    onChange={this.handleAirTempRangeChange}
+                                                    onChange={this.handleAirTempSlider}
                                                     tipFormatter={(value) => `${value}°C`}
                                                 ></Slider>
                                             </div>
@@ -410,7 +578,7 @@ class Notifications extends Component {
                                                     step={0.1}
                                                     marks={airHumidityMarks}
                                                     value={this.state.airHumidityRange}
-                                                    onChange={this.handleAirHumidityChange}
+                                                    onChange={this.handleAirHumiditySlider}
                                                     tipFormatter={(value) => `${value}%`}
                                                 ></Slider>
                                             </div>
@@ -436,7 +604,7 @@ class Notifications extends Component {
                                                     step={1000}
                                                     marks={lightIntensityMarks}
                                                     value={this.state.lightIntensityRange}
-                                                    onChange={this.handleLightIntensityChange}
+                                                    onChange={this.handleLightIntensitySlider}
                                                     tipFormatter={(value) => `${value} lux`}
                                                 ></Slider>
                                             </div>
@@ -462,7 +630,7 @@ class Notifications extends Component {
                                                     step={0.1}
                                                     marks={waterTempMarks}
                                                     value={this.state.waterTempRange}
-                                                    onChange={this.handleWaterTempChange}
+                                                    onChange={this.handleWaterTempSlider}
                                                     tipFormatter={(value) => `${value}°C`}
                                                 ></Slider>
                                             </div>
@@ -488,7 +656,7 @@ class Notifications extends Component {
                                                     step={0.1}
                                                     marks={phLevelMarks}
                                                     value={this.state.phLevelRange}
-                                                    onChange={this.handlePhLevelChange}
+                                                    onChange={this.handlePhLevelSlider}
                                                 ></Slider>
                                             </div>
                                         }
@@ -524,9 +692,9 @@ class Notifications extends Component {
                             >
                                 {/* AIR TEMPERATURE RANGE */}
                                 <List.Item actions={[<Switch
-                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
-                                // checked={this.props.system ? this.props.system.growLight : false}
-                                // onChange={this.handleLightSwitch} 
+                                    loading={this.props.system ? this.state.loadingAirTempSwitch : true}
+                                    checked={this.props.system ? this.props.system.airTempNotification : false}
+                                    onChange={this.handleAirTempSwitch}
                                 />
                                 ]}>
                                     <List.Item.Meta
@@ -541,9 +709,9 @@ class Notifications extends Component {
                                 </List.Item>
                                 {/* AIR HUMIDITY RANGE */}
                                 <List.Item actions={[<Switch
-                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
-                                // checked={this.props.system ? this.props.system.growLight : false}
-                                // onChange={this.handleLightSwitch} 
+                                    loading={this.props.system ? this.state.loadingAirHumiditySwitch : true}
+                                    checked={this.props.system ? this.props.system.airHumidityNotification : false}
+                                    onChange={this.handleAirHumiditySwitch}
                                 />
                                 ]}>
                                     <List.Item.Meta
@@ -558,9 +726,9 @@ class Notifications extends Component {
                                 </List.Item>
                                 {/* LIGHT INTENSITY RANGE */}
                                 <List.Item actions={[<Switch
-                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
-                                // checked={this.props.system ? this.props.system.growLight : false}
-                                // onChange={this.handleLightSwitch} 
+                                    loading={this.props.system ? this.state.loadingLightIntensitySwitch : true}
+                                    checked={this.props.system ? this.props.system.lightIntensityNotification : false}
+                                    onChange={this.handleLightIntensitySwitch}
                                 />
                                 ]}>
                                     <List.Item.Meta
@@ -575,9 +743,9 @@ class Notifications extends Component {
                                 </List.Item>
                                 {/* WATER TEMPERATURE RANGE */}
                                 <List.Item actions={[<Switch
-                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
-                                // checked={this.props.system ? this.props.system.growLight : false}
-                                // onChange={this.handleLightSwitch} 
+                                    loading={this.props.system ? this.state.loadingWaterTempSwitch : true}
+                                    checked={this.props.system ? this.props.system.waterTempNotification : false}
+                                    onChange={this.handleWaterTempSwitch}
                                 />
                                 ]}>
                                     <List.Item.Meta
@@ -592,9 +760,9 @@ class Notifications extends Component {
                                 </List.Item>
                                 {/* PH LEVEL RANGE */}
                                 <List.Item actions={[<Switch
-                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
-                                // checked={this.props.system ? this.props.system.growLight : false}
-                                // onChange={this.handleLightSwitch} 
+                                    loading={this.props.system ? this.state.loadingPhSwitch : true}
+                                    checked={this.props.system ? this.props.system.phLevelNotification : false}
+                                    onChange={this.handlePhLevelSwitch}
                                 />
                                 ]}>
                                     <List.Item.Meta
@@ -609,9 +777,9 @@ class Notifications extends Component {
                                 </List.Item>
                                 {/* GROW BED WATER LEVEL */}
                                 <List.Item actions={[<Switch
-                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
-                                // checked={this.props.system ? this.props.system.growLight : false}
-                                // onChange={this.handleLightSwitch} 
+                                    loading={this.props.system ? this.state.loadingUpperLevelSwitch : true}
+                                    checked={this.props.system ? this.props.system.upperWaterLevelNotification : false}
+                                    onChange={this.handleUpperWaterLevelSwitch}
                                 />
                                 ]}>
                                     <List.Item.Meta
@@ -626,9 +794,9 @@ class Notifications extends Component {
                                 </List.Item>
                                 {/* FISH TANK WATER LEVEL */}
                                 <List.Item actions={[<Switch
-                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
-                                // checked={this.props.system ? this.props.system.growLight : false}
-                                // onChange={this.handleLightSwitch} 
+                                    loading={this.props.system ? this.state.loadingLowerLevelSwitch : true}
+                                    checked={this.props.system ? this.props.system.lowerWaterLevelNotification : false}
+                                    onChange={this.handleLowerWaterLevelSwitch}
                                 />
                                 ]}>
                                     <List.Item.Meta
