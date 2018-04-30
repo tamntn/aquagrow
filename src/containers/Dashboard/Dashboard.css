@@ -1,0 +1,40 @@
+.dashboard-container .ant-list-item {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.sensor-update-time {
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.dashboard-container .ant-card-meta-detail>div:not(:last-child) {
+    margin-bottom: 0px;
+}
+
+.dashboard-container .ant-card-meta-title {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.dashboard-card-content {
+    font-weight: 100;
+    font-size: 36px;
+    text-align: center;
+    line-height: 36px;
+}
+
+@media (max-width: 767px) {
+    .dashboard-container .ant-list-item {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    .sensor-update-time {
+        font-size: 14px;
+    }
+    .dashboard-card-content {
+        font-size: 28px;
+        line-height: 28px;
+    }
+}
