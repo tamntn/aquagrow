@@ -20,6 +20,8 @@ export const actionTypes = {
     // System Status Action
     FETCH_SYSTEM_STATUS: 'fetch_system_status',
     UPDATE_SYSTEM_STATUS: 'update_system_status',
+    // Sensor Data Action
+    FETCH_LATEST_DATA: 'fetch_latest_data',
     // Notification Action
     FETCH_NOTIFICATIONS: 'fetch_notifications',
     DELETE_NOTIFICATION: 'delete_notification',
