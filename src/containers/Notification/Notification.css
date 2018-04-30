@@ -34,7 +34,12 @@
 
 .notification-setting-container .ant-slider {
     margin-top: 24px;
-    margin-bottom: 48px;
+    /* margin-bottom: 48px; */
+}
+
+.notification-setting-container .ant-btn-lg {
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
 @media (max-width: 767px) {

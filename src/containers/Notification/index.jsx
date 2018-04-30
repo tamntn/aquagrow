@@ -15,7 +15,8 @@ import {
     Icon,
     Button,
     Switch,
-    Slider
+    Slider,
+    notification
 } from 'antd';
 import airTempLogo from '../../images/png/airTemp.png';
 import airHumidityLogo from '../../images/png/humidity.png';
@@ -208,6 +209,7 @@ class Notifications extends Component {
         this.state = {
             loadingNotifications: true,
             loadingNotificationSettings: true,
+            updatingNotificationSettings: false,
             airTempRange: [0, 0],
             airHumidityRange: [0, 0],
             lightIntensityRange: [0, 0],
@@ -220,6 +222,8 @@ class Notifications extends Component {
         this.handleLightIntensityChange = this.handleLightIntensityChange.bind(this);
         this.handleWaterTempChange = this.handleWaterTempChange.bind(this);
         this.handlePhLevelChange = this.handlePhLevelChange.bind(this);
+        this.handleClearButton = this.handleClearButton.bind(this);
+        this.handleSaveButton = this.handleSaveButton.bind(this);
     }
 
     componentWillMount() {
@@ -285,6 +289,42 @@ class Notifications extends Component {
         })
     }
 
+    handleClearButton() {
+        this.setState({
+            airTempRange: this.props.system.airTempRange,
+            airHumidityRange: this.props.system.airHumidityRange,
+            lightIntensityRange: this.props.system.lightIntensityRange,
+            waterTempRange: this.props.system.waterTempRange,
+            phLevelRange: this.props.system.phLevelRange
+        })
+    }
+
+    handleSaveButton() {
+        this.setState({
+            updatingNotificationSettings: true
+        })
+
+        const currentUser = localStorage.getItem('username');
+        const updateValues = {
+            airTempRange: this.state.airTempRange,
+            airHumidityRange: this.state.airHumidityRange,
+            lightIntensityRange: this.state.lightIntensityRange,
+            waterTempRange: this.state.waterTempRange,
+            phLevelRange: this.state.phLevelRange
+        }
+
+        this.props.updateSystemStatus(currentUser, updateValues, () => {
+            this.props.fetchSystemStatus(currentUser);
+            this.setState({
+                updatingNotificationSettings: false
+            })
+            notification.success({
+                message: "Successful 👏🏼",
+                description: "Your notification settings have been updated 👨🏻‍💻"
+            })
+        })
+    }
+
     render() {
         return (
             <div>
@@ -334,7 +374,7 @@ class Notifications extends Component {
                                         title={`Air temperature range`}
                                         description={
                                             <div>
-                                                <p>Current set range is {this.props.system ? this.props.system.airTempRange[0] + "°C - " + this.props.system.airTempRange[1] + "°C" : "loading..."}</p>
+                                                <p>Current set range is {this.props.system ? this.props.system.airTempRange[0] + "°C - " + this.props.system.airTempRange[1] + "°C" : <Spin></Spin>}</p>
                                                 <Slider
                                                     min={0}
                                                     max={50}
@@ -343,6 +383,7 @@ class Notifications extends Component {
                                                     marks={airTempMarks}
                                                     value={this.state.airTempRange}
                                                     onChange={this.handleAirTempRangeChange}
+                                                    tipFormatter={(value) => `${value}°C`}
                                                 ></Slider>
                                             </div>
                                         }
@@ -358,15 +399,19 @@ class Notifications extends Component {
                                         />}
                                         title={"Air humidity range"}
                                         description={
-                                            <Slider
-                                                min={0}
-                                                max={100}
-                                                range
-                                                step={0.1}
-                                                marks={airHumidityMarks}
-                                                value={this.state.airHumidityRange}
-                                                onChange={this.handleAirHumidityChange}
-                                            ></Slider>
+                                            <div>
+                                                <p>Current set range is {this.props.system ? this.props.system.airHumidityRange[0] + "% - " + this.props.system.airHumidityRange[1] + "%" : <Spin></Spin>}</p>
+                                                <Slider
+                                                    min={0}
+                                                    max={100}
+                                                    range
+                                                    step={0.1}
+                                                    marks={airHumidityMarks}
+                                                    value={this.state.airHumidityRange}
+                                                    onChange={this.handleAirHumidityChange}
+                                                    tipFormatter={(value) => `${value}%`}
+                                                ></Slider>
+                                            </div>
                                         }
                                     />
                                 </List.Item>
@@ -380,15 +425,19 @@ class Notifications extends Component {
                                         />}
                                         title={"Light intensity range"}
                                         description={
-                                            <Slider
-                                                min={0}
-                                                max={65000}
-                                                range
-                                                step={1000}
-                                                marks={lightIntensityMarks}
-                                                value={this.state.lightIntensityRange}
-                                                onChange={this.handleLightIntensityChange}
-                                            ></Slider>
+                                            <div>
+                                                <p>Current set range is {this.props.system ? this.props.system.lightIntensityRange[0] + " lux - " + this.props.system.lightIntensityRange[1] + " lux" : <Spin></Spin>}</p>
+                                                <Slider
+                                                    min={0}
+                                                    max={65000}
+                                                    range
+                                                    step={1000}
+                                                    marks={lightIntensityMarks}
+                                                    value={this.state.lightIntensityRange}
+                                                    onChange={this.handleLightIntensityChange}
+                                                    tipFormatter={(value) => `${value} lux`}
+                                                ></Slider>
+                                            </div>
                                         }
                                     />
                                 </List.Item>
@@ -402,15 +451,19 @@ class Notifications extends Component {
                                         />}
                                         title={"Water temperature range"}
                                         description={
-                                            <Slider
-                                                min={0}
-                                                max={50}
-                                                range
-                                                step={0.1}
-                                                marks={waterTempMarks}
-                                                value={this.state.waterTempRange}
-                                                onChange={this.handleWaterTempChange}
-                                            ></Slider>
+                                            <div>
+                                                <p>Current set range is {this.props.system ? this.props.system.waterTempRange[0] + "°C - " + this.props.system.waterTempRange[1] + "°C" : <Spin></Spin>}</p>
+                                                <Slider
+                                                    min={0}
+                                                    max={50}
+                                                    range
+                                                    step={0.1}
+                                                    marks={waterTempMarks}
+                                                    value={this.state.waterTempRange}
+                                                    onChange={this.handleWaterTempChange}
+                                                    tipFormatter={(value) => `${value}°C`}
+                                                ></Slider>
+                                            </div>
                                         }
                                     />
                                 </List.Item>
@@ -424,15 +477,18 @@ class Notifications extends Component {
                                         />}
                                         title={"pH level range"}
                                         description={
-                                            <Slider
-                                                min={0}
-                                                max={14}
-                                                range
-                                                step={0.1}
-                                                marks={phLevelMarks}
-                                                value={this.state.phLevelRange}
-                                                onChange={this.handlePhLevelChange}
-                                            ></Slider>
+                                            <div>
+                                                <p>Current set range is {this.props.system ? this.props.system.phLevelRange[0] + " - " + this.props.system.phLevelRange[1] : <Spin></Spin>}</p>
+                                                <Slider
+                                                    min={0}
+                                                    max={14}
+                                                    range
+                                                    step={0.1}
+                                                    marks={phLevelMarks}
+                                                    value={this.state.phLevelRange}
+                                                    onChange={this.handlePhLevelChange}
+                                                ></Slider>
+                                            </div>
                                         }
                                     />
                                 </List.Item>
@@ -440,9 +496,18 @@ class Notifications extends Component {
                             <div style={{ textAlign: "center", paddingTop: "24px" }}>
                                 <Button
                                     size="large"
-                                    type="primary"
+                                    type="danger"
+                                    onClick={this.handleClearButton}
                                 >
-                                    Set threshold values
+                                    Clear changes
+                                </Button>
+                                <Button
+                                    size="large"
+                                    type="primary"
+                                    onClick={this.handleSaveButton}
+                                    loading={this.state.updatingNotificationSettings}
+                                >
+                                    Save changes
                                 </Button>
                             </div>
                         </div>
