@@ -6,6 +6,7 @@ import RemindersReducer from './reducer_reminder';
 import ReminderSettingReducer from './reducer_reminderSetting';
 import MessagesReducer from './reducer_message';
 import SystemReducer from './reducer_system';
+import SensorDataReducer from './reducer_sensor_data';
 
 const rootReducer = combineReducers({
     loggedIn: AuthenticationReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     reminders: RemindersReducer,
     reminderSetting: ReminderSettingReducer,
     messages: MessagesReducer,
-    system: SystemReducer
+    system: SystemReducer,
+    sensorData: SensorDataReducer
 });
 
 export default rootReducer;
