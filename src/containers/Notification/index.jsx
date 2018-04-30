@@ -216,6 +216,10 @@ class Notifications extends Component {
         }
         this.onDeleteItemClick = this.onDeleteItemClick.bind(this);
         this.handleAirTempRangeChange = this.handleAirTempRangeChange.bind(this);
+        this.handleAirHumidityChange = this.handleAirHumidityChange.bind(this);
+        this.handleLightIntensityChange = this.handleLightIntensityChange.bind(this);
+        this.handleWaterTempChange = this.handleWaterTempChange.bind(this);
+        this.handlePhLevelChange = this.handlePhLevelChange.bind(this);
     }
 
     componentWillMount() {
@@ -254,6 +258,30 @@ class Notifications extends Component {
     handleAirTempRangeChange(value) {
         this.setState({
             airTempRange: value
+        })
+    }
+
+    handleAirHumidityChange(value) {
+        this.setState({
+            airHumidityRange: value
+        })
+    }
+
+    handleLightIntensityChange(value) {
+        this.setState({
+            lightIntensityRange: value
+        })
+    }
+
+    handleWaterTempChange(value) {
+        this.setState({
+            waterTempRange: value
+        })
+    }
+
+    handlePhLevelChange(value) {
+        this.setState({
+            phLevelRange: value
         })
     }
 
@@ -337,6 +365,7 @@ class Notifications extends Component {
                                                 step={0.1}
                                                 marks={airHumidityMarks}
                                                 value={this.state.airHumidityRange}
+                                                onChange={this.handleAirHumidityChange}
                                             ></Slider>
                                         }
                                     />
@@ -358,6 +387,7 @@ class Notifications extends Component {
                                                 step={1000}
                                                 marks={lightIntensityMarks}
                                                 value={this.state.lightIntensityRange}
+                                                onChange={this.handleLightIntensityChange}
                                             ></Slider>
                                         }
                                     />
@@ -379,6 +409,7 @@ class Notifications extends Component {
                                                 step={0.1}
                                                 marks={waterTempMarks}
                                                 value={this.state.waterTempRange}
+                                                onChange={this.handleWaterTempChange}
                                             ></Slider>
                                         }
                                     />
@@ -400,6 +431,7 @@ class Notifications extends Component {
                                                 step={0.1}
                                                 marks={phLevelMarks}
                                                 value={this.state.phLevelRange}
+                                                onChange={this.handlePhLevelChange}
                                             ></Slider>
                                         }
                                     />
