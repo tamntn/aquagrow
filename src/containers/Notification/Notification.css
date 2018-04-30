@@ -16,3 +16,30 @@
 .notification-container .ant-list-item:hover {
     background-color: #e6f7ff;
 }
+
+.notification-setting-container .ant-divider-horizontal {
+    margin-top: 0px;
+    margin-bottom: 12px;
+}
+
+.notification-setting-container .ant-list-item-meta-title {
+    font-size: 17px;
+    padding-top: 8px;
+}
+
+.notification-setting-container .ant-list-item {
+    padding-left: 0px;
+    padding-right: 12px;
+}
+
+.notification-setting-container .ant-slider {
+    margin-top: 24px;
+    margin-bottom: 48px;
+}
+
+@media (max-width: 767px) {
+    .notification-setting-container .ant-list-item-meta-title {
+        font-size: 16px;
+        padding-top: 8px;
+    }
+}
