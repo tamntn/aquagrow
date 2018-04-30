@@ -23,6 +23,8 @@ import airHumidityLogo from '../../images/png/humidity.png';
 import lightIntensityLogo from '../../images/png/growLight.png';
 import waterTempLogo from '../../images/png/waterTemp.png';
 import phLevelLogo from '../../images/png/pH.png';
+import growBedLogo from '../../images/png/plantPot.png';
+import fishTankLogo from '../../images/png/fishtank.png';
 import './Notification.css';
 
 const icons = {
@@ -358,8 +360,8 @@ class Notifications extends Component {
                             <br></br>
                             <h2>Notifications Settings</h2>
                             <Divider />
-                            <p>Adjust the range of the following criteria. We will monitor the system and
-                            send you notifications when the sensor data fall out of the set range.</p>
+                            <span>Adjust the range of the following criteria. We will monitor the system and
+                            send you notifications when the sensor data fall out of the set range.</span>
                             <List
                                 itemLayout="horizontal"
                             >
@@ -374,7 +376,7 @@ class Notifications extends Component {
                                         title={`Air temperature range`}
                                         description={
                                             <div>
-                                                <p>Current set range is {this.props.system ? this.props.system.airTempRange[0] + "°C - " + this.props.system.airTempRange[1] + "°C" : <Spin></Spin>}</p>
+                                                <span>Current set range is {this.props.system ? this.props.system.airTempRange[0] + "°C - " + this.props.system.airTempRange[1] + "°C" : <Spin></Spin>}</span>
                                                 <Slider
                                                     min={0}
                                                     max={50}
@@ -400,7 +402,7 @@ class Notifications extends Component {
                                         title={"Air humidity range"}
                                         description={
                                             <div>
-                                                <p>Current set range is {this.props.system ? this.props.system.airHumidityRange[0] + "% - " + this.props.system.airHumidityRange[1] + "%" : <Spin></Spin>}</p>
+                                                <span>Current set range is {this.props.system ? this.props.system.airHumidityRange[0] + "% - " + this.props.system.airHumidityRange[1] + "%" : <Spin></Spin>}</span>
                                                 <Slider
                                                     min={0}
                                                     max={100}
@@ -426,7 +428,7 @@ class Notifications extends Component {
                                         title={"Light intensity range"}
                                         description={
                                             <div>
-                                                <p>Current set range is {this.props.system ? this.props.system.lightIntensityRange[0] + " lux - " + this.props.system.lightIntensityRange[1] + " lux" : <Spin></Spin>}</p>
+                                                <span>Current set range is {this.props.system ? this.props.system.lightIntensityRange[0] + " lux - " + this.props.system.lightIntensityRange[1] + " lux" : <Spin></Spin>}</span>
                                                 <Slider
                                                     min={0}
                                                     max={65000}
@@ -452,7 +454,7 @@ class Notifications extends Component {
                                         title={"Water temperature range"}
                                         description={
                                             <div>
-                                                <p>Current set range is {this.props.system ? this.props.system.waterTempRange[0] + "°C - " + this.props.system.waterTempRange[1] + "°C" : <Spin></Spin>}</p>
+                                                <span>Current set range is {this.props.system ? this.props.system.waterTempRange[0] + "°C - " + this.props.system.waterTempRange[1] + "°C" : <Spin></Spin>}</span>
                                                 <Slider
                                                     min={0}
                                                     max={50}
@@ -478,7 +480,7 @@ class Notifications extends Component {
                                         title={"pH level range"}
                                         description={
                                             <div>
-                                                <p>Current set range is {this.props.system ? this.props.system.phLevelRange[0] + " - " + this.props.system.phLevelRange[1] : <Spin></Spin>}</p>
+                                                <span>Current set range is {this.props.system ? this.props.system.phLevelRange[0] + " - " + this.props.system.phLevelRange[1] : <Spin></Spin>}</span>
                                                 <Slider
                                                     min={0}
                                                     max={14}
@@ -510,6 +512,136 @@ class Notifications extends Component {
                                     Save changes
                                 </Button>
                             </div>
+                        </div>
+
+                        <div className="notification-control-container">
+                            <br></br>
+                            <h2>Notifications Control</h2>
+                            <Divider />
+                            <span>Control whether or not you want to receive notifications regarding each monitored criteria.</span>
+                            <List
+                                itemLayout="horizontal"
+                            >
+                                {/* AIR TEMPERATURE RANGE */}
+                                <List.Item actions={[<Switch
+                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
+                                // checked={this.props.system ? this.props.system.growLight : false}
+                                // onChange={this.handleLightSwitch} 
+                                />
+                                ]}>
+                                    <List.Item.Meta
+                                        avatar={<Avatar
+                                            size="large"
+                                            src={airTempLogo}
+                                            style={{ fontWeight: "900" }}
+                                            icon="close"
+                                        />}
+                                        title={"Air temperature"}
+                                    />
+                                </List.Item>
+                                {/* AIR HUMIDITY RANGE */}
+                                <List.Item actions={[<Switch
+                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
+                                // checked={this.props.system ? this.props.system.growLight : false}
+                                // onChange={this.handleLightSwitch} 
+                                />
+                                ]}>
+                                    <List.Item.Meta
+                                        avatar={<Avatar
+                                            size="large"
+                                            src={airHumidityLogo}
+                                            style={{ fontWeight: "900" }}
+                                            icon="close"
+                                        />}
+                                        title={"Air humidity"}
+                                    />
+                                </List.Item>
+                                {/* LIGHT INTENSITY RANGE */}
+                                <List.Item actions={[<Switch
+                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
+                                // checked={this.props.system ? this.props.system.growLight : false}
+                                // onChange={this.handleLightSwitch} 
+                                />
+                                ]}>
+                                    <List.Item.Meta
+                                        avatar={<Avatar
+                                            size="large"
+                                            src={lightIntensityLogo}
+                                            style={{ fontWeight: "900" }}
+                                            icon="close"
+                                        />}
+                                        title={"Light intensity"}
+                                    />
+                                </List.Item>
+                                {/* WATER TEMPERATURE RANGE */}
+                                <List.Item actions={[<Switch
+                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
+                                // checked={this.props.system ? this.props.system.growLight : false}
+                                // onChange={this.handleLightSwitch} 
+                                />
+                                ]}>
+                                    <List.Item.Meta
+                                        avatar={<Avatar
+                                            size="large"
+                                            src={waterTempLogo}
+                                            style={{ fontWeight: "900" }}
+                                            icon="close"
+                                        />}
+                                        title={"Water temperature"}
+                                    />
+                                </List.Item>
+                                {/* PH LEVEL RANGE */}
+                                <List.Item actions={[<Switch
+                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
+                                // checked={this.props.system ? this.props.system.growLight : false}
+                                // onChange={this.handleLightSwitch} 
+                                />
+                                ]}>
+                                    <List.Item.Meta
+                                        avatar={<Avatar
+                                            size="large"
+                                            src={phLevelLogo}
+                                            style={{ fontWeight: "900" }}
+                                            icon="close"
+                                        />}
+                                        title={"pH level"}
+                                    />
+                                </List.Item>
+                                {/* GROW BED WATER LEVEL */}
+                                <List.Item actions={[<Switch
+                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
+                                // checked={this.props.system ? this.props.system.growLight : false}
+                                // onChange={this.handleLightSwitch} 
+                                />
+                                ]}>
+                                    <List.Item.Meta
+                                        avatar={<Avatar
+                                            size="large"
+                                            src={growBedLogo}
+                                            style={{ fontWeight: "900" }}
+                                            icon="close"
+                                        />}
+                                        title={"Grow bed water level"}
+                                    />
+                                </List.Item>
+                                {/* FISH TANK WATER LEVEL */}
+                                <List.Item actions={[<Switch
+                                // loading={this.props.system ? this.state.loadingLightSwitch : true}
+                                // checked={this.props.system ? this.props.system.growLight : false}
+                                // onChange={this.handleLightSwitch} 
+                                />
+                                ]}>
+                                    <List.Item.Meta
+                                        avatar={<Avatar
+                                            size="large"
+                                            src={fishTankLogo}
+                                            style={{ fontWeight: "900" }}
+                                            icon="close"
+                                        />}
+                                        title={"Fish tank water level"}
+                                    />
+                                </List.Item>
+                            </List>
                         </div>
                     </Col>
                     <Col xs={0} sm={0} md={0} lg={0} xl={3} span={3} ></Col>

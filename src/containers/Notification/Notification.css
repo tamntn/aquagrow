@@ -42,8 +42,22 @@
     margin-right: 12px;
 }
 
+.notification-control-container .ant-divider-horizontal {
+    margin-top: 0px;
+    margin-bottom: 12px;
+}
+
+.notification-control-container .ant-list-item-meta-title {
+    font-size: 17px;
+    padding-top: 8px;
+}
+
 @media (max-width: 767px) {
     .notification-setting-container .ant-list-item-meta-title {
+        font-size: 16px;
+        padding-top: 8px;
+    }
+    .notification-control-container .ant-list-item-meta-title {
         font-size: 16px;
         padding-top: 8px;
     }
