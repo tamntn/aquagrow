@@ -8,13 +8,15 @@ import {
     Col,
     List,
     Card,
-    Icon
+    Icon,
+    Select
 } from 'antd';
 import { fetchSystemStatus } from '../../actions/action_system.js';
 import { apiRoutes } from '../../config';
 import './Portfolio.css';
 const { Meta } = Card;
 const { rootUrl } = apiRoutes;
+const Option = Select.Option;
 
 const googleMapsClient = require('@google/maps').createClient({
     key: 'AIzaSyBK7k74kf-aG3TQhvXxckv2YAbVIoVhpbY',
@@ -28,8 +30,12 @@ class Portfolio extends Component {
             growZone: null,
             location: null,
             loadingFishData: true,
-            fishData: []
+            fishData: [],
+            plantsMain: [],
+            searchPlants: []
         }
+
+        this.handlePlantSearchByMainType = this.handlePlantSearchByMainType.bind(this);
     }
 
     componentWillMount() {
@@ -38,6 +44,7 @@ class Portfolio extends Component {
         this.getCurrentGrowZone();
         this.getLocationFromZipcode(this.props.user.zipCode);
         this.getFishData();
+        this.getPlantMainTypes();
     }
 
     getCurrentGrowZone() {
@@ -84,11 +91,37 @@ class Portfolio extends Component {
             })
     }
 
+    getPlantMainTypes() {
+        axios.get(`${rootUrl}/plants/main`)
+            .then((res) => {
+                this.setState({
+                    plantsMain: res.data.data
+                })
+            })
+            .catch((err) => {
+
+            })
+    }
+
     convertFtoC(value) {
         return Math.round((parseInt(value) - 32) * 5 / 9);
     }
 
+    handlePlantSearchByMainType(value) {
+        axios.get(`${rootUrl}/plants/main/${value}`)
+            .then((res) => {
+                this.setState({
+                    searchPlants: res.data.data
+                })
+            })
+            .catch((err) => {
+
+            })
+    }
+
     render() {
+        const options = this.state.plantsMain.map(d => <Option key={d}>{d}</Option>);
+
         return (
             <div className="portfolio-container">
                 <Divider>Garden Portfolio</Divider>
@@ -112,7 +145,7 @@ class Portfolio extends Component {
                         <List.Item>
                             <Card
                                 hoverable
-                                cover={<img alt="example" src={item.picture} style={{ maxHeight: "250px" }} />}
+                                cover={<img alt="example" src={item.picture} style={{ maxHeight: "225px" }} />}
                                 actions={[<Icon type="plus-circle-o" />]}
                             >
                                 <Meta
@@ -131,7 +164,65 @@ class Portfolio extends Component {
                 />
                 <Divider />
                 <div style={{ textAlign: "center" }}>
-                    <h1>Suggested Plants</h1>
+                    <h1>Explore Plants</h1>
+                    <Select
+                        style={{ width: "200px" }}
+                        showSearch
+                        placeholder="Choose a plant type"
+                        onChange={this.handlePlantSearchByMainType}
+                    // mode="combobox"
+                    // value={this.state.value}
+                    // placeholder={this.props.placeholder}
+                    // style={this.props.style}
+                    // defaultActiveFirstOption={false}
+                    // showArrow={false}
+                    // filterOption={false}
+                    >
+                        {options}
+                    </Select>
+                </div>
+                <div style={{ minHeight: "500px" }}>
+                    <div style={{ padding: "12px", textAlign: "center" }}>
+                        {
+                            this.state.searchPlants.length > 0 && this.state.searchPlants[0].main_pic !== "N/A"
+                            &&
+                            <img src={this.state.searchPlants[0].main_pic} alt="MainPlant" width="100%"></img>
+                        }
+                        <div style={{ paddingTop: "12px" }}>
+                            <h3>{this.state.searchPlants.length > 0 ? "Category: " + this.state.searchPlants[0].category : ""}</h3>
+                        </div>
+                    </div>
+                    <List
+                        grid={{ xs: 1, sm: 1, md: 2, lg: 4, xl: 4, xxl: 6 }}
+                        size="large"
+                        pagination={{
+                            onChange: (page) => {
+                                console.log(page);
+                            },
+                            pageSize: 3,
+                        }}
+                        dataSource={this.state.searchPlants}
+                        renderItem={item => (
+                            <List.Item
+                                style={{ paddingLeft: "24px", paddingRight: "24px" }}
+                                key={item._id}
+                            >
+                                <List.Item.Meta
+                                    // avatar={<Avatar src={item.avatar} />}
+                                    title={<h3><a href={item.product_url} target="_blank">{item.product}</a></h3>}
+                                    description={
+                                        <div>
+                                            <p>Grow zones: {item.zones ? item.zones.toString().trim().replace('', ', ').slice(2) : "N/A"}</p>
+                                            <p>Sun: {item.sun ? item.sun : "N/A"}</p>
+                                            <p>pH range: {item.pH_range ? item.pH_range.toString().replace(',', ' - ') : "N/A"}</p>
+                                            <p>Days to maturity: {item.daysToMaturity ? item.daysToMaturitys + " days" : "N/A"}</p>
+                                            <p>Life cycle: {item.lifeCycle ? item.lifeCycle : "N/A"}</p>
+                                        </div>
+                                    }
+                                />
+                            </List.Item>
+                        )}
+                    />
                 </div>
                 {/* </Col>
                 <Col xs={0} sm={0} md={0} lg={0} xl={3} span={3} ></Col> */}
