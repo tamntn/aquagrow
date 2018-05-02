@@ -83,13 +83,14 @@ const lightIntensityMarks = {
         },
         label: "0 lux"
     },
-    25000: '25k lux',
-    50000: '50k lux',
-    65000: {
+    2500: '2.5k lux',
+    5000: '5k lux',
+    7500: '7.5k lux',
+    10000: {
         style: {
             color: '#f50',
         },
-        label: "65k lux",
+        label: "10k lux",
     }
 }
 
@@ -599,9 +600,9 @@ class Notifications extends Component {
                                                 <span>Current set range is {this.props.system ? this.props.system.lightIntensityRange[0] + " lux - " + this.props.system.lightIntensityRange[1] + " lux" : <Spin></Spin>}</span>
                                                 <Slider
                                                     min={0}
-                                                    max={65000}
+                                                    max={10000}
                                                     range
-                                                    step={1000}
+                                                    step={100}
                                                     marks={lightIntensityMarks}
                                                     value={this.state.lightIntensityRange}
                                                     onChange={this.handleLightIntensitySlider}
