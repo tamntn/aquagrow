@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import socketIoClient from 'socket.io-client';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
-import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, Card, message } from 'antd';
+import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, Card, Tooltip, message } from 'antd';
 import logo from '../images/logo/small_01.png';
 import HeaderNotifications from './Notification/HeaderNotifications.jsx';
 import AppContent from './AppContent.jsx';
@@ -13,6 +14,7 @@ import sandipAvatar from '../images/about/sandip.jpg';
 import erikAvatar from '../images/about/erik.jpg';
 const { Header, Footer, Sider, Content } = Layout;
 const { Meta } = Card;
+const io = socketIoClient('https://aquagrow.life');
 
 // Setup Alert Message Configuration
 message.config({
@@ -300,6 +302,16 @@ class AppLayout extends Component {
                         </div>
                         <div className="header-right">
                             <div className="header-item">
+                                <Tooltip title={`Socket status: ${io.connected ? "connected" : "disconnected"}`}>
+                                    <div>
+                                        <Icon
+                                            style={{ fontSize: "24px", fontWeight: "700", color: io.connected ? "#1890ff" : "#f5222d" }}
+                                            type="wifi"
+                                        ></Icon>
+                                    </div>
+                                </Tooltip>
+                            </div>
+                            <div className="header-item">
                                 <Popover
                                     popupClassName="header-notification-popover"
                                     placement="bottomRight"
@@ -402,7 +414,7 @@ class AppLayout extends Component {
                         </div>
                     </Footer>
                 </Layout>
-            </Layout>
+            </Layout >
         );
     }
 }

@@ -65,6 +65,10 @@
     cursor: pointer;
 }
 
+.header-item .anticon {
+    vertical-align: middle;
+}
+
 .header-item:hover {
     background-color: #e6f7ff;
 }
