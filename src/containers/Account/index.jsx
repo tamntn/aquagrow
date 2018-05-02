@@ -94,7 +94,7 @@ class Account extends Component {
                     oldPassword: values.old,
                     newPassword: values.new
                 }
-                axios.post(`${rootUrl}/password/update`, updateValues)
+                axios.put(`${rootUrl}/password/update`, updateValues)
                     .then((response) => {
                         if (response.data.error) {
                             notification.error({
