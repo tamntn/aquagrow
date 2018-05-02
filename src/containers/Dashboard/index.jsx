@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
+import socketIoClient from 'socket.io-client';
 import {
     Spin,
     Divider,
@@ -20,6 +21,7 @@ import fishTankLogo from '../../images/png/fishtank.png';
 import notificationLogo from '../../images/png/bell.png';
 import './Dashboard.css';
 const { Meta } = Card;
+const io = socketIoClient('https://aquagrow.life');
 
 class Dashboard extends Component {
     constructor(props) {
@@ -36,6 +38,7 @@ class Dashboard extends Component {
         })
         const currentUser = localStorage.getItem('username');
         this.props.fetchLatestSensorData(currentUser);
+        this.subscribeToNewData();
     }
 
     componentDidUpdate() {
@@ -46,6 +49,13 @@ class Dashboard extends Component {
                 })
             }, 500);
         }
+    }
+
+    subscribeToNewData() {
+        const currentUser = localStorage.getItem('username');
+        io.on('newData', () => {
+            this.props.fetchLatestSensorData(currentUser)
+        });
     }
 
     getTimeDifference(time) {
@@ -73,7 +83,7 @@ class Dashboard extends Component {
                             <span>{this.state.loadingData ? <Spin></Spin> : "Data updated " + this.getTimeDifference(this.props.sensorData.timestamp)}</span>
                         </div>
                         <List
-                            grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 4, xl: 4, xxl: 3 }}
+                            grid={{ xs: 1, sm: 1, md: 2, lg: 4, xl: 4, xxl: 4 }}
                         >
                             <List.Item>
                                 <Card
@@ -83,11 +93,6 @@ class Dashboard extends Component {
                                     <Meta
                                         avatar={<Avatar size="large" src={airTempLogo} />}
                                         title="Air temperature"
-                                    // description={
-                                    //     <div>
-                                    //         {this.props.sensorData ? this.props.sensorData.timestamp : null}
-                                    //     </div>
-                                    // }
                                     />
                                     <div className="dashboard-card-content">
                                         <Divider />
