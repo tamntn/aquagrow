@@ -164,7 +164,7 @@ class Portfolio extends Component {
                 />
                 <Divider />
                 <div style={{ textAlign: "center" }}>
-                    <h1>Explore Plants</h1>
+                    <h1>What to grow?</h1>
                     <Select
                         style={{ width: "200px" }}
                         showSearch
@@ -189,7 +189,7 @@ class Portfolio extends Component {
                             <img src={this.state.searchPlants[0].main_pic} alt="MainPlant" width="100%"></img>
                         }
                         <div style={{ paddingTop: "12px" }}>
-                            <h3>{this.state.searchPlants.length > 0 ? "Category: " + this.state.searchPlants[0].category : ""}</h3>
+                            <h2>{this.state.searchPlants.length > 0 ? "Category: " + this.state.searchPlants[0].category : ""}</h2>
                         </div>
                     </div>
                     <List
@@ -215,7 +215,7 @@ class Portfolio extends Component {
                                             <p>Grow zones: {item.zones ? item.zones.toString().trim().replace('', ', ').slice(2) : "N/A"}</p>
                                             <p>Sun: {item.sun ? item.sun : "N/A"}</p>
                                             <p>pH range: {item.pH_range ? item.pH_range.toString().replace(',', ' - ') : "N/A"}</p>
-                                            <p>Days to maturity: {item.daysToMaturity ? item.daysToMaturitys + " days" : "N/A"}</p>
+                                            <p>Days to maturity: {item.daysToMaturity ? item.daysToMaturity.split(',')[0] + " days" : "N/A"}</p>
                                             <p>Life cycle: {item.lifeCycle ? item.lifeCycle : "N/A"}</p>
                                         </div>
                                     }
