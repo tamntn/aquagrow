@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import socketIoClient from 'socket.io-client';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
-import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, Card, Tooltip, message } from 'antd';
+import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, Card, Tooltip, message, notification } from 'antd';
 import logo from '../images/logo/small_01.png';
 import HeaderNotifications from './Notification/HeaderNotifications.jsx';
 import AppContent from './AppContent.jsx';
@@ -15,6 +15,7 @@ import erikAvatar from '../images/about/erik.jpg';
 const { Header, Footer, Sider, Content } = Layout;
 const { Meta } = Card;
 const io = socketIoClient('https://aquagrow.life');
+// const io2 = socketIoClient('http://localhost:3000');
 
 // Setup Alert Message Configuration
 message.config({
@@ -48,7 +49,15 @@ class AppLayout extends Component {
     }
 
     componentDidMount() {
+        const currentUser = localStorage.getItem('username');
         window.addEventListener('resize', this.isMobile);
+        io.on("newNotification", (message) => {
+            notification.warning({
+                message: "You have a new notification ⏰",
+                description: message
+            })
+            this.props.fetchUser(currentUser);
+        })
     }
 
     componentWillUpdate() {
