@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import socketIoClient from 'socket.io-client';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, fetchUser } from '../actions/action_user';
+import { fetchNotifications } from '../actions/action_notification.js';
 import { Popover, Spin, Layout, Menu, Icon, Avatar, Dropdown, Badge, Card, Tooltip, message, notification } from 'antd';
 import logo from '../images/logo/small_01.png';
 import HeaderNotifications from './Notification/HeaderNotifications.jsx';
@@ -57,6 +58,7 @@ class AppLayout extends Component {
                 description: message
             })
             this.props.fetchUser(currentUser);
+            this.props.fetchNotifications(currentUser);
         })
     }
 
@@ -435,7 +437,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ logout, fetchUser }, dispatch);
+    return bindActionCreators({ logout, fetchUser, fetchNotifications }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppLayout));
